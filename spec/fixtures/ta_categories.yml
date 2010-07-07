@@ -1,4 +1,14 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+#
+# Table name: ta_categories
+#
+#  id         :integer       not null, primary key
+#  name       :string(255)   
+#  created_at :datetime      
+#  updated_at :datetime      
+# End Schema
+
+classes/Fixtures.html
 
 one:
   name: MyString

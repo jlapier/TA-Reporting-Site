@@ -1,4 +1,15 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+#
+# Table name: objectives
+#
+#  id         :integer       not null, primary key
+#  number     :integer       
+#  name       :string(255)   
+#  created_at :datetime      
+#  updated_at :datetime      
+# End Schema
+
+classes/Fixtures.html
 
 one:
   number: 1
