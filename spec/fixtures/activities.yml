@@ -1,0 +1,31 @@
+# Read about fixtures at http://ar.rubyonrails.org/
+# == Schema Information
+#
+# Table name: activities
+#
+#  id                 :integer       not null, primary key
+#  date_of_activity   :date          
+#  objective_id       :integer       
+#  activity_type      :string(255)   
+#  state_list         :string(255)   
+#  description        :text          
+#  level_of_intensity :string(255)   
+#  created_at         :datetime      
+#  updated_at         :datetime      
+# End Schema
+
+one:
+  date_of_activity: 2010-05-28
+  objective_id: 1
+  activity_type: MyString
+  state_list: MyString
+  description: MyText
+  level_of_intensity: MyString
+
+two:
+  date_of_activity: 2010-05-28
+  objective_id: 1
+  activity_type: MyString
+  state_list: MyString
+  description: MyText
+  level_of_intensity: MyString

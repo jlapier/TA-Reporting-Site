@@ -1,0 +1,41 @@
+AnnotateSchema
+==============
+
+Add a comment summarizing the current schema to the top
+of each ActiveRecord model source file:
+
+  # Schema as of Sun Feb 26 21:58:32 CST 2006 (schema version 7)
+  #
+  #  id                  :integer(11)   not null
+  #  quantity            :integer(11)   
+  #  product_id          :integer(11)   
+  #  unit_price          :float         
+  #  order_id            :integer(11)   
+  #
+
+  class LineItem < ActiveRecord::Base belongs_to :product
+  
+   . . .
+  
+This code will try to insert the schema comment block just before the first "class" line it finds, 
+so that your own model comments will remain at the top. This version uses an "End Schema" to 
+help in updating only the schema section of the comment without blowing everything else away.
+
+This version will also look for fixtures under both the test and spec directories.
+
+This version will also scan into subdirectories of the app/models directory in case you've 
+named-spaced your models.
+
+Modified by:
+   Jason LaPier
+   http://offtheline.net
+   http://skipintrodevelopment.com
+
+Original Author:
+   Dave Thomas
+   Pragmatic Programmers, LLC
+   
+Released under the same license as Ruby. No Support. No Warranty.
+
+Back up your model files before using...
+
