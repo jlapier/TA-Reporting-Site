@@ -1,0 +1,24 @@
+<%
+CalendarDateSelect.format = :natural
+%>
+<% semantic_form_for @activity do |form| %>
+  <% form.inputs do %>
+    <li id="activity_date_of_activity_input" class="string required">
+      <%= form.label :date_of_activity %>
+      <%= form.calendar_date_select :date_of_activity, :buttons => false %>
+    </li>
+    <li id="activity_objective_input" class="string required">
+      <%= form.label :objective, :label => 'Objective' %>
+      <%= text_field_with_auto_complete :activity, :objective %>
+    </li>
+    <%= form.input :activity_type %>
+    <%= form.input :level_of_intensity %>
+    <%= form.input :description %>
+    <%= form.input :states, :as => :check_boxes, :collection => State.options %>
+  <% end %>
+  <%= form.submit %>
+<% end %>
+
+<% content_for :javascript do %>
+  <%= calendar_date_select_includes 'tacs' %>
+<% end %>

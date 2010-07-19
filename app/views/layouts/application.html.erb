@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <!-- <link rel="icon" type="image/png" href="/images/favorite.png"/> -->
+    <title><%= [site_title, page_title].reject(&:blank?).join(' - ') %></title>
+    <%= stylesheet_link_tag "blueprint/screen", :media => "screen, projection" %>
+    <%= stylesheet_link_tag "blueprint/print", :media => "print" %>
+    
+    <!--[if lt IE 8]>
+      <%= stylesheet_link_tag "blueprint/ie", :media => "screen, projection" %>
+    <![endif]-->
+    
+    <%= stylesheet_link_tag 'application', 'text_and_colors', :media => 'screen, projection' %>
+    
+    <%= javascript_include_tag :defaults %>
+    <%= yield :javascript %>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top-banner span-24 last">
+        <div class="header span-14">
+          <h1><%= site_title %></h1>
+        </div>
+
+        <div class="span-10 last">
+          <div id="user_box">
+            <%= 
+            #render :partial => "/users/user_box"
+            %>
+          </div>
+        </div>
+      </div>
+
+      <div class="base_content span-20">
+        <%= 
+        # render :partial => 'shared/flash', :object => flash
+        %>
+        <div class="inner_content">
+          <%= yield %>
+        </div>
+      </div>
+
+      <div class="span-4 last">
+        <div id="main_menu">
+          <ul>
+            <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Activities", activities_path %></li>
+            <li><%= link_to "Reports", '#' %></li>
+            <li><%= link_to "Users", '#' %></li>
+          </ul>
+        </div>
+
+        <div class="sidebar">
+          <%= yield :sidebar %>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
+

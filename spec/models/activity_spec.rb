@@ -4,15 +4,17 @@ describe Activity do
   before(:each) do
     @valid_attributes = {
       :date_of_activity => Date.today,
-      :objective_id => 1,
-      :activity_type => "value for activity_type",
-      :state_list => "value for state_list",
+      :objective => mock_model(Objective, {:name => 'Knowledge deveopment'}),
+      :activity_type => "Conference",
+      :states => "OR,WA,CA",
       :description => "value for description",
-      :level_of_intensity => "value for level_of_intensity"
+      :level_of_intensity => "Targeted/Specific"
     }
   end
 
-  it "should create a new instance given valid attributes" do
-    Activity.create!(@valid_attributes)
+  describe "before validation on save" do
+    it "finds or creates the named objective" do
+      activity = Activity.new(@valid_attributes)
+    end
   end
 end
