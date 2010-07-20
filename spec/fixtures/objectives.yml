@@ -1,20 +1,7 @@
-# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
-#
-# Table name: objectives
-#
-#  id         :integer       not null, primary key
-#  number     :integer       
-#  name       :string(255)   
-#  created_at :datetime      
-#  updated_at :datetime      
-# End Schema
-
-classes/Fixtures.html
-
-one:
+knowledge_development:
   number: 1
-  name: MyString
+  name: Knowledge development
 
-two:
-  number: 1
-  name: MyString
+provide_ta:
+  number: 2
+  name: Provide TA

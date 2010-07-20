@@ -1,4 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+# Read about fixtures at http://ar.rubyonrails.org/
+# == Schema Information
 #
 # Table name: ta_categories
 #
@@ -7,8 +8,6 @@
 #  created_at :datetime      
 #  updated_at :datetime      
 # End Schema
-
-classes/Fixtures.html
 
 one:
   name: MyString
