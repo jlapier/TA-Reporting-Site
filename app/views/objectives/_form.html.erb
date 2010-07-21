@@ -1,0 +1,11 @@
+<% semantic_form_for @objective do |form| %>
+  <%= form.error_messages %>
+
+  <% form.inputs do %>
+    <%= form.input :number, :label => 'Number' %>
+    <%= form.input :name, :label => 'Name/description' %>
+  <% end %>
+
+  <%= form.buttons %>
+<% end %>
+
