@@ -1,0 +1,19 @@
+<h1>Objectives</h1>
+
+<ul>
+  <% @objectives.each do |objective| %>
+    <li>
+      <strong><%= objective.number %>:</strong> 
+      <%= objective.name %> &nbsp;
+      [<%= link_to 'edit', edit_objective_path(objective) %>]
+    </li>
+  <% end %>
+</ul>
+
+
+<% content_for(:sidebar) do %>
+  <div class="span-4 last">
+    <h4>Objective Tools</h4>
+    <%= link_to "Add New Objective", new_objective_path %>
+  </div>
+<% end %>

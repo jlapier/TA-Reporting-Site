@@ -1,0 +1,15 @@
+<h1>Editing objective</h1>
+
+<%= render :partial => 'form' %>
+
+
+<% content_for(:sidebar) do %>
+  <div class="span-4 last">
+    <h4>Objective Tools</h4>
+    
+    <%= link_to 'List all objectives', objectives_path %><br/>
+    <%= link_to 'Create New Objective', new_objective_path %><br/>
+    <%= link_to 'Delete this Objective', @objective, 
+          :confirm => 'Are you sure you want to delete this objective?', :method => :delete %><br/>
+  </div>
+<% end %>
