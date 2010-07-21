@@ -1,0 +1,7 @@
+<% semantic_form_for @state do |f| %>
+  <% f.inputs do %>
+    <%= f.input :region_id, :collection => @regions %>
+    <%= f.input :name %>
+  <% end %>
+  <%= f.submit %>
+<% end %>
