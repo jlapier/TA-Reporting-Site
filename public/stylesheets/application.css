@@ -136,4 +136,29 @@ div.select_popper_box ul li:hover { background: #EEE; }
   font-weight: bold;
   border: 1px solid #2f4f4f;
   padding: 0 3px 0 3px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.highlight {
+  background-color: #E6D373;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #666; 
+  font-weight: bold;
+}
+
+.configurable {
+  padding: 0;
+}
+
+.configurable p, .configurable h4 {
+  margin: 0;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+
+.configurable_links {
+  padding: 0;
+  margin-right: 5px;
 }

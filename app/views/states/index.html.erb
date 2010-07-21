@@ -1,0 +1,20 @@
+<div>
+  <% @states.each do |region| %>
+  <div class="span-4">
+    <div class="configurable">
+      <h4><%=h region.name %></h4>
+      <%= render :partial => 'links', :object => region %>
+    </div>
+    <% if region.states.count > 0 %>
+      <% region.states.each do |state| %>
+      <div class="configurable">
+        <p><%=h state.name %></p>
+        <%= render :partial => 'links', :object => state %>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+
+<%= render :partial => 'sidebar' %>

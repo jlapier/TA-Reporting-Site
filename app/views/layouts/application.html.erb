@@ -43,7 +43,12 @@
         <div id="main_menu">
           <ul>
             <li><%= link_to "Home", root_path %></li>
-            <li><%= link_to "Activities", activities_path %></li>
+            <li>
+              <%= link_to "Activities", activities_path %>
+              <ul>
+                <li><%= link_to "States", states_path %></li>
+              </ul>
+            </li>
             <li><%= link_to "Reports", '#' %></li>
             <li><%= link_to "Users", '#' %></li>
           </ul>

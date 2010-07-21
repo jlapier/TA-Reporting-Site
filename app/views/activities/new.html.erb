@@ -14,7 +14,7 @@ CalendarDateSelect.format = :natural
     <%= form.input :activity_type %>
     <%= form.input :level_of_intensity %>
     <%= form.input :description %>
-    <%= form.input :states, :as => :check_boxes, :collection => State.options %>
+    <%= form.input :states, :as => :check_boxes, :collection => State.all %>
   <% end %>
   <%= form.submit %>
 <% end %>
