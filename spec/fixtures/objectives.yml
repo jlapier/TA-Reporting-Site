@@ -5,3 +5,11 @@ knowledge_development:
 provide_ta:
   number: 2
   name: Provide TA
+
+leadership:
+  number: 3
+  name: Leadership and Coordination
+  
+evaluate:
+  number: 4
+  name: Evaluate and Manage (includes Advisory)
