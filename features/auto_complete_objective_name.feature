@@ -5,6 +5,3 @@ Feature: Auto complete objective name
     Given I am on the new activity page
     When I fill in "Objective" with "Know"
     Then I should see "Knowledge development"
-  
-  
-  

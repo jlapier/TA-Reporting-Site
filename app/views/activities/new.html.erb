@@ -7,14 +7,31 @@ CalendarDateSelect.format = :natural
       <%= form.label :date_of_activity %>
       <%= form.calendar_date_select :date_of_activity, :buttons => false %>
     </li>
-    <li id="activity_objective_input" class="string required">
-      <%= form.label :objective, :label => 'Objective' %>
-      <%= text_field_with_auto_complete :activity, :objective %>
-    </li>
-    <%= form.input :activity_type %>
-    <%= form.input :level_of_intensity %>
+    <%= form.input :objective_id, :collection => @objectives %>
+    <%= form.input :activity_type, :collection => Activity.activity_types %>
+    <%= form.input :level_of_intensity, :collection => Activity.levels_of_intensity %>
     <%= form.input :description %>
-    <%= form.input :states, :as => :check_boxes, :collection => State.all %>
+      <% count = 0 %>
+      <% @regions.each do |region| %>
+      <li class="collapse">
+        <% checked = form.object.state_ids.include?(region.id) ? true : false %>
+        <%= check_box_tag "activity_state_ids[#{count}]", region.id, checked, {:class => 'parent_checkbox'} %>
+        <%= label_tag "activity_state_ids[#{count}]", region.name %>
+        <% if region.states.count > 0 %>
+          <ul>
+            <% region.states.each do |state| %>
+            <% count += 1 %>
+            <li>
+              <% checked = form.object.state_ids.include?(state.id) ? true : false %>
+              <%= check_box_tag "activity_state_ids[#{count}]", state.id, checked, {:class => 'child_checkbox'} %>
+              <%= label_tag "activity_state_ids[#{count}]", state.name %>
+            </li>
+            <% end %>
+          </ul>
+        <% end %>
+        <% count += 1 %>
+      </li>
+      <% end %>
   <% end %>
   <%= form.submit %>
 <% end %>

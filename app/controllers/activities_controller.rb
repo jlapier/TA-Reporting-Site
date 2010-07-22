@@ -25,6 +25,8 @@ class ActivitiesController < ApplicationController
   
     def new
       @activity = Activity.new
+      @objectives = Objective.all
+      @regions = State.regions.options(:include => :states)
     end
   
     def create

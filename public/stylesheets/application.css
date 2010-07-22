@@ -162,3 +162,18 @@ div.select_popper_box ul li:hover { background: #EEE; }
   padding: 0;
   margin-right: 5px;
 }
+
+/* collapsing divs - js in ur.js */
+
+.collapse {
+	overflow: hidden;
+}
+.collapse.inactive {
+	height: 23px;
+}
+.collapse.active {
+	height: auto;
+}
+.collapse, .collapse label, .collapse input {
+	cursor: pointer;
+}
