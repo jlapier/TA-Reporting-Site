@@ -16,16 +16,12 @@
 
 one:
   date_of_activity: 2010-05-28
-  objective_id: 1
   activity_type: MyString
-  state_list: MyString
   description: MyText
   level_of_intensity: MyString
 
 two:
   date_of_activity: 2010-05-28
-  objective_id: 1
   activity_type: MyString
-  state_list: MyString
   description: MyText
   level_of_intensity: MyString

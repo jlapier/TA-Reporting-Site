@@ -1,0 +1,45 @@
+western:
+  id: <%= Fixtures.identify :western %>
+  name: Western
+
+idaho:    
+  id: <%= Fixtures.identify :idaho %>
+  region_id: <%= Fixtures.identify :western %>
+  name: Idaho
+  abbreviation: ID
+  
+washington:    
+  id: <%= Fixtures.identify :washington %>
+  region_id: <%= Fixtures.identify :western %>
+  name: Washington
+  abbreviation: WA
+
+oregon:    
+  id: <%= Fixtures.identify :oregon %>
+  region_id: <%= Fixtures.identify :western %>
+  name:   Oregon
+  abbreviation: OR
+
+california:    
+  id: <%= Fixtures.identify :california %>
+  region_id: <%= Fixtures.identify :western %>
+  name:   California
+  abbreviation: CA
+
+alaska:  
+  id: <%= Fixtures.identify :alaska %>
+  region_id: <%= Fixtures.identify :western %>
+  name:   Alaska
+  abbreviation: AK
+
+hawaii:  
+  id: <%= Fixtures.identify :hawaii %>
+  region_id: <%= Fixtures.identify :western %>
+  name:   Hawaii
+  abbreviation: HI
+
+nevada:  
+  id: <%= Fixtures.identify :nevada %>
+  region_id: <%= Fixtures.identify :western %>
+  name:   Nevada
+  abbreviation: NV

@@ -6,7 +6,7 @@ describe Activity do
       :date_of_activity => Date.today,
       :objective => mock_model(Objective, {:name => 'Knowledge deveopment'}),
       :activity_type => "Conference",
-      :states => "OR,WA,CA",
+      :states => [mock_model(State, {:name => 'Alabama', :region_id => 1})],
       :description => "value for description",
       :level_of_intensity => "Targeted/Specific"
     }
