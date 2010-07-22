@@ -33,7 +33,7 @@ class ActivitiesController < ApplicationController
       @activity = Activity.new(params[:activity])
       if @activity.save
         flash[:notice] = "New Activity successfully saved."
-        redirect_to(activities_path)
+        redirect_to(new_activity_path)
       else
         render :new
       end

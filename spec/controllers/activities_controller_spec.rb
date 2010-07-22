@@ -72,9 +72,9 @@ describe ActivitiesController do
         flash[:notice].should_not be_nil
       end
       
-      it "redirects to the activities page" do
+      it "redirects to the new activity page" do
         post :create
-        response.should redirect_to(activities_path)
+        response.should redirect_to(new_activity_path)
       end
     end
     
