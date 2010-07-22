@@ -6,4 +6,5 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users
   map.resources :password_resets
   map.resources :states
+  map.resources :reports
 end
