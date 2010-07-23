@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: states
+#
+#  id           :integer       not null, primary key
+#  region_id    :integer       
+#  name         :string(255)   
+#  abbreviation :string(10)    
+# End Schema
+
 class State < ActiveRecord::Base
   
   include GeneralScopes
