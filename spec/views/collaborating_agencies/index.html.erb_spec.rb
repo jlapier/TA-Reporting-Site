@@ -7,6 +7,6 @@ describe "/collaborating_agencies/index" do
 
   #Delete this example and add some real ones or delete this file
   it "should tell you where to find the file" do
-    response.should have_tag('p', %r[Find me in app/views/collaborating_agencies/index])
+    response.should have_tag('h1', %r[Collaborating Agencies])
   end
 end

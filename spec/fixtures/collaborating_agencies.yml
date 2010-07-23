@@ -10,10 +10,6 @@
 # End Schema
 
 # Read about fixtures at http://ar.rubyonrails.org/
-one:
-  name: MyString
-  abbrev: MyString
-
-two:
-  name: MyString
-  abbrev: MyString
+regional_resource_center_program:
+  name: Regional Resource Center Program
+  abbrev: RRCP
