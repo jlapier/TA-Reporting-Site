@@ -1,4 +1,3 @@
-# Read about fixtures at http://ar.rubyonrails.org/
 # == Schema Information
 #
 # Table name: activities
@@ -6,22 +5,22 @@
 #  id                 :integer       not null, primary key
 #  date_of_activity   :date          
 #  objective_id       :integer       
-#  activity_type      :string(255)   
-#  state_list         :string(255)   
+#  activity_type_id   :integer(255)  
 #  description        :text          
-#  level_of_intensity :string(255)   
+#  intensity_level_id :integer(255)  
 #  created_at         :datetime      
 #  updated_at         :datetime      
 # End Schema
 
+# Read about fixtures at http://ar.rubyonrails.org/
 one:
   date_of_activity: 2010-05-28
-  activity_type: MyString
+  activity_type_id: <%= Fixtures.identify :workshop %>
   description: MyText
-  level_of_intensity: MyString
+  intensity_level_id: <%= Fixtures.identify :intensive %>
 
 two:
   date_of_activity: 2010-05-28
-  activity_type: MyString
+  activity_type_id: <%= Fixtures.identify :consult_onsite %>
   description: MyText
-  level_of_intensity: MyString
+  intensity_level_id: <%= Fixtures.identify :general %>

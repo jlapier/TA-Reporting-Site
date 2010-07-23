@@ -1,7 +1,8 @@
-<% semantic_form_for @objective do |form| %>
+<% semantic_form_for @criterium do |form| %>
   <%= form.error_messages %>
 
   <% form.inputs do %>
+    <%= form.input :type, :collection => Criterium.type_options %>
     <%= form.input :number, :label => 'Number' %>
     <%= form.input :name, :label => 'Name/description' %>
   <% end %>

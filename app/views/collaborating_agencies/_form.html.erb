@@ -1,0 +1,7 @@
+<% semantic_form_for @collaborating_agency do |form| %>
+  <% form.inputs do %>
+    <%= form.input :name %>
+    <%= form.input :abbrev, :label => "Abbreviation" %>
+  <% end %>
+  <%= form.submit %>
+<% end %>

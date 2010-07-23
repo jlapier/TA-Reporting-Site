@@ -1,16 +1,14 @@
-# Read about fixtures at http://ar.rubyonrails.org/
 # == Schema Information
 #
-# Table name: ta_categories
+# Table name: criteria
 #
 #  id         :integer       not null, primary key
+#  number     :integer       
+#  type       :string(255)   
 #  name       :string(255)   
 #  created_at :datetime      
 #  updated_at :datetime      
 # End Schema
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+class IntensityLevel < Criterium
+end

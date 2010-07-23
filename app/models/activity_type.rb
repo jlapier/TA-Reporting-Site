@@ -10,6 +10,5 @@
 #  updated_at :datetime      
 # End Schema
 
-class TaCategory < Criterium
-  has_and_belongs_to_many :activities
+class ActivityType < Criterium
 end

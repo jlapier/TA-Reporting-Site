@@ -1,0 +1,85 @@
+# == Schema Information
+#
+# Table name: criteria
+#
+#  id         :integer       not null, primary key
+#  number     :integer       
+#  type       :string(255)   
+#  name       :string(255)   
+#  created_at :datetime      
+#  updated_at :datetime      
+# End Schema
+
+knowledge_development:
+  id: <%= Fixtures.identify :knowledge_development %>
+  number: 1
+  name: Knowledge development
+  type: Objective
+
+provide_ta:
+  id: <%= Fixtures.identify :provide_ta %>
+  number: 2
+  name: Provide TA
+  type: Objective
+
+leadership:
+  id: <%= Fixtures.identify :leadership %>
+  number: 3
+  name: Leadership and Coordination
+  type: Objective
+  
+evaluate:
+  id: <%= Fixtures.identify :evaluate %>
+  number: 4
+  name: Evaluate and Manage (includes Advisory)
+  type: Objective
+  
+graduation_rates:
+  id: <%= Fixtures.identify :graduation_rates %>
+  name: Graduation rates
+  type: TaCategory
+  
+information_request:
+  id: <%= Fixtures.identify :information_request %>
+  name: Information request
+  type: ActivityType
+
+teleconference_webinar:
+  id: <%= Fixtures.identify :teleconference_webinar %>
+  name: Teleconference/webinar
+  type: ActivityType
+  
+conference:
+  id: <%= Fixtures.identify :conference %>
+  name: Conference
+  type: ActivityType
+
+consult_phone:
+  id: <%= Fixtures.identify :consult_phone %>
+  name: Consult - Phone/email/in-person
+  type: ActivityType
+  
+consult_onsite:
+  id: <%= Fixtures.identify :consult_onsite %>
+  name: Consult - onsite
+  type: ActivityType
+  
+workshop:
+  id: <%= Fixtures.identify :workshop %>
+  name: Workshop
+  type: ActivityType
+
+general:
+  id: <%= Fixtures.identify :general %>
+  name: General/Universal
+  type: IntensityLevel
+  
+targeted:
+  id: <%= Fixtures.identify :targeted %>
+  name: Targeted/Specific
+  type: IntensityLevel
+  
+intensive:
+  id: <%= Fixtures.identify :intensive %>
+  name: Intensive/Sustained
+  type: IntensityLevel
