@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe CriteriaController do
 
+  before(:each) do
+    controller.stub(:require_user).and_return(true)
+  end
+
   def mock_criterium(stubs={})
     @mock_criterium ||= mock_model(Criterium, stubs)
   end

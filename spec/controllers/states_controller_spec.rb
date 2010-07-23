@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe StatesController do
+  
+  before(:each) do
+    controller.stub(:require_user).and_return(true)
+  end
 
   describe ":index" do
     before(:each) do
@@ -148,13 +152,17 @@ describe StatesController do
   describe ":destroy, :id(s) => integer or [int1,int2]" do
     before(:each) do
       @state = mock_model(State, {
-        :size => 1
+        :name => 'Idaho'
       })
       State.stub(:destroy).and_return(@state)
     end
     it "destroys the state(s) with the given id(s)" do
       State.should_receive(:destroy).with('1')
       delete :destroy, :id => 1
+    end
+    it "sets a flash[:notice]" do
+      delete :destroy, :id => 1
+      flash[:notice].should_not be_nil
     end
     it "redirects to the states page" do
       delete :destroy, :id => 1

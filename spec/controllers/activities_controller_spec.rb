@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe ActivitiesController do
+
+  before(:each) do
+    controller.stub(:require_user).and_return(true)
+  end
   
   describe ":new" do
     

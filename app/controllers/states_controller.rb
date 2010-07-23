@@ -1,4 +1,7 @@
 class StatesController < ApplicationController
+
+  before_filter :require_user
+  
   def index
     @states = State.regions
   end
@@ -36,8 +39,8 @@ class StatesController < ApplicationController
   end
   
   def destroy
-    states = State.destroy(params[:id] || params[:ids])
-    flash[:notice] = "Deleted #{@template.pluralize(states.size, 'state')}."
+    state = State.destroy(params[:id])
+    flash[:notice] = "Deleted #{state.name}."
     redirect_to states_path
   end
 end

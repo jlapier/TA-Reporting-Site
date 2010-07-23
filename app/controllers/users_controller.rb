@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  
   before_filter :require_user
 
   def index
@@ -35,5 +36,11 @@ class UsersController < ApplicationController
     else
       render :action => :edit
     end
+  end
+  
+  def destroy
+    user = User.destroy(params[:id])
+    flash[:notice] = "Deleted #{user.email}."
+    redirect_to users_path
   end
 end

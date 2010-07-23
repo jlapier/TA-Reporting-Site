@@ -21,17 +21,19 @@ describe Activity do
 
   describe "before validation on save" do
     it "removes any state_ids referencing a region" do
-      State.destroy_all
-      region = State.create({
+      region = mock_model(State, {
         :id => 1,
-        :name => 'Western'
+        :name => 'Western',
+        :quoted_id => "1"
       })
-      state = State.create({
+      state = mock_model(State, {
         :id => 2,
         :region_id => 1,
-        :name => 'Oregon'
+        :name => 'Oregon',
+        :quoted_id => "2"
       })
-      
+      State.stub(:find).and_return([region, state])
+      State.stub_chain(:regions, :options).and_return([region])
       @valid_attributes.delete(:states)
       @valid_attributes.merge!({
         :state_ids => [1, 2]
