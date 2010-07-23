@@ -1,0 +1,15 @@
+<h1>Editing objective</h1>
+
+<%= render :partial => 'form' %>
+
+
+<% content_for(:sidebar) do %>
+  <div class="span-4 last">
+    <h4>Criteria Tools</h4>
+    
+    <%= link_to 'List all objectives', criteria_path %><br/>
+    <%= link_to 'Create New Criteria', new_criterium_path %><br/>
+    <%= link_to 'Delete this Criteria', @criterium, 
+          :confirm => "Delete #{@criterium.type}: #{@criterium.name}?", :method => :delete %><br/>
+  </div>
+<% end %>

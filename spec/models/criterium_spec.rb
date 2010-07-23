@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Objective do
+describe Criterium do
   before(:each) do
     @valid_attributes = {
       :number => 1,
@@ -9,6 +9,6 @@ describe Objective do
   end
 
   it "should create a new instance given valid attributes" do
-    Objective.create!(@valid_attributes)
+    Criterium.create!(@valid_attributes)
   end
 end

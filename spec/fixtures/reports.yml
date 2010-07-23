@@ -1,0 +1,26 @@
+# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+#
+# Table name: reports
+#
+#  id                   :integer       not null, primary key
+#  name                 :string(255)   
+#  include_descriptions :boolean       
+#  begin_date           :date          
+#  end_date             :date          
+#  created_at           :datetime      
+#  updated_at           :datetime      
+# End Schema
+
+classes/Fixtures.html
+
+one:
+  name: MyString
+  include_descriptions: false
+  begin_date: 2010-07-22 13:59:41
+  end_date: 2010-07-22 13:59:41
+
+two:
+  name: MyString
+  include_descriptions: false
+  begin_date: 2010-07-22 13:59:41
+  end_date: 2010-07-22 13:59:41

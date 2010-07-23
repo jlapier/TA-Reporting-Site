@@ -25,27 +25,29 @@ describe ActivitiesController do
       @activity = mock_model(Activity, {
         :save => nil
       }).as_new_record
-      @objective = mock_model(Objective, {
+      @criterium = mock_model(Criterium, {
+        :type => 'Objective',
+        :number => 1,
         :name => 'Knowledge development'
       })
       
       Activity.stub(:new).and_return(@activity)
-      Objective.stub(:find_or_create_by_name).and_return(@objective)
+      Criterium.stub(:find_or_create_by_name).and_return(@criterium)
       
       @date_of_activity = Time.now + 2.days
       @stringy_params = {
         'date_of_activity' => @date_of_activity,
-        'objective' => @objective,
-        'activity_type' => 'Info request',
-        'level_of_intensity' => 'General/Universal',
+        'objective_id' => 1,
+        'activity_type_id' => 2,
+        'intensity_level_id' => 3,
         'description' => 'activity went like this...',
         'states' => ['OR','WA','CA']
       }
       @params = {
         :date_of_activity => @date_of_activity,
-        :objective => 'Knowledge development',
-        :activity_type => 'Info request',
-        :level_of_intensity => 'General/Universal',
+        :objective_id => 1,
+        :activity_type_id => 2,
+        :intensity_level_id => 3,
         :description => 'activity went like this...',
         :states => ['OR','WA','CA']
       }
@@ -87,28 +89,6 @@ describe ActivitiesController do
         post :create
         response.should render_template('activities/new.html.erb')
       end
-    end
-  end
-  
-  describe "auto_complete_for_activity_objective" do
-    before(:each) do
-      @objectives = [mock_model(Objective, {
-        :[] => {'name' => 'Knowledge development'}
-      })]
-      Objective.stub(:find).and_return(@objectives)
-    end
-    
-    it "collects all objectives w/ a name LIKE what is posted" do
-      Objective.should_receive(:find).with(:all, {
-        :conditions => [ 'LOWER(name) LIKE ?',
-          '%' + 'know' + '%']
-      })
-      post :auto_complete_for_activity_objective, :activity => {:objective => 'Know'}
-    end
-    
-    it "renders an inline response" do
-      post :auto_complete_for_activity_objective, :activity => {:objective => 'Know'}
-      response.body.should =~ /Knowledge development/
     end
   end
   

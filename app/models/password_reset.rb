@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: password_resets
+#
+#  id            :integer       not null, primary key
+#  user_id       :integer       
+#  status        :string(100)   
+#  requesting_ip :string(30)    
+#  confirming_ip :string(30)    
+#  sent_to       :string(255)   
+#  created_at    :datetime      
+#  updated_at    :datetime      
+# End Schema
+
 class PasswordReset < ActiveRecord::Base
   
   belongs_to :user

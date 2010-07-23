@@ -1,13 +1,48 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#   
-#   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
-#   Major.create(:name => 'Daley', :city => cities.first)
+# Create Collaborating Agencies
+[
+  {:name => 'Regional Resource Center Program', :abbrev => 'RRCP'},
+  {:name => 'National Secondary Transition Technical Assistance Center', :abbrev => 'NSTTAC'}
+].each do |agency|
+  CollaboratingAgency.find_or_create_by_name(agency[:name], {
+    :abbrev => agency[:abbrev]
+  })
+end
+
+# Create Objectives
+{
+  'Objective' => [
+    {:number => 1, :name => 'Knowledge development'},
+    {:number => 2, :name => 'Provide TA'},
+    {:number => 3, :name => 'Leadership and Coordination'},
+    {:number => 4, :name => 'Evaluate and Manage (includes Advisory)'}
+  ],
+  'ActivityType' => [
+    {:name => 'Information request'},
+    {:name => 'Teleconference/webinar'},
+    {:name => 'Conference'},
+    {:name => 'Consult - Phone/email/in-person'},
+    {:name => 'Consult - onsite'},
+    {:name => 'Workshop'}
+  ],
+  'IntensityLevel' => [
+    {:name => 'General/Universal'},
+    {:name => 'Targeted/Specific'},
+    {:name => 'Intensive/Sustained'}
+  ],
+  'TaCategory' => [
+    {:name => 'Graduation rates'}
+  ]
+}.each do |type, items|
+  items.each do |item|
+    type.constantize.send(:find_or_create_by_name, item[:name]) unless item[:number]
+    type.constantize.send(:find_or_create_by_name, item[:name], {
+      :number => item[:number]
+    }) if item[:number]
+  end
+end
 
 # Create regions and states
-united_states_and_territories = {
+{
   'Southeast' => [
     {:name => 'Arkansas', :abbreviation => 'AR'},
     {:name => 'Alabama', :abbreviation => 'AL'},
