@@ -3,6 +3,9 @@ Feature: Manage activities
   In order to report on grant-related activities
   I want to record and update activity info
   
+  Background:
+    Given I am logged in as "test.user@test.com"
+  
   Scenario: record a new activity
     Given I am on the new activity page
     When I fill in "Date of activity" with "July 23, 2010"

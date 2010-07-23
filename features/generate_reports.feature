@@ -1,6 +1,9 @@
 Feature: Generate reports
   In order to meet grant requirements
   I want to export reports on activities, saving the export rules
+  
+  Background:
+    Given I am logged in as "test.user@test.com"
 
   Scenario: create a set of rules by which to generate a report from
     Given I am on the new report page

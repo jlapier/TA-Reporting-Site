@@ -1,19 +1,12 @@
-<h1>Criteria</h1>
-
-<ul>
-  <% @criteria.each do |criterium| %>
-    <li>
-      <strong><%= criterium.number %>:</strong> 
-      <%= criterium.name %> &nbsp;
-      [<%= link_to 'edit', edit_criterium_path(criterium) %>]
-    </li>
-  <% end %>
-</ul>
-
-
-<% content_for(:sidebar) do %>
-  <div class="span-4 last">
-    <h4>Criteria Tools</h4>
-    <%= link_to "Add New Criteria", new_criterium_path %>
+<div>
+  <% count = 1 %>
+  <% @criteria.group_by(&:type).each do |type, criteria| %>
+  <div class="span-4<%= count > 0 && count % Criterium.type_options.size == 0 ? ' last' : '' %>">
+    <h4><%=h type.to_s.titleize %></h4>
+    <%= render :partial => 'criterium', :collection => criteria %>
   </div>
-<% end %>
+  <% count += 1 %>
+  <% end %>
+</div>
+
+<%= render :partial => 'sidebar' %>

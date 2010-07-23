@@ -1,4 +1,7 @@
 class CollaboratingAgenciesController < ApplicationController
+
+  before_filter :require_user
+  
   def index
     @collaborating_agencies = CollaboratingAgency.all
   end

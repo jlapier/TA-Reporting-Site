@@ -141,6 +141,25 @@ describe UsersController do
         end
       end
     end
+    describe ":destroy, :id => integer" do
+      before(:each) do
+        User.stub(:destroy).and_return(mock_model(User, {
+          :email => 'test@example.com'
+        }))
+      end
+      it "destroys the user of given id" do
+        User.should_receive(:destroy).with("1")
+        delete :destroy, :id => 1
+      end
+      it "sets a flash[:notice]" do
+        delete :destroy, :id => 1
+        flash[:notice].should_not be_nil
+      end
+      it "redirects to the users page" do
+        delete :destroy, :id => 1
+        response.should redirect_to users_path
+      end
+    end
   end
 
 end

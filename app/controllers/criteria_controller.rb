@@ -1,5 +1,16 @@
 class CriteriaController < ApplicationController
+
+  before_filter :require_user
+  before_filter :normalize_params
+  
   private
+    def normalize_params
+      Criterium.type_options.each do |type|
+        if params[type[1].parameterize]
+          params[:criterium] = params[type[1].parameterize]
+        end
+      end
+    end
   protected
   public
     def index
@@ -22,7 +33,7 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.new(params[:criterium])
 
       if @criterium.save
-        redirect_to(criteria_url, :notice => 'Criterium created.')
+        redirect_to(criteria_url, :notice => "#{@criterium.type.to_s.titleize} saved.")
       else
         render :action => "new"
       end
@@ -32,7 +43,7 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.find(params[:id])
 
       if @criterium.update_attributes(params[:criterium])
-        redirect_to(criteria_url, :notice => 'Criterium updated.')
+        redirect_to(criteria_url, :notice => "#{@criterium.type.to_s.titleize} updated.")
       else
         render :action => "edit"
       end

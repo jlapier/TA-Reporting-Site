@@ -1,5 +1,7 @@
 class ActivitiesController < ApplicationController
   
+  before_filter :require_user
+  
   private
   protected
   public

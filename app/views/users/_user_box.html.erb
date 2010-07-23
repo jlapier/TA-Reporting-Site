@@ -1,11 +1,5 @@
 <% if logged_in? -%>
-  <% if current_user.contact.first_name.blank? %>
-    <strong>Welcome, stranger!</strong> &nbsp;
-    <%= link_to "missing your contact info", edit_contact_path(current_user.contact), :class => 'fake_button' %>
-  <% else %>
-    <strong>Welcome, <%= current_user.contact.first_name %>!</strong>  &nbsp;
-    <%= link_to "your contact info", current_user.contact, :class => 'fake_button' %>
-  <% end %>
+  <strong><%= current_user.email %></strong>
     &nbsp;
   <%= link_to 'Logout', user_session_path, :method => :delete, :class => 'fake_button' %>
 <% else %>

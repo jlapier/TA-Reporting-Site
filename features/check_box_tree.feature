@@ -4,7 +4,8 @@ Feature: Collapsible check box tree
   I want to have options operate in sensical, compact groups
   
   Background:
-    Given I go to the new activity page
+    Given I am logged in as "test.user@test.com"
+    And I go to the new activity page.
   
   Scenario: checking a parent automatically checks its children
     When I check "Western"

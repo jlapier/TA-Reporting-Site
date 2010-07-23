@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe CollaboratingAgenciesController do
 
+  before(:each) do
+    controller.stub(:require_user).and_return(true)
+  end
+
   #Delete these examples and add some real ones
   it "should use CollaboratingAgenciesController" do
     controller.should be_an_instance_of(CollaboratingAgenciesController)

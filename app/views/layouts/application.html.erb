@@ -25,9 +25,7 @@
 
         <div class="span-10 last">
           <div id="user_box">
-            <%= 
-            #render :partial => "/users/user_box"
-            %>
+            <%= render :partial => "/users/user_box" %>
           </div>
         </div>
       </div>
@@ -41,17 +39,20 @@
 
       <div class="span-4 last">
         <div id="main_menu">
+          <% if logged_in? %>
           <ul>
             <li><%= link_to "Home", root_path %></li>
+            <li><%= link_to "Reports", reports_path %></li>
             <li>
               <%= link_to "Activities", activities_path %>
               <ul>
+                <li><%= link_to "Criteria", criteria_path %></li>
                 <li><%= link_to "States", states_path %></li>
               </ul>
             </li>
-            <li><%= link_to "Reports", reports_path %></li>
             <li><%= link_to "Users", users_path %></li>
           </ul>
+          <% end %>
         </div>
 
         <div class="sidebar">
