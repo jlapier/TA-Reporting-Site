@@ -1,3 +1,12 @@
+# Create first user
+if User.count < 1
+  User.create!({
+    :email => 'first.user@example.com',
+    :password => 'first.user.password',
+    :password_confirmation => 'first.user.password'
+  })
+end
+
 # Create Collaborating Agencies
 [
   {:name => 'Regional Resource Center Program', :abbrev => 'RRCP'},

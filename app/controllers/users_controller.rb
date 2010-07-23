@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
-  before_filter :require_no_user, :only => [:new, :create]
-  before_filter :require_user, :only => [:show, :edit, :update]
+  before_filter :require_user
+
+  def index
+    @users = User.all(:order => 'email')
+  end
 
   def new
     @user = User.new
@@ -10,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = "Account registered!"
-      redirect_back_or_default account_url
+      redirect_to users_path
     else
       render :action => :new
     end
@@ -28,7 +31,7 @@ class UsersController < ApplicationController
     @user = @current_user # makes our views "cleaner" and more consistent
     if @user.update_attributes(params[:user])
       flash[:notice] = "Account updated!"
-      redirect_to account_url
+      redirect_to users_path
     else
       render :action => :edit
     end

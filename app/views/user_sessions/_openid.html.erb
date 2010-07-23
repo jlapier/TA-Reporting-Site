@@ -1,0 +1,43 @@
+<div class="span-10 last">
+
+<h1>Login or create an account with OpenID</h1>
+  <div>
+  <% form_for @user_session, :url => user_session_path do |f| %>
+    <%= f.error_messages %>
+    <%= f.label :openid_identifier, "OpenID" %><br />
+    <%= f.text_field :openid_identifier %>
+    <span id="openid_login_target"></span>
+    <br />
+    <%= f.check_box :remember_me %><%= f.label :remember_me %><br />
+    <!-- BEGIN ID SELECTOR -->
+    <script type="text/javascript">
+      <!--
+          // Tell ID Selector which controls to affect
+          var idselector_input_id = "user_session_openid_identifier";
+          var idselector_target_id = "openid_login_target";
+        -->
+    </script>
+    <%= javascript_include_tag 'idselector.js' %>
+    
+    <!-- END ID SELECTOR -->
+
+    <br />
+    <%= f.submit "Log in" %>
+  <% end %>
+  </div>
+  <p style="margin-top: 20px;">
+    <strong>What is OpenID?</strong><br/> 
+    OpenID allows you to use an existing account to sign in to multiple websites, without needing to create new passwords. 
+    For example, if you have a Google account or a Yahoo! account, you can use your Google or Yahoo! account to log in to 
+    this site. For more information, visit <a href="http://openid.net/get-an-openid/what-is-openid/" target="_blank">OpenID.net</a>.
+  </p>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('a.openids').click(function(event){
+      event.preventDefault();
+      $('#user_session_openid_identifier')[0].value = $(this)[0].href;
+    })
+  });
+</script>
