@@ -1,0 +1,6 @@
+test_user:
+  email: test.user@test.com
+  password_salt: KW1Z9wvLFpYkhSh6Z7mf
+  crypted_password: 200c992ec1147c6c4fef8fce991fab0ac149bb5b1ca93ce815f303bc81551c7770d6aaccf235b27f1ec0cc22b2585c8614bac10a5b205ecdd40b9b99fd935f24
+  perishable_token: v2k989cImWtbfuujGWbJ
+  persistence_token: 19d830e07afc1aab14b24825b012a4f0ff10f0bab4fb1e2445046ce54b898e0d11fe0e0f528c133a77ebad2715ae0dee59756f34d57d57c3ed5d54ed93210e99

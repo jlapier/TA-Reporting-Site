@@ -1,0 +1,22 @@
+<div class="span-9">
+
+  <h1>Login with a Regular Account</h1>
+
+  <% form_for @user_session, :url => user_session_path do |f| %>
+    <%= f.error_messages %>
+    <%= f.label :email, "E-mail Address" %><br />
+    <%= f.text_field :email %><br />
+    <br />
+    <%= f.label :password %><br />
+    <%= f.password_field :password %><br />
+    <br />
+    <%= f.check_box :remember_me %><%= f.label :remember_me %><br />
+    <br />
+    <%= f.submit "Log in" %>
+  <% end %>
+  <p style="text-align: right; margin: 20px;">
+    <%= 
+    #link_to 'Forgot Password?', new_password_reset_path, :class => 'fake_button'
+    %>
+  </p>
+</div>

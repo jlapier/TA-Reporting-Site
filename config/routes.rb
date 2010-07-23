@@ -8,4 +8,5 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :states
   map.resources :collaborating_agencies
   map.resources :reports
+  map.resource :user_session
 end
