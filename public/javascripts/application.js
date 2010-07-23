@@ -139,14 +139,16 @@ document.observe('dom:loaded', function() {
 });
 // configurable and configurable_links elements
 document.observe('dom:loaded', function() {
-  $$('.configurable').each(function(e) {
-    e.observe('mouseover', function() {
-      this.select('.configurable_links')[0].show();
-      this.addClassName('highlight');
+  if( $$('.configurable')[0] ) {
+    $$('.configurable').each(function(e) {
+      e.observe('mouseover', function() {
+        this.select('.configurable_links')[0].show();
+        this.addClassName('highlight');
+      });
+      e.observe('mouseout', function() {
+        this.select('.configurable_links')[0].hide();
+        this.removeClassName('highlight');
+      });
     });
-    e.observe('mouseout', function() {
-      this.select('.configurable_links')[0].hide();
-      this.removeClassName('highlight');
-    });
-  });
+  }
 });
