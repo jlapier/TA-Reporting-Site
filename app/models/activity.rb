@@ -20,6 +20,7 @@ class Activity < ActiveRecord::Base
   
   has_and_belongs_to_many :states
   has_and_belongs_to_many :ta_categories
+  has_and_belongs_to_many :collaborating_agencies
   
   before_validation :remove_regions
   

@@ -105,7 +105,12 @@ end
     {:name => 'California', :abbreviation => 'CA'},
     {:name => 'Alaska', :abbreviation => 'AK'},
     {:name => 'Hawaii', :abbreviation => 'HI'},
-    {:name => 'Nevada', :abbreviation => 'NV'}
+    {:name => 'Nevada', :abbreviation => 'NV'},
+    {:name => 'Federated States of Micronesia', :abbreviation => 'FSM'},
+    {:name => 'Guam', :abbreviatin => 'GU'},
+    {:name => 'Commonwealth of the Northern Marianna Islands', :abbreviation => 'CNMI'},
+    {:name => 'Republic of Palau', :abbreviation => 'RP'},
+    {:name => 'Republic of the Marshall Islands', :abbreviation => 'RMI'}
   ]
 }.each do |region_name, state_attributes|
   region = State.find_or_create_by_name(region_name)
