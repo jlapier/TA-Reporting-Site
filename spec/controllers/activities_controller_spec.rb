@@ -80,7 +80,7 @@ describe ActivitiesController do
       
       it "redirects to the new activity page" do
         post :create
-        response.should redirect_to(new_activity_path)
+        response.should redirect_to(activities_path)
       end
     end
     

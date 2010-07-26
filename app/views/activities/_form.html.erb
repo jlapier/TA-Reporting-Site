@@ -1,0 +1,50 @@
+
+<%
+CalendarDateSelect.format = :natural
+%>
+<% semantic_form_for @activity do |form| %>
+  <% form.inputs do %>
+    <li id="activity_date_of_activity_input" class="string required">
+      <%= form.label :date_of_activity %>
+      <%= form.calendar_date_select :date_of_activity, :buttons => false %>
+    </li>
+  <% end %>
+  <% form.inputs do %>
+    <%= form.input :objective %>
+    <%= form.input :activity_type %>
+    <%= form.input :intensity_level %>
+  <% end %>
+  <% form.inputs do %>
+    <%= form.input :ta_categories, :as => :check_boxes %>
+    <%= form.input :collaborating_agencies, :as => :check_boxes %>
+    <%= form.input :description %>
+  <% end %>
+  <ul>
+      <% count = 0 %>
+      <% @regions.each do |region| %>
+      <li class="collapse">
+        <% checked = form.object.state_ids.include?(region.id) ? true : false %>
+        <%= check_box_tag "activity_state_ids[#{count}]", region.id, checked, {:class => 'parent_checkbox'} %>
+        <%= label_tag "activity_state_ids[#{count}]", region.name %>
+        <% if region.states.count > 0 %>
+          <ul>
+            <% region.states.each do |state| %>
+            <% count += 1 %>
+            <li>
+              <% checked = form.object.state_ids.include?(state.id) ? true : false %>
+              <%= check_box_tag "activity_state_ids[#{count}]", state.id, checked, {:class => 'child_checkbox'} %>
+              <%= label_tag "activity_state_ids[#{count}]", state.name %>
+            </li>
+            <% end %>
+          </ul>
+        <% end %>
+        <% count += 1 %>
+      </li>
+      <% end %>
+  </ul>
+  <%= form.submit %>
+<% end %>
+
+<% content_for :javascript do %>
+  <%= calendar_date_select_includes 'tacs' %>
+<% end %>

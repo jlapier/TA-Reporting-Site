@@ -1,1 +1,11 @@
+<h1>Activities</h1>
+
+<p><em>to do: make this into a sortable table</em></p>
+
+<% @activities.each do |activity| %>
+<p><%= link_to activity.description, edit_activity_path(activity) %></p>
+<% end %>
+
+
+
 <%= render :partial => 'sidebar' %>

@@ -13,7 +13,7 @@ h4 { font-weight: bold; }
 a:link, a:visited, a:active { text-decoration:none; }
 a:hover { text-decoration:underline; }
 
-textarea { vertical-align: top; font-size: 13px; font-family:"Helvetica Neue", Arial, Helvetica, sans-serif; }
+textarea { vertical-align: top; font-size: 13px; font-family:"Helvetica Neue", Arial, Helvetica, sans-serif; height: 150px; }
 
 p + p { margin-top: -0.8em; text-indent: 0; }
 
@@ -58,6 +58,9 @@ input[type="checkbox"], input[type="radio"], input.checkbox, input.radio { top: 
 #main_menu ul { list-style: none; padding-top: 8px; margin-left: 18px; padding-left: 0; margin-bottom: 12px; line-height: 175%; }
 #main_menu a:link, #main_menu a:visited { color: #339; }
 #main_menu a:hover { color: #66C; }
+
+#main_menu h2 { font-size: 22px; padding: 0; margin: 0; text-align: center; background: #444; color: #E6D373; }
+#main_menu h3 { font-size: 16px; padding: 6px; margin: 0; text-align: center; background: #444; color: #E6D373; }
 
 #user_box { 
   float: right; padding: 6px 12px; font-size: 11px; background: #EEE;
@@ -134,14 +137,14 @@ div.select_popper_box ul li:hover { background: #EEE; }
 .fake_button {
   font-size: 11px;
   font-weight: bold;
-  border: 1px solid #2f4f4f;
+  border: 1px solid #bbb;
   padding: 0 3px 0 3px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
 }
 
 .highlight {
-  background-color: #E6D373;
+  background-color: #F3E9B9;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border: 1px solid #666; 
