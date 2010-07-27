@@ -58,4 +58,32 @@ describe Activity do
       end
     end
   end
+  
+  describe "csv dump" do
+    fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
+    before(:each) do
+      @activities = Activity.all
+      @csv = FasterCSV.dump(@activities)
+    end
+    it "has a meta row first" do
+      @csv.split("\n")[0].should == 'class,Activity'
+    end
+    it "has a header row second" do
+      @csv.split("\n")[1].should == 'Date,Objective,Type,Intensity,TA Categories,Agencies,States'
+    end
+    it "dumps object data to remaining rows" do
+      body = @csv.split("\n")[2..-1]
+      c = 0
+      @activities.each do |activity|
+        body[c].should == "#{activity.date_of_activity}," + 
+                          "#{activity.objective.number}: #{activity.objective.name}," + 
+                          "#{activity.activity_type.name}," + 
+                          "#{activity.intensity_level.name}," + 
+                          "#{activity.ta_categories.collect{|t|t.name}.join('; ')}," + 
+                          "#{activity.collaborating_agencies.collect{|a| a.name}.join('; ')}," + 
+                          "#{activity.states.collect{|s|"#{s.name} (#{s.abbreviation})"}.join('; ')}"
+        c += 1
+      end
+    end
+  end
 end

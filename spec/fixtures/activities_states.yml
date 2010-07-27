@@ -1,0 +1,7 @@
+one_oregon:
+  activity_id: <%= Fixtures.identify :one %>
+  state_id: <%= Fixtures.identify :oregon %>
+
+two_washingtion:
+  activity_id: <%= Fixtures.identify :two %>
+  state_id: <%= Fixtures.identify :washington %>

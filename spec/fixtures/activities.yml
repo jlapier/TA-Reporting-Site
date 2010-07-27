@@ -18,9 +18,11 @@ one:
   activity_type_id: <%= Fixtures.identify :workshop %>
   description: MyText
   intensity_level_id: <%= Fixtures.identify :intensive %>
+  objective_id: <%= Fixtures.identify :provide_ta %>
 
 two:
   date_of_activity: 2010-05-28
   activity_type_id: <%= Fixtures.identify :consult_onsite %>
   description: MyText
   intensity_level_id: <%= Fixtures.identify :general %>
+  objective_id: <%= Fixtures.identify :leadership %>
