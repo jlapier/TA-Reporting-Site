@@ -12,5 +12,15 @@
 # End Schema
 
 class Report < ActiveRecord::Base
+  attr_reader :csv
+  
   has_and_belongs_to_many :objectives
+  
+  def export_as_csv
+    activities = Activity.find(:all, :conditions => [
+      "date_of_activity LIKE ?",
+      "%#{self.month.to_s[0..3]}-#{self.month.to_s[5..6]}%"
+    ])
+    @csv = FasterCSV.dump(activities) unless activities.empty?
+  end
 end
