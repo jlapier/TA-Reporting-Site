@@ -17,7 +17,7 @@ CalendarDateSelect.format = :natural
       <% @regions.each do |region| %>
       <li class="collapse">
         <% checked = form.object.state_ids.include?(region.id) ? true : false %>
-        <%= check_box_tag "activity_state_ids[#{count}]", region.id, checked, {:class => 'parent_checkbox'} %>
+        <%= check_box_tag "activity[state_ids][]", region.id, checked, {:id => "activity_state_ids_#{count}", :class => 'parent_checkbox'} %>
         <%= label_tag "activity_state_ids[#{count}]", region.name %>
         <% if region.states.count > 0 %>
           <ul>
@@ -25,7 +25,7 @@ CalendarDateSelect.format = :natural
             <% count += 1 %>
             <li>
               <% checked = form.object.state_ids.include?(state.id) ? true : false %>
-              <%= check_box_tag "activity_state_ids[#{count}]", state.id, checked, {:class => 'child_checkbox'} %>
+              <%= check_box_tag "activity[state_ids][]", state.id, checked, {:id => "activity_state_ids_#{count}", :class => 'child_checkbox'} %>
               <%= label_tag "activity_state_ids[#{count}]", state.name %>
             </li>
             <% end %>
