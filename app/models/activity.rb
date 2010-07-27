@@ -31,4 +31,31 @@ class Activity < ActiveRecord::Base
     end
   protected
   public
+    def self.csv_meta
+      {
+        :class => 'Activity'
+      }
+    end
+    def csv_headers
+      [
+        'Date',
+        'Objective',
+        'Type',
+        'Intensity',
+        'TA Categories',
+        'Agencies',
+        'States'
+      ]
+    end
+    def csv_dump(headers)
+      [
+        date_of_activity,
+        "#{objective.number}: #{objective.name}",
+        activity_type.name,
+        intensity_level.name,
+        ta_categories.collect{|ta| ta.name}.join('; '),
+        collaborating_agencies.collect{|a| a.name}.join('; '),
+        states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
+      ]
+    end
 end

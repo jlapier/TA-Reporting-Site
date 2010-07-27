@@ -1,0 +1,7 @@
+one_regional_resource_center_program:
+  activity_id: <%= Fixtures.identify :one %>
+  collaborating_agency_id: <%= Fixtures.identify :regional_resource_center_program %>
+
+two_regional_resource_center_program:
+  activity_id: <%= Fixtures.identify :two %>
+  collaborating_agency_id: <%= Fixtures.identify :regional_resource_center_program %>
