@@ -31,11 +31,6 @@ class Activity < ActiveRecord::Base
     end
   protected
   public
-    def self.csv_meta
-      {
-        :class => 'Activity'
-      }
-    end
     def csv_headers
       [
         'Date',
