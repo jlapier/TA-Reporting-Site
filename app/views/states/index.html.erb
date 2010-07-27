@@ -1,6 +1,6 @@
   <% count = 1 %>
   <% @states.each do |region| %>
-  <div class="span-3 <%= count % 6 == 0 ? ' last' : '' %>">
+  <div class="span-3 <%= last_or_nil(count, 6) %>">
     <div class="configurable">
       <h4><%=h region.name %></h4>
       <%= render :partial => 'links', :object => region %>
