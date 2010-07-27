@@ -19,29 +19,35 @@ CalendarDateSelect.format = :natural
     <%= form.input :collaborating_agencies, :as => :check_boxes %>
     <%= form.input :description %>
   <% end %>
-  <ul>
-      <% count = 0 %>
-      <% @regions.each do |region| %>
-      <li class="collapse">
-        <% checked = form.object.state_ids.include?(region.id) ? true : false %>
-        <%= check_box_tag "activity_state_ids[]", region.id, checked, {:id => "activity_state_ids_#{count}", :class => 'parent_checkbox'} %>
-        <%= label_tag "activity_state_ids[#{count}]", region.name %>
-        <% if region.states.count > 0 %>
-          <ul>
-            <% region.states.each do |state| %>
-            <% count += 1 %>
-            <li>
-              <% checked = form.object.state_ids.include?(state.id) ? true : false %>
-              <%= check_box_tag "activity_state_ids[]", state.id, checked, {:id => "activity_state_ids_#{count}", :class => 'child_checkbox'} %>
-              <%= label_tag "activity_state_ids[#{count}]", state.name %>
-            </li>
-            <% end %>
-          </ul>
-        <% end %>
-        <% count += 1 %>
-      </li>
+  <div style="height: 300px; overflow-y: auto;">
+    <% region_count = 1 %>
+    <% count = 0 %>
+    <% @regions.each do |region| %>
+    <% form.inputs :class => "inputs span-7 #{last_or_nil(region_count, 2)}" do %>
+    <ul>
+    <li class="collapse">
+      <% checked = form.object.state_ids.include?(region.id) ? true : false %>
+      <%= check_box_tag "activity_state_ids[]", region.id, checked, {:id => "activity_state_ids_#{count}", :class => 'parent_checkbox'} %>
+      <%= label_tag "activity_state_ids[#{count}]", region.name %>
+      <% if region.states.count > 0 %>
+        <ul>
+          <% region.states.each do |state| %>
+          <% count += 1 %>
+          <li>
+            <% checked = form.object.state_ids.include?(state.id) ? true : false %>
+            <%= check_box_tag "activity_state_ids[]", state.id, checked, {:id => "activity_state_ids_#{count}", :class => 'child_checkbox'} %>
+            <%= label_tag "activity_state_ids[#{count}]", state.name %>
+          </li>
+          <% end %>
+        </ul>
       <% end %>
-  </ul>
+      <% count += 1 %>
+      <% region_count += 1 %>
+    </li>
+    <% end %>
+    </ul>
+    <% end %>
+  </div>
   <%= form.submit %>
 <% end %>
 

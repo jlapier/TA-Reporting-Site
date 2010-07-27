@@ -12,4 +12,8 @@ module ApplicationHelper
     end
     pt
   end
+  
+  def last_or_nil(count, number_of_repeats)
+    count > 0 && count % number_of_repeats == 0 ? 'last' : ''
+  end
 end
