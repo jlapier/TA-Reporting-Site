@@ -2,5 +2,17 @@
   <div class="span-4 last">
     <h4>Reporting Tools</h4>
     <%= link_to "New Report", new_report_path %>
+    
+    <% form_for @new_report do |form| %>
+      <%= form.date_select :month, {
+        :start_year => 2010,
+        :end_year => 2015,
+        :prompt => true,
+        :use_short_month => true,
+        :order => [:month, :year]
+      } %>
+      <%= form.submit "Export" %>
+    <% end %>
+    
   </div>
 <% end %>
