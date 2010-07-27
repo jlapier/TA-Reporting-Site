@@ -33,7 +33,7 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.new(params[:criterium])
 
       if @criterium.save
-        redirect_to(criteria_url, :notice => "#{@criterium.type.to_s.titleize} saved.")
+        redirect_to(criteria_url, :notice => "#{@criterium.class.to_s.titleize} saved.")
       else
         render :action => "new"
       end
@@ -43,7 +43,7 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.find(params[:id])
 
       if @criterium.update_attributes(params[:criterium])
-        redirect_to(criteria_url, :notice => "#{@criterium.type.to_s.titleize} updated.")
+        redirect_to(criteria_url, :notice => "#{@criterium.class.to_s.titleize} updated.")
       else
         render :action => "edit"
       end
