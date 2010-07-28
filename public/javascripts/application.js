@@ -35,12 +35,13 @@ var Collapse = Class.create({
 	},
 	observeClick: function() {
 	  var collapsible = this;
-	  this.handle.observe('click', function() {
+	  this.handle.observe('click', function(event) {
 	    if( Collapsible.expanded(collapsible.element) ) {
 	      Collapsible.collapse(collapsible.element, collapsible.handle);
 	    } else {  
 	      Collapsible.expand(collapsible.element, collapsible.handle);
 	    }
+            event.stop();
 	  });
 	},
 	shouldExpand: function() {
