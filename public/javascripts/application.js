@@ -2,18 +2,23 @@
   Collapsing elements
 */
 var Collapse = Class.create({
-	initialize: function(element, trigger) {
+	initialize: function(element, trigger, handle) {
 	  this.element = element;
 	  this.trigger = trigger;
+	  this.handle = handle;
 	  
 	  if( this.shouldExpand() ) {
-	    Collapsible.expand(element);
+	    Collapsible.expand(element, handle);
 	  } else {
-	    Collapsible.collapse(element);
+	    Collapsible.collapse(element, handle);
 	  }
 
-    this.observeMouseover();
-    this.observeMouseout();
+    if( handle ) {
+      this.observeClick();
+    } else {
+      this.observeMouseover();
+      this.observeMouseout();
+    }
 	},
 	observeMouseover: function() {
 	  this.element.observe('mouseover', function() {
@@ -28,6 +33,16 @@ var Collapse = Class.create({
 	    }
 		});
 	},
+	observeClick: function() {
+	  var collapsible = this;
+	  this.handle.observe('click', function() {
+	    if( Collapsible.expanded(collapsible.element) ) {
+	      Collapsible.collapse(collapsible.element, collapsible.handle);
+	    } else {  
+	      Collapsible.expand(collapsible.element, collapsible.handle);
+	    }
+	  });
+	},
 	shouldExpand: function() {
 	  if( this.trigger == 'checkbox' ) {
 	    return Checkbox.detectCheckedDescendants(this.element);
@@ -38,16 +53,22 @@ var Collapse = Class.create({
   Utility to manage collapsible elements
 */
 var Collapsible = {
-  expanded: function(e) {
-    return e.hasClassName('active');
+  expanded: function(element) {
+    return element.hasClassName('active');
   },
-  expand: function(e) {
-	  e.addClassName('active');
-	  e.removeClassName('inactive');
+  expand: function(element, handle) {
+	  element.addClassName('active');
+	  element.removeClassName('inactive');
+	  if( handle ) {
+	    handle.update("< hide")
+	  }
   },
-  collapse: function(e) {
-    e.addClassName('inactive');
-    e.removeClassName('active');
+  collapse: function(element, handle) {
+    element.addClassName('inactive');
+    element.removeClassName('active');
+    if( handle ) {
+      handle.update("states >")
+    }
   }
 }
 /*
@@ -61,8 +82,16 @@ var Checkbox = {
       e.checked = current_checkbox.checked;
     });
     $(ancestor).select('.collapse').each(function(e) {
-      var collapsible = new Collapse(e, 'checkbox');
+      console.log("Found " + e);
+      var collapsible = new Collapse(e, 'checkbox', e.select('.collapse_handle')[0]);
     });
+    if( $(ancestor).classNames().include("collapse") ) {
+      if( current_checkbox.checked == true ) {
+        Collapsible.expand($(ancestor), $(ancestor).select('.collapse_handle')[0]);
+      } else {
+        Collapsible.collapse($(ancestor), $(ancestor).select('.collapse_handle')[0]);
+      }
+    }
   },
   updateAncestor: function(current_checkbox, ancestor) {
     var selector = 'input[type="checkbox"]';
@@ -101,8 +130,6 @@ var Checkbox = {
       });
       return result;
     } else {
-      console.log("Following element has no descendants matching selector " + selector);
-      console.log(element);
       return false;
     }
   },
@@ -118,7 +145,7 @@ var Checkbox = {
 document.observe('dom:loaded', function() {
 	if( $$('.collapse')[0] ) {
 		$$('.collapse').each(function(e) {
-			var collapsible = new Collapse(e, 'checkbox');
+			var collapsible = new Collapse(e, 'checkbox', e.select('.collapse_handle')[0]);
 		});
 	}
 });

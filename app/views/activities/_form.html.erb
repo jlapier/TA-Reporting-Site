@@ -25,10 +25,11 @@ CalendarDateSelect.format = :natural
     <% @regions.each do |region| %>
     <% form.inputs :class => "inputs span-7 #{last_or_nil(region_count, 2)}" do %>
     <ul>
-    <li class="collapse">
+    <li class="collapse highlight">
       <% checked = form.object.state_ids.include?(region.id) ? true : false %>
       <%= check_box_tag "activity[state_ids][]", region.id, checked, {:id => "activity_state_ids_#{count}", :class => 'parent_checkbox'} %>
       <%= label_tag "activity_state_ids[#{count}]", region.name %>
+      <a href="#" class="collapse_handle fake_button">states ></a>
       <% if region.states.count > 0 %>
         <ul>
           <% region.states.each do |state| %>
