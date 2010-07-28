@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
     end
     @report.export_as_csv
     unless @report.csv.nil?
-      send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => "#{@report.month.to_formatted_s(:year_month_number)} WRRC TA Activity Report.csv")
+      send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => "#{@report.month.to_formatted_s(:year_month_number)} TA Activity Report.csv")
     else
       flash[:notice] = "No activity has been recorded for #{@report.month.to_formatted_s(:month_year_string)}"
       redirect_to reports_path and return
