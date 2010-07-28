@@ -22,6 +22,8 @@ class Activity < ActiveRecord::Base
   has_and_belongs_to_many :ta_categories
   has_and_belongs_to_many :collaborating_agencies
   
+  validates_presence_of :date_of_activity, :objective_id, :activity_type_id, :description, :intensity_level_id
+
   before_validation :remove_regions
   
   private
