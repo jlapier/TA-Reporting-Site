@@ -51,3 +51,14 @@ CalendarDateSelect.format = :natural
 <% content_for :javascript do %>
   <%= calendar_date_select_includes 'tacs' %>
 <% end %>
+
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+  Event.observe(window, 'load', function() {
+    Event.addBehavior({
+      '#activity_description': TextareaExpander
+    })
+  })
+</script>
+<% end %>

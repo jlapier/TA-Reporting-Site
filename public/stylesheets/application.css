@@ -180,3 +180,18 @@ div.select_popper_box ul li:hover { background: #EEE; }
 .collapse, .collapse label, .collapse input {
 	cursor: pointer;
 }
+
+/* sortable tables (using SortableTable behavior) */
+table.sortable th { 
+  cursor: pointer; 
+}
+table.sortable th.sorted_down { 
+  background: #CCF; text-decoration: underline; 
+}
+table.sortable th.sorted_up { 
+  background: #FCC; text-decoration: underline; 
+}
+
+
+table.nice_table tr.row_dark { background: #E3E3E3; }
+table.nice_table tr.row_light { background: #F6F6F6; }

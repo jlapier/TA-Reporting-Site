@@ -1,11 +1,50 @@
 <h1>Activities</h1>
 
-<p><em>to do: make this into a sortable table</em></p>
 
-<% @activities.each do |activity| %>
-<p><%= link_to activity.description, edit_activity_path(activity) %></p>
-<% end %>
+<table class="nice_table sortable" id="activities_table" style="width:100%">
+<!--  <thead> -->
+    <th>Date</th>
+    <th>Obj</th>
+    <th>Type</th>
+    <th>Intensity</th>
+    <th>Description</th>
+<!--  </thead> -->
 
+<!--  <tbody> -->
+  <% color_class = "dark" %>
+  <% @activities.each do |activity| %>
+    <% color_class = color_class == "light" ? "dark" : "light" %>
+    <tr class="row_<%= color_class %>">
+      <td style="white-space:nowrap">
+        <%= activity.date_of_activity.strftime "%m/%d/%y" %>
+      </td>
+      <td>
+        <%= activity.objective.number %>
+      </td>
+      <td>
+        <%= activity.activity_type.name %>
+      </td>
+      <td>
+        <%= activity.intensity_level.name %>
+      </td>
+      <td>
+        <%= link_to truncate(activity.description, :length => 75), 
+              edit_activity_path(activity) %>
+      </td>
+    </tr>
+  <% end %>
+<!--  </tbody> -->
+</table>
 
 
 <%= render :partial => 'sidebar' %>
+
+<% content_for :javascript do %>
+<script type="text/javascript">
+  Event.observe(window, 'load', function() {
+    Event.addBehavior({
+      '#activities_table': SortableTable
+    })
+  })
+</script>
+<% end %>
