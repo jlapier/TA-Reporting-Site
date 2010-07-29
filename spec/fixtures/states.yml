@@ -27,29 +27,29 @@ washington:
 oregon:    
   id: <%= Fixtures.identify :oregon %>
   region_id: <%= Fixtures.identify :western %>
-  name:   Oregon
+  name: Oregon
   abbreviation: OR
 
 california:    
   id: <%= Fixtures.identify :california %>
   region_id: <%= Fixtures.identify :western %>
-  name:   California
+  name: California
   abbreviation: CA
 
 alaska:  
   id: <%= Fixtures.identify :alaska %>
   region_id: <%= Fixtures.identify :western %>
-  name:   Alaska
+  name: Alaska
   abbreviation: AK
 
 hawaii:  
   id: <%= Fixtures.identify :hawaii %>
   region_id: <%= Fixtures.identify :western %>
-  name:   Hawaii
+  name: Hawaii
   abbreviation: HI
 
 nevada:  
   id: <%= Fixtures.identify :nevada %>
   region_id: <%= Fixtures.identify :western %>
-  name:   Nevada
+  name: Nevada
   abbreviation: NV
