@@ -21,3 +21,6 @@ form.formtastic fieldset ol li { display: block; }
 form.formtastic li.highlight {
   padding-left: 5px;
 }
+
+
+form.formtastic em { font-style: italic }

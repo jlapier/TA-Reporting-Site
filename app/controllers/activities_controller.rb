@@ -7,7 +7,8 @@ class ActivitiesController < ApplicationController
     def get_form_options
       @activity ||= Activity.new
       @criteria = Criterium.all
-      @regions = State.regions.options(:include => :states)
+      #@regions = State.regions.options(:include => :states)
+      @states = State.just_states 
     end
   protected
   public

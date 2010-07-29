@@ -15,36 +15,25 @@ CalendarDateSelect.format = :natural
     <%= form.input :collaborating_agencies, :as => :check_boxes %>
     <%= form.input :description %>
   <% end %>
-  <div style="height: 300px; overflow-y: auto;">
-    <% region_count = 1 %>
-    <% count = 0 %>
-    <% @regions.each do |region| %>
-    <% form.inputs :class => "inputs span-7 #{last_or_nil(region_count, 2)}" do %>
-    <ul>
-    <li class="collapse highlight">
-      <% checked = form.object.state_ids.include?(region.id) ? true : false %>
-      <%= check_box_tag "activity[state_ids][]", region.id, checked, {:id => "activity_state_ids_#{count}", :class => 'parent_checkbox'} %>
-      <%= label_tag "activity_state_ids[#{count}]", region.name %>
-      <a href="#" class="collapse_handle fake_button">states ></a>
-      <% if region.states.count > 0 %>
-        <ul>
-          <% region.states.each do |state| %>
-          <% count += 1 %>
-          <li>
-            <% checked = form.object.state_ids.include?(state.id) ? true : false %>
-            <%= check_box_tag "activity[state_ids][]", state.id, checked, {:id => "activity_state_ids_#{count}", :class => 'child_checkbox'} %>
-            <%= label_tag "activity_state_ids[#{count}]", state.name %>
-          </li>
+  <% form.inputs do %>
+    <div>
+      <em>Select States</em><br/>
+      <% (0..3).each do |col| %>
+        <div class="span-4 <%= 'last' if col == 3 %>">
+          <ul style="padding: 4px 12px">
+          <%# states grouped into columns, 15 states per column %>
+          <% @states[(col*15)..((col+1)*14)].each do |state| %>
+            <li>
+              <% checked = form.object.state_ids.include?(state.id) ? true : false %>
+              <%= check_box_tag "activity[state_ids][]", state.id, checked, {:id => "activity_state_ids_#{state.id}"} %>
+              <%= label_tag "activity_state_ids[#{state.id}]", state.name_or_abbrev %>
+            </li>
           <% end %>
-        </ul>
+          </ul>
+        </div>
       <% end %>
-      <% count += 1 %>
-      <% region_count += 1 %>
-    </li>
-    <% end %>
-    </ul>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
   <%= form.submit %>
 <% end %>
 
