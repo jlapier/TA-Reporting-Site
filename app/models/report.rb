@@ -9,6 +9,7 @@
 #  end_date             :date          
 #  created_at           :datetime      
 #  updated_at           :datetime      
+#  month                :date          
 # End Schema
 
 class Report < ActiveRecord::Base
