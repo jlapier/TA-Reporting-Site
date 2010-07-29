@@ -41,7 +41,7 @@ var Collapse = Class.create({
 	    } else {  
 	      Collapsible.expand(collapsible.element, collapsible.handle);
 	    }
-            event.stop();
+      event.stop();
 	  });
 	},
 	shouldExpand: function() {

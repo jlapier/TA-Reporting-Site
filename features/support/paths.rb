@@ -12,7 +12,10 @@ module NavigationHelpers
       '/'
       
     when /the new activity page/
-      '/activities/new'
+      new_activity_path
+      
+    when /the new criterium page/
+      new_criterium_path
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
