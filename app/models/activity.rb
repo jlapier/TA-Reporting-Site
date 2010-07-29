@@ -14,6 +14,8 @@
 
 class Activity < ActiveRecord::Base
   
+  attr_accessor :other
+  
   belongs_to :objective
   belongs_to :activity_type
   belongs_to :intensity_level
@@ -21,6 +23,8 @@ class Activity < ActiveRecord::Base
   has_and_belongs_to_many :states
   has_and_belongs_to_many :ta_categories
   has_and_belongs_to_many :collaborating_agencies
+  
+  accepts_nested_attributes_for :ta_categories
   
   validates_presence_of :date_of_activity, :objective_id, :activity_type_id, 
     :description, :intensity_level_id
