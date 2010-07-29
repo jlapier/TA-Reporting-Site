@@ -8,7 +8,7 @@ class ActivitiesController < ApplicationController
       @activity ||= Activity.new
       @criteria = Criterium.all
       #@regions = State.regions.options(:include => :states)
-      @states = State.just_states 
+      @states = State.just_states
     end
   protected
   public

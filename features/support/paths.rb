@@ -14,6 +14,9 @@ module NavigationHelpers
     when /the new activity page/
       new_activity_path
       
+    when /the activities page/
+      activities_path
+      
     when /the new criterium page/
       new_criterium_path
 
