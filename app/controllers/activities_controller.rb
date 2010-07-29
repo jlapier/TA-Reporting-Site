@@ -5,7 +5,7 @@ class ActivitiesController < ApplicationController
   
   private
     def get_form_options
-      @activity = Activity.new
+      @activity ||= Activity.new
       @criteria = Criterium.all
       @regions = State.regions.options(:include => :states)
     end
@@ -25,6 +25,7 @@ class ActivitiesController < ApplicationController
         flash[:notice] = "New Activity successfully saved."
         redirect_to(activities_path)
       else
+        get_form_options
         render :new
       end
     end
@@ -39,6 +40,7 @@ class ActivitiesController < ApplicationController
         flash[:notice] = "Activity updated."
         redirect_to activities_path
       else
+        get_form_options
         render :edit
       end
     end

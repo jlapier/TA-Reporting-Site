@@ -17,6 +17,7 @@ class Report < ActiveRecord::Base
   has_and_belongs_to_many :objectives
   
   def export_as_csv
+    # TODO: change this to a proper SQL search with dates; add an index to the activities table for date_of_activity
     activities = Activity.find(:all, :conditions => [
       "date_of_activity LIKE ?",
       "%#{self.month.to_s[0..3]}-#{self.month.to_s[5..6]}%"
