@@ -2,7 +2,7 @@
   <%= form.error_messages %>
 
   <% form.inputs do %>
-    <%= form.input :type, :collection => Criterium.type_options %>
+    <%= form.input :kind, :collection => Criterium.type_options %>
     <%= form.input :number, :label => 'Number' %>
     <%= form.input :name, :label => 'Name/description' %>
   <% end %>

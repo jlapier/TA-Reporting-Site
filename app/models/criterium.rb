@@ -25,4 +25,12 @@ class Criterium < ActiveRecord::Base
   def self.type_options
     TYPE_OPTIONS
   end
+  
+  def kind=(val)
+    @kind = val
+    self.type = val
+  end
+  def kind
+    self.type
+  end
 end
