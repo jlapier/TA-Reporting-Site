@@ -39,7 +39,11 @@ end
     {:name => 'Intensive/Sustained'}
   ],
   'TaCategory' => [
-    {:name => 'Graduation rates'}
+    {:name => 'Data collection activities'},
+    {:name => 'SLDS'},
+    {:name => 'Technical details of the SPP/APR'},
+    {:name => 'Reporting and data use'},
+    {:name => 'Improvement activities'}
   ]
 }.each do |type, items|
   items.each do |item|
