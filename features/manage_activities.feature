@@ -9,7 +9,7 @@ Feature: Manage activities
   Scenario: record a new activity
     Given I am on the new activity page
     When I fill in "Date of activity" with "July 23, 2010"
-    And I select "Provide TA" from "Objective"
+    And I select "2: Provide TA" from "Objective"
     And I select "Consult - onsite" from "Activity type"
     And I select "Targeted/Specific" from "Intensity level"
     And I fill in "Description" with "Troubleshoot and re-configure email client."
@@ -23,7 +23,7 @@ Feature: Manage activities
   Scenario: record a new activity with an as yet unrecorded TA Category
     Given I am on the new activity page
     When I fill in "Date of activity" with "July 23, 2010"
-    And I select "Provide TA" from "Objective"
+    And I select "2: Provide TA" from "Objective"
     And I select "Consult - onsite" from "Activity type"
     And I select "Targeted/Specific" from "Intensity level"
     And I fill in "Description" with "Troubleshoot and re-configure email client."
