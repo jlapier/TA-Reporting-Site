@@ -8,14 +8,15 @@ Feature: Generate reports
   Scenario: create a set of rules by which to generate a report from
     Given I am on the new report page
     When I fill in "Name" with "Q1 - 2010"
-    And I check "Include descriptions"
-    And I check "Provide TA" within "#objective_options"
-    And I check "Leadership and Coordination" within "#objective_options"
-    And I check "Information request" within "#activity_type_options"
-    And I check "Consult - Phone/email/in-person" within "#activity_type_options"
-    And I check "Consult - onsite" within "#activity_type_options"
-    And I check "Any" within "#levels_of_intensity_options"
-    And I fill in "Begin date" with "January 1, 2010"
-    And I fill in "End date" with "March 31, 2010"
-    And I press "Preview"
-    Then I should see "Preview of Report: Q1 - 2010"
+    And I press "Save changes"
+    Then I should see "New Report successfully created."
+    And I should be on the edit report page for "Q1 - 2010"
+    
+  @javascript
+  Scenario: add report breakdowns
+    Given I am on the edit report page for "Q2 - 2010"
+    When I select "1: Knowledge development" from "Objective"
+    And I select "Activity Type" from "Breakdown type"
+    And I check "Include states"
+    And I press "Add"
+    Then I should see "1: Knowledge development" within "#report_breakdowns"

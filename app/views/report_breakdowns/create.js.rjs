@@ -1,0 +1,6 @@
+if @saved
+  page.insert_html :bottom, "report_breakdowns", :partial => 'report_breakdown', :object => @new_report_breakdown
+  page << "$('new_report_breakdown').reset();"
+else
+  page.replace('ajax_new_report_breakdown_form', :partial => 'form')
+end

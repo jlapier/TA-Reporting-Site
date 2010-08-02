@@ -1,0 +1,8 @@
+<li>
+  <%=h report_breakdown.objective.display_name %> (<%= report_breakdown.include_states ? 'includes states' : 'omits states' %>)
+  <% unless report_breakdown.breakdown_type.blank? %>
+  <ul>
+    <li><%=h report_breakdown.breakdown_type %></li>
+  </ul>
+  <% end %>
+</li>

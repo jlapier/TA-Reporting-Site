@@ -4,7 +4,7 @@
     <%= link_to "New Report", new_report_path %>
     
     <% form_for @new_report do |form| %>
-      <%= form.date_select :month, {
+      <%= form.date_select :period, {
         :start_year => 2010,
         :end_year => 2015,
         :prompt => true,

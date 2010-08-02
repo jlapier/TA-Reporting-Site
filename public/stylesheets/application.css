@@ -151,6 +151,20 @@ div.select_popper_box ul li:hover { background: #EEE; }
   font-weight: bold;
 }
 
+form.formtastic .faint_border {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #999;
+  padding: 0 10px;
+  min-height: 75px;
+  margin: 5px 2px;
+}
+
+form.formtastic .scrollable {
+  height: 300px;
+  overflow-y: auto;
+}
+
 .configurable {
   padding: 0;
 }

@@ -11,4 +11,10 @@
 # End Schema
 
 class Objective < Criterium
+  
+  has_many :report_breakdowns
+  
+  def display_name
+    "#{number}: #{name}"
+  end
 end

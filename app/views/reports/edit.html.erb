@@ -1,0 +1,16 @@
+<h1>Editing Report: <%=h @report.name %></h1>
+<% semantic_form_for @report do |form| %>
+  <% form.inputs do %>
+    <%= form.input :include_descriptions %>
+  <% end %>
+  <%= form.submit %>
+<% end %>
+
+<h2>Add Report Breakdown</h2>
+
+<%= render :partial => 'report_breakdowns/form' %>
+
+<ol id="report_breakdowns">
+  <%= render :partial => 'report_breakdowns/report_breakdown', :collection => @report.report_breakdowns %>
+</ol>
+<%= render :partial => 'sidebar' %>
