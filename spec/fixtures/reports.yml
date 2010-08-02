@@ -18,23 +18,18 @@
 #  id                   :integer       not null, primary key
 #  name                 :string(255)   
 #  include_descriptions :boolean       
-#  begin_date           :date          
-#  end_date             :date          
 #  created_at           :datetime      
 #  updated_at           :datetime      
-#  month                :date          
+#  primary_breakdown    :string(255)   
+#  secondary_breakdown  :string(255)   
 # End Schema
 
 classes/Fixtures.html
 
 one:
-  name: MyString
-  include_descriptions: false
-  begin_date: 2010-07-22 13:59:41
-  end_date: 2010-07-22 13:59:41
+  name: Q2 - 2010
+  include_descriptions: true
 
 two:
   name: MyString
   include_descriptions: false
-  begin_date: 2010-07-22 13:59:41
-  end_date: 2010-07-22 13:59:41

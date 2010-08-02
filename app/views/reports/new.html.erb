@@ -1,19 +1,7 @@
+<h1>New Report</h1>
 <% semantic_form_for @report do |form| %>
   <% form.inputs do %>
-    <li id="report_begin_date" class="string required">
-      <%= form.label :begin_date %>
-      <%= form.calendar_date_select :begin_date, :buttons => false %>
-    </li>
-    <li id="report_end_date" class="string required">
-      <%= form.label :end_date %>
-      <%= form.calendar_date_select :end_date, :buttons => false %>
-    </li>
     <%= form.input :name %>
-    <%= form.input :include_descriptions %>
   <% end %>
   <%= form.submit %>
-<% end %>
-
-<% content_for :javascript do %>
-  <%= calendar_date_select_includes 'tacs' %>
 <% end %>

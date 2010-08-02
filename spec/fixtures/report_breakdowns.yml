@@ -1,0 +1,24 @@
+# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+#
+# Table name: report_breakdowns
+#
+#  id             :integer       not null, primary key
+#  report_id      :integer       
+#  objective_id   :integer       
+#  breakdown_type :string(255)   
+#  include_states :boolean       
+# End Schema
+
+classes/Fixtures.html
+
+one:
+  report_id: 1
+  objective_id: 1
+  breakdown_type: MyString
+  include_states: false
+
+two:
+  report_id: 1
+  objective_id: 1
+  breakdown_type: MyString
+  include_states: false

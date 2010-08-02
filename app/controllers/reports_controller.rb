@@ -1,26 +1,51 @@
 class ReportsController < ApplicationController
 
   before_filter :require_user
+  before_filter :new_report, :only => [:index, :edit]
   
-  def index
-    @activity_count = Activity.count
-    @new_report = Report.new
-  end
-  def new
-    @report = Report.new
-  end
-  def create
-    @report = Report.new(params[:report])
-    if @report.month.nil?
-      flash[:notice] = "Please select a month and year to export."
-      redirect_to reports_path and return
+  private
+    def new_report
+      @new_report = Report.new
     end
-    @report.export_as_csv
-    unless @report.csv.nil?
-      send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => "#{@report.month.to_formatted_s(:year_month_number)} TA Activity Report.csv")
-    else
-      flash[:notice] = "No activity has been recorded for #{@report.month.to_formatted_s(:month_year_string)}"
-      redirect_to reports_path and return
+    def send_export
+      @report.csv_export
+      unless @report.csv.nil?
+        send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => @report.export_filename)
+      else
+        flash[:notice] = "No activity has been recorded to satisfy the reporting selections."
+        redirect_to reports_path and return
+      end
     end
-  end
+  protected
+  public
+    def index
+      @activity_count = Activity.count
+    end
+    def new
+      @report = Report.new
+    end
+    def edit
+      @report = Report.find(params[:id])
+      @new_report_breakdown = ReportBreakdown.new
+      @objectives = Objective.all
+    end
+    def create
+      @report = Report.new(params[:report])
+      if @report.save
+        flash[:notice] = "New Report successfully created."
+        redirect_to edit_report_path(@report)
+      else
+        render :new
+      end
+    end
+    def export
+      @report = Report.find(params[:id])
+      if params[:report][:period]
+        @report.period = params[:report][:period]
+      elsif params[:report][:start_period] && params[:report][:end_period]
+        @report.start_period = params[:report][:start_period]
+        @report.end_period = params[:report][:end_period]
+      end
+      send_export
+    end
 end

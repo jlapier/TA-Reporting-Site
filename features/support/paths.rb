@@ -17,6 +17,9 @@ module NavigationHelpers
     when /the activities page/
       activities_path
       
+    when /the edit report page for "(.*)"/
+      edit_report_path(Report.find_by_name($1))
+      
     when /the new criterium page/
       new_criterium_path
 
