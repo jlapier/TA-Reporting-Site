@@ -32,26 +32,28 @@ describe Report do
   
   describe "export filename formatting, #export_filename" do
     before(:each) do
-      @time = Time.new
       @report = Report.new(:name => 'Q1 - 2010')
       @suffix = "TA Activity Report.csv"
     end
     context "if period is set" do
-      it "uses 'YYYY-MM #{@suffix}'" do
-        @report.period = @time
-        @report.export_filename.should == "#{@time.strftime("%Y-%m")} #{@report.name} #{@suffix}"
+      it "uses 'YYYY-MM TA Activity Report.csv'" do
+        @report.start_month = 1
+        @report.start_year = 2010
+        @report.export_filename.should == "2010-01 Q1 - 2010 #{@suffix}"
       end
     end
     context "if start and end periods are set" do
-      it "uses 'Mon YYYY - Mon YYYY #{@suffix}'" do
-        @report.start_period = @time.months_ago(3)
-        @report.end_period = @time
-        @report.export_filename.should == "#{@time.months_ago(3).strftime("%B %Y")} - #{@time.strftime("%B %Y")} #{@report.name} #{@suffix}"
+      it "uses 'Month YYYY - Month YYYY TA Activity Report.csv'" do
+        @report.start_month = 1
+        @report.start_year = 2010
+        @report.end_month = 3
+        @report.end_year = 2010
+        @report.export_filename.should == "2010 January - 2010 March Q1 - 2010 #{@suffix}"
       end
     end
     context "if no periods are set" do
-      it "uses '@name #{@suffix}'" do
-        @report.export_filename.should == "#{@report.name} #{@suffix}"
+      it "uses '@name TA Activity Report.csv'" do
+        @report.export_filename.should == "Q1 - 2010 #{@suffix}"
       end
     end
   end
@@ -107,7 +109,7 @@ describe Report do
           states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
         ]
       }
-      @report = Report.new(:name => 'Q1 - 2010')
+      @report = Report.new(:name => 'Q1 - 2010', :start_month => 7, :start_year => 2010)
       @activity_one = mock_model(Activity, activity_stubs.merge!({
         :date_of_activity => Time.now.months_ago(2)
       }))
@@ -117,7 +119,7 @@ describe Report do
       Activity.stub(:find).and_return(@activities)
     end
     it "updates @csv with dumped activities" do
-      @report.csv_export
+      @report.export
       @report.csv.should == "class,Activity\n"+
         "Date,Objective,Type,Intensity,TA Categories,Agencies,States\n"+
         "#{@activity_one.date_of_activity},#{@objective.number}: #{@objective.name},"+

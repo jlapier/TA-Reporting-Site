@@ -90,46 +90,38 @@ describe ReportsController do
     end
   end
   
-  describe ":export, :id => integer, :report => {}" do
+  describe ":export_all, :report => {}" do
     before(:each) do
       @report = mock_model(Report, {
-        :period => 'January 1, 2010',
-        :period= => nil,
-        :start_period => nil,
-        :end_period => nil,
-        :csv_export => nil,
+        :export => nil,
         :export_filename => "Q1 - 2010 TA Activity Report.csv",
         :csv => "one,two,three\nfour,five,six\n"
       })
-      Report.stub(:find).and_return(@report)
+      Report.stub(:new).and_return(@report)
     end
-    it "loads a report as @report from params[:id]" do
-      Report.should_receive(:find).with("#{@report.id}").and_return(@report)
-      put :export, :id => @report.id, :report => {:period => 'January 1, 2010'}
+    it "instantiates a new report as @report from params[:report]" do
+      Report.should_receive(:new).and_return(@report)
+      post :export_all, :report => {:start_month => 1, :start_year => 2010}
       assigns[:report].should == @report
     end
-    context ":report => {:start_period => 'some_date', :end_period => 'some_other_date'}" do
+    context ":report => {:start_month => MM, :start_year => YYYY}" do
       before(:each) do
         @report.stub({
           :save => nil,
-          :period => nil,
           :export_filename => "Q1 - 2010 TA Activity Report.csv",
-          :start_period= => nil,
-          :period= => nil,
-          :end_period= => nil,
-          :csv_export => nil,
+          :export => nil,
           :csv => "one,two,three\nfour,five,six\n"
         })
       end
       it "exports the custom report as csv download" do
-        @report.should_receive(:csv_export)
+        @report.should_receive(:export)
         @report.should_receive(:csv).and_return("one,two,three\nfour,five,six\n")
         controller.should_receive(:send_data).with("one,two,three\nfour,five,six\n", {
           :type => "text/csv",
           :disposition => "attachment",
           :filename => "Q1 - 2010 TA Activity Report.csv"
         })
-        put :export, :id => @report.id, :report => {
+        post :export_all, :id => @report.id, :report => {
           :start_period => "January 1, 2010",
           :end_period => "March 31, 2010"
         }

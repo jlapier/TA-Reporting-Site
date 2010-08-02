@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :password_resets
   map.resources :states
   map.resources :collaborating_agencies
-  map.resources :reports, :member => {:export => :post} do |report|
+  map.resources :reports, :collection => {:export_all => :post}, :member => {:export => :post} do |report|
     report.resources :report_breakdowns
   end
   map.resource :user_session
