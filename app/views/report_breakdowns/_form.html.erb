@@ -3,7 +3,7 @@
     <% form.inputs do %>
       <%= form.input :objective %>
       <%= form.input :breakdown_type, 
-        :collection => Criterium::TYPE_OPTIONS.reject{|t| t[1] == 'Objective'} %>
+        :collection => Criterium::TYPE_OPTIONS.reject{|t| t[1] == 'Objective' || t[1] == "TACategory"} %>
       <%= form.input :include_states, :as => :boolean %>
     <% end %>
     <%= form.submit "Add" %>
