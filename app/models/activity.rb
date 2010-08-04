@@ -38,6 +38,7 @@ class Activity < ActiveRecord::Base
     end
   protected
   public
+    
     def csv_headers
       [
         'Date',

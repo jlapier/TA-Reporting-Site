@@ -12,7 +12,7 @@
 # End Schema
 
 class Report < ActiveRecord::Base
-  attr_reader :csv
+  attr_reader :csv, :activities, :grouped_activities
   attr_accessor :export_format, :start_month, :end_month, :start_year, :end_year
   FILENAME_SUFFIX = "TA Activity Report.csv"
   YEAR_MONTH_DIGITS = "%Y-%m"
@@ -31,6 +31,12 @@ class Report < ActiveRecord::Base
     !start_month.blank? && !start_year.blank? && !end_month.blank? && !end_year.blank?
   end
   
+  def dates=(hash)
+    hash.each do |k,v|
+      self[k] = v
+    end
+  end
+  
   # Force
   def start_month
     @start_month.to_i unless @start_month.blank?
@@ -46,15 +52,15 @@ class Report < ActiveRecord::Base
   end
   
   def start_period
-    return Date.new(start_year, start_month, 01) 
+    return Date.new(start_year || Date.current.months_ago(6).year, start_month || Date.current.months_ago(6).month, 01)
   end
   def end_period
     if range?
       date = Date.new(end_year, end_month)
       return Date.new(end_year, end_month, date.end_of_month.mday)
     else
-      date = Date.new(start_year, start_month)
-      return Date.new(start_year, start_month, date.end_of_month.mday)
+      date = Date.new(start_year || Date.current.year, start_month || Date.current.month)
+      return Date.new(start_year || Date.current.year, start_month || Date.current.month, date.end_of_month.mday)
     end
   end
   
@@ -70,23 +76,36 @@ class Report < ActiveRecord::Base
     end
     out += FILENAME_SUFFIX
   end
-
-  def export
-    activities = Activity.find(:all, :conditions => [
+  
+  def load_grouped_activities
+    load_activities unless @activities
+    @grouped_activities = {}
+    @activities.group_by(&:objective).each do |obj, actis|
+      @grouped_activities[obj.number] ||= []
+      @grouped_activities[obj.number] = actis
+    end
+  end
+  
+  def load_activities
+    @activities = Activity.find(:all, :conditions => [
       "date_of_activity >= ? and date_of_activity <= ?",
       start_period.strftime("%Y-%m-%d"), end_period.strftime("%Y-%m-%d")
     ])
-    export_to_format(activities)
+  end
+
+  def export
+    export_to_format
   end
   
   def export_format
     @export_format || :csv
   end
   
-  def export_to_format(activities)
+  def export_to_format
+    load_activities unless defined?(@activities)
     case export_format
     when :csv
-      @csv = FasterCSV.dump(activities) unless activities.empty?
+      @csv = FasterCSV.dump(@activities) unless @activities.empty?
     end
   end
 end

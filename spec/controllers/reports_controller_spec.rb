@@ -7,6 +7,19 @@ describe ReportsController do
   end
 
   describe ":index" do
+    before(:each) do
+      @report = mock_model(Report)
+      Report.stub(:all).and_return([@report])
+    end
+    it "loads all reports as @reports" do
+      Report.should_receive(:all).and_return([@report])
+      get :index
+      assigns[:reports].should == [@report]
+    end
+    it "renders the index template" do
+      get :index
+      response.should render_template("reports/index.html.erb")
+    end
   end
   
   describe ":new" do

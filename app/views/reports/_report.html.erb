@@ -1,0 +1,9 @@
+<% div_for report, :class => "span-7 configurable #{last_or_nil(report_counter+1, 2)}" do %>
+    <h4><%=h report.name %></h4>
+  <% unless report.report_breakdowns.count < 1 %>
+  <ul>
+    <%= render :partial => 'report_breakdowns/report_breakdown', :collection => report.report_breakdowns %>
+  </ul>
+  <% end %>
+  <%= render :partial => 'links', :object => report %>
+<% end %>

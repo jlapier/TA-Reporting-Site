@@ -1,0 +1,7 @@
+<div class="configurable_links" style="float: right; padding-bottom: 5px; display: none;">
+  <p>
+  <span class="fake_button"><%= link_to "Preview", report_path(links.id) %></span>
+  <span class="fake_button"><%= link_to "Edit", edit_report_path(links.id) %></span>
+  <span class="fake_button"><%= link_to "Delete", report_path(links.id), :method => :delete, :confirm => "Delete #{links.name}?" %></span>
+  </p>
+</div>

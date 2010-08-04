@@ -19,10 +19,14 @@ class ReportsController < ApplicationController
   protected
   public
     def index
-      @activity_count = Activity.count
+      @reports = Report.all
     end
     def new
       @report = Report.new
+    end
+    def show
+      @report = Report.find(params[:id], :include => :report_breakdowns)
+      @report.load_grouped_activities
     end
     def edit
       @report = Report.find(params[:id])
@@ -44,5 +48,7 @@ class ReportsController < ApplicationController
     end
     def export
       @report = Report.find(params[:id])
+      @report.dates = params[:report]
+      send_report
     end
 end
