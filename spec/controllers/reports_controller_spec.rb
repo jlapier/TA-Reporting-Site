@@ -9,12 +9,18 @@ describe ReportsController do
   describe ":index" do
     before(:each) do
       @report = mock_model(Report)
-      Report.stub(:all).and_return([@report])
+      Report.stub(:find).and_return([@report])
     end
     it "loads all reports as @reports" do
-      Report.should_receive(:all).and_return([@report])
+      Report.should_receive(:find).and_return([@report])
       get :index
       assigns[:reports].should == [@report]
+    end
+    it "loads all objectives as @objectives" do
+      objective = mock_model(Objective)
+      Objective.should_receive(:find).and_return([objective])
+      get :index
+      assigns[:objectives].should == [objective]
     end
     it "renders the index template" do
       get :index
@@ -28,13 +34,36 @@ describe ReportsController do
       Report.stub(:new).and_return(@report)
     end
     it "instantiates a new report as @report" do
-      Report.should_receive(:new).and_return(@report)
       get :new
       assigns[:report].should == @report
     end
     it "renders the new template" do
       get :new
       response.should render_template("reports/new.html.erb")
+    end
+  end
+  
+  describe ":show, :id => integer" do
+    before(:each) do
+      @report = mock_model(Report, {
+        :load_grouped_activities => nil
+      })
+      Report.stub(:find).and_return(@report)
+    end
+    it "loads a report as @report from params[:id]" do
+      Report.should_receive(:find).with('1', {
+        :include => :report_breakdowns
+      }).and_return(@report)
+      get :show, :id => 1
+      assigns[:report].should == @report
+    end
+    it "@report loads grouped activities" do
+      @report.should_receive(:load_grouped_activities)
+      get :show, :id => 1
+    end
+    it "renders the show template" do
+      get :show, :id => 1
+      response.should render_template("reports/show.html.erb")
     end
   end
   
@@ -103,24 +132,24 @@ describe ReportsController do
     end
   end
   
-  describe ":export_all, :report => {}" do
+  describe ":download, :start_month => MM, start_year => YYYY, :end_month => MM, :end_year => YYYY" do
     before(:each) do
       @report = mock_model(Report, {
+        :dates= => nil,
         :export => nil,
         :export_filename => "Q1 - 2010 TA Activity Report.csv",
         :csv => "one,two,three\nfour,five,six\n"
       })
-      Report.stub(:new).and_return(@report)
+      Report.stub(:find).and_return(@report)
     end
-    it "instantiates a new report as @report from params[:report]" do
-      Report.should_receive(:new).and_return(@report)
-      post :export_all, :report => {:start_month => 1, :start_year => 2010}
+    it "loads a report as @report from params[:id]" do
+      Report.should_receive(:find).and_return(@report)
+      get :download, :id => @report.id, :start_year => 2010, :start_month => 04
       assigns[:report].should == @report
     end
-    context ":report => {:start_month => MM, :start_year => YYYY}" do
+    context ":start_month => MM, :start_year => YYYY" do
       before(:each) do
         @report.stub({
-          :save => nil,
           :export_filename => "Q1 - 2010 TA Activity Report.csv",
           :export => nil,
           :csv => "one,two,three\nfour,five,six\n"
@@ -134,10 +163,7 @@ describe ReportsController do
           :disposition => "attachment",
           :filename => "Q1 - 2010 TA Activity Report.csv"
         })
-        post :export_all, :id => @report.id, :report => {
-          :start_period => "January 1, 2010",
-          :end_period => "March 31, 2010"
-        }
+        get :download, :id => @report.id, :start_month => "January 1, 2010", :start_year => "March 31, 2010"
       end
     end
   end

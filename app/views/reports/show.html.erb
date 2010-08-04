@@ -1,36 +1,6 @@
 <h1>Previewing <%=h @report.name %></h1>
-<p>
-  <strong>Download Full Report:</strong> <%= link_to "CSV", export_report_path(@report) %>
-</p>
-<div>
-  <p>
-    <strong>Download Period Report:</strong>
-    <% form_tag(export_report_path(@report), :style => "display: inline;") do %>
-    <table>
-      <th>Start period</th>
-      <th>End period</th>
-      <th>&nbsp;</th>
-      <tr>
-        <td>
-          <%= select_month Date.current.months_ago(3), {:use_short_month => true}, {:name => "report[start_month]"} %>
-          <%= select_year Date.current.months_ago(3), {}, {:name => "report[start_year]"} %>
-        </td>
-        <td>
-          <%= select_month Date.current, {:use_short_month => true}, {:name => "report[end_month]"} %>
-          <%= select_year Date.current, {}, {:name => "report[end_year]"} %>
-        </td>
-        <td>
-          <%= submit_tag "Download CSV" %>
-        </td>
-      </tr>
-      <tr>
-        <td>Starts the first day of the month</td>
-        <td>Ends the last day of the month</td>
-        <td>&nbsp;</td>
-      </tr>
-    </table>  
-    <% end %>
-  </p>
+<div style="float: right;">
+  <%= link_to "Download CSV", download_report_path(@report, params.reject{|k,v| k =~ /[^(start_month|start_year|end_month|end_year)]/}) %>
 </div>
 <% @report.report_breakdowns.each do |report_breakdown| %>
   <div class="highlight span-18 last" style="margin: 5px; padding: 10px;">

@@ -1,0 +1,25 @@
+<% form_tag(download_report_path(@report), :style => "display: inline;") do %>
+<table>
+  <th>Start period</th>
+  <th>End period</th>
+  <th>&nbsp;</th>
+  <tr>
+    <td>
+      <%= select_month Date.current.months_ago(3), {:use_short_month => true}, {:name => "report[start_month]"} %>
+      <%= select_year Date.current.months_ago(3), {}, {:name => "report[start_year]"} %>
+    </td>
+    <td>
+      <%= select_month Date.current, {:use_short_month => true}, {:name => "report[end_month]"} %>
+      <%= select_year Date.current, {}, {:name => "report[end_year]"} %>
+    </td>
+    <td>
+      <%= submit_tag "Download CSV" %>
+    </td>
+  </tr>
+  <tr>
+    <td>Starts the first day of the month</td>
+    <td>Ends the last day of the month</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>  
+<% end %>

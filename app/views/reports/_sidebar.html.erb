@@ -2,12 +2,5 @@
   <div class="span-4 last">
     <h4>Reporting Tools</h4>
     <%= link_to "New Report", new_report_path %>
-    
-    <% form_tag(export_all_reports_path) do %>
-      <%= select_month Date.current, {:use_short_month => true}, {:name => "report[start_month]"} %>
-      <%= select_year Date.current, {}, {:name => "report[start_year]"} %>
-      <%= submit_tag "Export" %>
-    <% end %>
-
   </div>
 <% end %>

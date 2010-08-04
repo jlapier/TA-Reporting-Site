@@ -209,3 +209,4 @@ table.sortable th.sorted_up {
 
 table.nice_table tr.row_dark { background: #E3E3E3; }
 table.nice_table tr.row_light { background: #F6F6F6; }
+table.cell_borders td, table.cell_borders th, table.cell_borders { border: 1px solid #999; }

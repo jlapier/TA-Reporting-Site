@@ -1,4 +1,16 @@
 <h1>Reports</h1>
-<%= render :partial => 'report', :collection => @reports %>
+<table class="nice_table cell_borders configurable">
+  <tr>
+    <th>&nbsp;</th>
+    <th style="text-align: center;" colspan="<%= @objectives.size %>">Objectives</th>
+  </tr>
+  <tr>
+    <th>Name</th>
+    <% @objectives.each do |objective| %>
+    <th style="text-align: center;"><%=h objective.number %></th>
+    <% end %>
+  </tr>
+  <%= render :partial => 'report', :collection => @reports, :locals => {:objectives => @objectives} %>
+</table>
 
 <%= render :partial => 'sidebar' %>

@@ -59,6 +59,29 @@ describe Activity do
     end
   end
   
+  describe "named scopes" do
+    it "can find all activities between a range of dates" do
+      july_activity = Activity.create!({
+        :date_of_activity => Date.new(2010, 7, 1),
+        :objective_id => 1,
+        :activity_type_id => 2,
+        :description => 'Descriptions in July',
+        :intensity_level_id => 3
+      })
+      august_activity = Activity.create!({
+        :date_of_activity => Date.new(2010, 8, 1),
+        :objective_id => 4,
+        :activity_type_id => 5,
+        :description => 'Descriptions in August',
+        :intensity_level_id => 6
+      })
+      july_activities = Activity.all_between(Date.new(2010, 7, 1), Date.new(2010, 7, 31))
+      july_activities.should == [july_activity]
+      august_activities = Activity.all_between(Date.new(2010, 8, 1), Date.new(2010, 8, 5))
+      august_activities.should == [august_activity]
+    end
+  end
+  
   describe "csv dump" do
     fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
     before(:each) do

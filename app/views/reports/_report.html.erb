@@ -1,9 +1,33 @@
-<% div_for report, :class => "span-7 configurable #{last_or_nil(report_counter+1, 2)}" do %>
-    <h4><%=h report.name %></h4>
-  <% unless report.report_breakdowns.count < 1 %>
-  <ul>
-    <%= render :partial => 'report_breakdowns/report_breakdown', :collection => report.report_breakdowns %>
-  </ul>
+<% color_class = report_counter % 2 == 0 ? "dark" : "light" %>
+<tr class="row_<%= color_class %>">
+  <td>
+    <%=h report.name %><br />
+    <span class="fake_button"><%= link_to "Edit", edit_report_path(report.id) %></span>
+    <span class="fake_button"><%= link_to "Delete", report_path(report.id), :method => :delete, :confirm => "Delete #{report.name}?" %></span>
+  </td>
+  <% objectives.each do |objective| %>
+  <td>
+    <% report_breakdown = report.report_breakdowns.find_by_objective_id(objective.id) %>
+    <% if report_breakdown %>
+      <em>Included</em> <br />
+      <%= "Broken down by: #{report_breakdown.breakdown_type}<br />" unless report_breakdown.breakdown_type.blank? %>
+      <%= report_breakdown.include_states ? 'includes' : 'omits' %> states
+    <% else %>
+      <em>Not included</em>
+    <% end %>
+  </td>
   <% end %>
-  <%= render :partial => 'links', :object => report %>
-<% end %>
+</tr>  
+<tr class="row_<%= color_class %>">
+  <td style="text-align: right;" colspan="5">
+    <% form_tag(report_path(report), :method => :get, :style => "display: inline;") do %>
+      Start: 
+      <%= select_month Date.current, {:use_short_month => true}, {:name => "start_month"} %>
+      <%= select_year Date.current, {}, {:name => "start_year"} %>
+      End: 
+      <%= select_month Date.current, {:use_short_month => true}, {:name => "end_month"} %>
+      <%= select_year Date.current, {}, {:name => "end_year"} %>
+      <%= submit_tag "Preview", :class => "fake_button" %>
+    <% end %>
+  </td>
+</tr>

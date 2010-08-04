@@ -19,7 +19,8 @@ class ReportsController < ApplicationController
   protected
   public
     def index
-      @reports = Report.all
+      @reports = Report.options(:include => :report_breakdowns)
+      @objectives = Objective.options(:order => 'number')
     end
     def new
       @report = Report.new
@@ -42,13 +43,9 @@ class ReportsController < ApplicationController
         render :new
       end
     end
-    def export_all
-      @report = Report.new(params[:report])
-      send_report
-    end
-    def export
+    def download
       @report = Report.find(params[:id])
-      @report.dates = params[:report]
+      @report.dates = params
       send_report
     end
 end

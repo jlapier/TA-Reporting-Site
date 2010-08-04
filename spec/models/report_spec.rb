@@ -116,7 +116,7 @@ describe Report do
       @activities = [
         @activity_one
       ]
-      Activity.stub(:find).and_return(@activities)
+      Activity.stub(:all_between).and_return(@activities)
     end
     it "updates @csv with dumped activities" do
       @report.export

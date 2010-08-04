@@ -31,6 +31,14 @@ class Activity < ActiveRecord::Base
 
   before_validation :remove_regions
   
+  named_scope :all_between, lambda{ |start_date, end_date|
+    {
+      :conditions => {
+        :date_of_activity => start_date..end_date
+      }
+    }
+  }
+  
   private
     def remove_regions
       excluded_ids = State.regions.options(:select => 'id').collect{|r| r.id}

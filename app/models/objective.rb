@@ -12,6 +12,8 @@
 
 class Objective < Criterium
   
+  include GeneralScopes
+  
   has_many :report_breakdowns
   
   def display_name

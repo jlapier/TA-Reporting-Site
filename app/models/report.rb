@@ -12,6 +12,9 @@
 # End Schema
 
 class Report < ActiveRecord::Base
+  
+  include GeneralScopes
+  
   attr_reader :csv, :activities, :grouped_activities
   attr_accessor :export_format, :start_month, :end_month, :start_year, :end_year
   FILENAME_SUFFIX = "TA Activity Report.csv"
@@ -33,7 +36,7 @@ class Report < ActiveRecord::Base
   
   def dates=(hash)
     hash.each do |k,v|
-      self[k] = v
+      self[k] = v if k =~ /(start_month|start_year|end_month|end_year)/
     end
   end
   
@@ -87,10 +90,7 @@ class Report < ActiveRecord::Base
   end
   
   def load_activities
-    @activities = Activity.find(:all, :conditions => [
-      "date_of_activity >= ? and date_of_activity <= ?",
-      start_period.strftime("%Y-%m-%d"), end_period.strftime("%Y-%m-%d")
-    ])
+    @activities = Activity.all_between(start_period, end_period)
   end
 
   def export
