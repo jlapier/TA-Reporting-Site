@@ -170,6 +170,27 @@ describe ReportsController do
     end
   end
   
+  describe ":destroy, :id => integer" do
+    before(:each) do
+      @report = mock_model(Report, {
+        :name => "doomed report"
+      })
+      Report.stub(:destroy).and_return(@report)
+    end
+    it "destroys the report of params[:id]" do
+      Report.should_receive(:destroy).with(@report.id.to_s).and_return(@report)
+      delete :destroy, :id => @report.id
+    end
+    it "sets a flash[:notice]" do
+      delete :destroy, :id => @report.id
+      flash[:notice].should_not be_nil
+    end
+    it "redirects to the reports page" do
+      delete :destroy, :id => @report.id
+      response.should redirect_to reports_path
+    end
+  end
+  
   describe ":download, :start_month => MM, start_year => YYYY, :end_month => MM, :end_year => YYYY" do
     before(:each) do
       @report = mock_model(Report, {

@@ -48,6 +48,11 @@ class ReportsController < ApplicationController
         render :new
       end
     end
+    def destroy
+      report = Report.destroy(params[:id])
+      flash[:notice] = "Deleted the report: #{report.name}"
+      redirect_to reports_path
+    end
     def download
       @report = Report.find(params[:id])
       @report.dates = params
