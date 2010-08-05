@@ -7,7 +7,13 @@ describe TaCategory do
     }
   end
 
-  it "should create a new instance given valid attributes" do
-    TaCategory.create!(@valid_attributes)
+  it "has a collection of activities" do
+    ta = TaCategory.new
+    ta.respond_to?(:activities).should be_true
+    ta.activities.respond_to?(:build).should be_true
+  end
+  it "be valid given valid attributes" do
+    ta = TaCategory.new(@valid_attributes)
+    ta.should be_valid
   end
 end
