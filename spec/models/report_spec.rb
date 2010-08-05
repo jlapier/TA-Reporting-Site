@@ -132,8 +132,9 @@ describe Report do
         ]
       }
       @report = Report.new(:name => 'Q1 - 2010', :start_month => 7, :start_year => 2010)
+      date = Time.now.months_ago(2).freeze
       @activity_one = mock_model(Activity, activity_stubs.merge!({
-        :date_of_activity => Time.now.months_ago(2)
+        :date_of_activity => date
       }))
       @activities = [
         @activity_one
