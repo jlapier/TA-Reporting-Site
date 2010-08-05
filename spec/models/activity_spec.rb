@@ -18,6 +18,23 @@ describe Activity do
     }
     @activity = Activity.new
   end
+  
+  describe "accessor (:new_ta_category) for accepting a new Ta Category" do
+    it "setter finds or creates a new ta category by name, adding it to the collection" do
+      @activity.new_ta_category = 'New Ta Category'
+      @activity.ta_categories.detect{|c| c.name == 'New Ta Category'}.should be_true
+    end
+    it "setter does not find or create if new ta category is blank" do
+      TaCategory.should_not_receive(:find_or_create_by_name)
+      @activity.new_ta_category = ''
+    end
+    it "getter returns the name of the new ta category" do
+      @activity.new_ta_category = 'New Ta Category'
+      @activity.new_ta_category.should == 'New Ta Category'
+    end
+  end
+  
+  
 
   describe "before validation on save" do
     it "removes any state_ids referencing a region" do

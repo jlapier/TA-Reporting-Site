@@ -14,6 +14,7 @@
 
 class Activity < ActiveRecord::Base
   
+  attr_reader :new_ta_category
   attr_accessor :other
   
   belongs_to :objective
@@ -46,7 +47,12 @@ class Activity < ActiveRecord::Base
     end
   protected
   public
-    
+    def new_ta_category=(ta_category_name)
+      @new_ta_category ||= ta_category_name
+      unless ta_category_name.blank?
+        self.ta_categories << TaCategory.find_or_create_by_name(ta_category_name)
+      end
+    end
     def csv_headers
       [
         'Date',

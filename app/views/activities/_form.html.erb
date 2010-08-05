@@ -18,9 +18,7 @@ CalendarDateSelect.format = :natural
         <li>
         <%= label_tag("activity[other]", check_box_tag("activity[other]", 1, form.object.other, :onclick => "$('new_ta_category_input').toggle();") + " Other") %>
         </li>
-        <% form.fields_for :ta_categories, TaCategory.new do |ta_category_fields| %>
-          <%= ta_category_fields.input :name, :wrapper_html => {:id => "new_ta_category_input", :style => "display: none;"} %>
-        <% end %>
+        <%= form.input :new_ta_category, :label => 'New TA Category', :wrapper_html => {:id => "new_ta_category_input", :style => "display: none;"} %>
       </ol>
       <% end %>
     </li>
@@ -72,5 +70,6 @@ CalendarDateSelect.format = :natural
       '#activity_description': TextareaExpander
     })
   })
+  
 </script>
 <% end %>
