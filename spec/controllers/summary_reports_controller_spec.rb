@@ -2,21 +2,25 @@ require 'spec_helper'
 
 describe SummaryReportsController do
 
+  before(:each) do
+    controller.stub(:require_user).and_return(true)
+  end
+
   def mock_summary_report(stubs={})
     @mock_summary_report ||= mock_model(SummaryReport, stubs)
   end
 
   describe "GET index" do
-    it "assigns all summary_reports as @summary_reports" do
-      SummaryReport.stub(:find).with(:all).and_return([mock_summary_report])
+    it "redirects to the other reports controller" do
       get :index
-      assigns[:summary_reports].should == [mock_summary_report]
+      response.should redirect_to(reports_path)
     end
   end
 
   describe "GET show" do
     it "assigns the requested summary_report as @summary_report" do
       SummaryReport.stub(:find).with("37").and_return(mock_summary_report)
+      mock_summary_report.stub(:dates=).and_return(nil)
       get :show, :id => "37"
       assigns[:summary_report].should equal(mock_summary_report)
     end
@@ -50,7 +54,7 @@ describe SummaryReportsController do
       it "redirects to the created summary_report" do
         SummaryReport.stub(:new).and_return(mock_summary_report(:save => true))
         post :create, :summary_report => {}
-        response.should redirect_to(summary_report_url(mock_summary_report))
+        response.should redirect_to(summary_reports_url)
       end
     end
 
@@ -88,7 +92,7 @@ describe SummaryReportsController do
       it "redirects to the summary_report" do
         SummaryReport.stub(:find).and_return(mock_summary_report(:update_attributes => true))
         put :update, :id => "1"
-        response.should redirect_to(summary_report_url(mock_summary_report))
+        response.should redirect_to(summary_reports_url)
       end
     end
 

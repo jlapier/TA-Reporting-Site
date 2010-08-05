@@ -1,32 +1,5 @@
-<h1>Editing summary_report</h1>
+<h1>Editing Summary Report</h1>
 
-<% form_for(@summary_report) do |f| %>
-  <%= f.error_messages %>
+<%= render :partial => 'form' %>
 
-  <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
-    <%= f.label :start_ytd %><br />
-    <%= f.date_select :start_ytd %>
-  </p>
-  <p>
-    <%= f.label :start_period %><br />
-    <%= f.date_select :start_period %>
-  </p>
-  <p>
-    <%= f.label :end_period %><br />
-    <%= f.date_select :end_period %>
-  </p>
-  <p>
-    <%= f.label :report_title_format %><br />
-    <%= f.text_field :report_title_format %>
-  </p>
-  <p>
-    <%= f.submit 'Update' %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @summary_report %> |
 <%= link_to 'Back', summary_reports_path %>

@@ -1,28 +1,2 @@
-<p>
-  <b>Name:</b>
-  <%=h @summary_report.name %>
-</p>
+<h1 style="text-align:right;"><%= @summary_report.report_title %></h1>
 
-<p>
-  <b>Start ytd:</b>
-  <%=h @summary_report.start_ytd %>
-</p>
-
-<p>
-  <b>Start period:</b>
-  <%=h @summary_report.start_period %>
-</p>
-
-<p>
-  <b>End period:</b>
-  <%=h @summary_report.end_period %>
-</p>
-
-<p>
-  <b>Report title format:</b>
-  <%=h @summary_report.report_title_format %>
-</p>
-
-
-<%= link_to 'Edit', edit_summary_report_path(@summary_report) %> |
-<%= link_to 'Back', summary_reports_path %>

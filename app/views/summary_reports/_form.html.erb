@@ -1,0 +1,11 @@
+<% semantic_form_for @summary_report do |f| -%>
+  <% f.inputs do %>
+    <%= f.input :name, :label => 'Name' %>
+    <%= f.input :start_ytd, :label => 'Start ytd' %>
+    <%= f.input :start_period, :label => 'Start period' %>
+    <%= f.input :end_period, :label => 'End period' %>
+    <%= f.input :report_title_format, :label => 'Report title format' %>
+    
+    <%= f.buttons %>
+  <% end %>
+<% end %>

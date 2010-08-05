@@ -13,4 +13,33 @@
   <%= render :partial => 'report', :collection => @reports, :locals => {:objectives => @objectives} %>
 </table>
 
+<table class="nice_table cell_borders configurable">
+  <tr>
+    <th>Name</th>
+    <th>Start YTD</th>
+    <th></th>
+  </tr>
+  <% @summary_reports.each do |summary_report| %>
+    <tr>
+      <td><%= summary_report.name %></td>
+      <td><%= summary_report.start_ytd.strftime("%b, %Y") %></td>
+      <td>
+        <% form_tag(summary_report_path(summary_report), :method => :get, :style => "display: inline;") do %>
+          Start YTD: 
+          <%= select_month summary_report.start_ytd || Date.current, {:use_short_month => true}, {:name => "start_ytd_month"} %>
+          <%= select_year summary_report.start_ytd || Date.current, {}, {:name => "start_ytd_year"} %>
+          Start Current:
+          <%= select_month Date.current, {:use_short_month => true}, {:name => "start_month"} %>
+          <%= select_year Date.current, {}, {:name => "start_year"} %>
+          End: 
+          <%= select_month Date.current, {:use_short_month => true}, {:name => "end_month"} %>
+          <%= select_year Date.current, {}, {:name => "end_year"} %>
+          <%= submit_tag "Preview", :class => "fake_button" %>
+        <% end %>
+      </td>
+   </tr>
+  <% end %>
+</table>
+
+
 <%= render :partial => 'sidebar' %>
