@@ -99,6 +99,27 @@ describe Activity do
       august_activities.should == [august_activity]
     end
   end
+
+  describe "comparing and matching" do
+    it "can determine if an activity matches by criteria" do
+      obj1 = Objective.find_by_number 1
+      assert obj1
+      obj2 = Objective.find_by_number 2
+      assert obj2
+      act1 = Activity.create!({
+        :date_of_activity => Date.new(2010, 8, 1),
+        :objective => obj1,
+        :activity_type_id => 5,
+        :description => 'specific desc',
+        :intensity_level_id => 6
+      })
+
+      assert act1.is_like?(:objective => obj1)
+      assert !act1.is_like?(:objective => obj2)
+      assert act1.is_like?(:objective => obj1, :description => "specific desc")
+      assert !act1.is_like?(:objective => obj1, :description => "wrong desc")
+    end
+  end
   
   describe "csv dump" do
     fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies

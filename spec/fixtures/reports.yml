@@ -1,16 +1,3 @@
-# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
-#
-# Table name: reports
-#
-#  id                   :integer       not null, primary key
-#  name                 :string(255)   
-#  include_descriptions :boolean       
-#  begin_date           :date          
-#  end_date             :date          
-#  created_at           :datetime      
-#  updated_at           :datetime      
-# End Schema
-
 # == Schema Information
 #
 # Table name: reports
@@ -22,6 +9,19 @@
 #  updated_at           :datetime      
 #  primary_breakdown    :string(255)   
 #  secondary_breakdown  :string(255)   
+# End Schema
+
+# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+#
+# Table name: reports
+#
+#  id                   :integer       not null, primary key
+#  name                 :string(255)   
+#  include_descriptions :boolean       
+#  begin_date           :date          
+#  end_date             :date          
+#  created_at           :datetime      
+#  updated_at           :datetime      
 # End Schema
 
 one:

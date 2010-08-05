@@ -1,0 +1,28 @@
+<h1>Listing summary_reports</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Start ytd</th>
+    <th>Start period</th>
+    <th>End period</th>
+    <th>Report title format</th>
+  </tr>
+
+<% @summary_reports.each do |summary_report| %>
+  <tr>
+    <td><%=h summary_report.name %></td>
+    <td><%=h summary_report.start_ytd %></td>
+    <td><%=h summary_report.start_period %></td>
+    <td><%=h summary_report.end_period %></td>
+    <td><%=h summary_report.report_title_format %></td>
+    <td><%= link_to 'Show', summary_report %></td>
+    <td><%= link_to 'Edit', edit_summary_report_path(summary_report) %></td>
+    <td><%= link_to 'Destroy', summary_report, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New summary_report', new_summary_report_path %>
