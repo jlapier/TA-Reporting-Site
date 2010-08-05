@@ -128,6 +128,48 @@ describe ReportsController do
     end
   end
   
+  describe ":update, :id => integer, :report => {}" do
+    before(:each) do
+      @report = mock_model(Report, {
+        :update_attributes => nil
+      })
+      Report.stub(:find).and_return(@report)
+    end
+    it "loads a report as @report from params[:id]" do
+      Report.should_receive(:find).and_return(@report)
+      put :update, :id => @report.id
+      assigns[:report].should == @report
+    end
+    it "updates @report" do
+      @report.should_receive(:update_attributes).with({
+        'name' => 'New name'
+      })
+      put :update, :id => @report.id, :report => {:name => 'New name'}
+    end
+    context "update succeeds :)" do
+      before(:each) do
+        @report.stub(:update_attributes).and_return(true)
+      end
+      it "sets flash[:notice]" do
+        put :update, :id => @report.id
+        flash[:notice].should_not be_nil
+      end
+      it "redirects to the reports page" do
+        put :update, :id => @report.id
+        response.should redirect_to reports_path
+      end
+    end
+    context "update fails :(" do
+      before(:each) do
+        @report.stub(:update_attributes).and_return(false)
+      end
+      it "renders the edit template" do
+        put :update, :id => @report.id
+        response.should render_template("reports/edit.html.erb")
+      end
+    end
+  end
+  
   describe ":download, :start_month => MM, start_year => YYYY, :end_month => MM, :end_year => YYYY" do
     before(:each) do
       @report = mock_model(Report, {

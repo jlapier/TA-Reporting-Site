@@ -30,6 +30,15 @@ class ReportsController < ApplicationController
       @new_report_breakdown = ReportBreakdown.new
       @objectives = Objective.all
     end
+    def update
+      @report = Report.find(params[:id])
+      if @report.update_attributes(params[:report])
+        flash[:notice] = "Report successfully updated."
+        redirect_to reports_path
+      else
+        render :edit
+      end
+    end
     def create
       @report = Report.new(params[:report])
       if @report.save
