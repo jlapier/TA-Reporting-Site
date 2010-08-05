@@ -36,7 +36,7 @@ class Report < ActiveRecord::Base
   
   def dates=(hash)
     hash.each do |k,v|
-      self[k] = v if k =~ /(start_month|start_year|end_month|end_year)/
+      self.send("#{k.to_s}=".to_sym, v) if k.to_s =~ /(start_month|start_year|end_month|end_year)/
     end
   end
   
@@ -55,15 +55,15 @@ class Report < ActiveRecord::Base
   end
   
   def start_period
-    return Date.new(start_year || Date.current.months_ago(6).year, start_month || Date.current.months_ago(6).month, 01)
+    return Date.new(start_year, start_month, 1)
   end
   def end_period
     if range?
       date = Date.new(end_year, end_month)
       return Date.new(end_year, end_month, date.end_of_month.mday)
     else
-      date = Date.new(start_year || Date.current.year, start_month || Date.current.month)
-      return Date.new(start_year || Date.current.year, start_month || Date.current.month, date.end_of_month.mday)
+      date = Date.new(start_year, start_month)
+      return Date.new(start_year, start_month, date.end_of_month.mday)
     end
   end
   
@@ -80,17 +80,18 @@ class Report < ActiveRecord::Base
     out += FILENAME_SUFFIX
   end
   
-  def load_grouped_activities
-    load_activities unless @activities
-    @grouped_activities = {}
-    @activities.group_by(&:objective).each do |obj, actis|
-      @grouped_activities[obj.number] ||= []
-      @grouped_activities[obj.number] = actis
+  def grouped_activities
+    unless defined?(@grouped_activities)
+      @grouped_activities = {}
+      activities.group_by(&:objective).each do |obj, actis|
+        @grouped_activities[obj.number] = actis
+      end
     end
+    @grouped_activities
   end
   
-  def load_activities
-    @activities = Activity.all_between(start_period, end_period)
+  def activities
+    @activities ||= Activity.all_between(start_period, end_period)
   end
 
   def export
@@ -102,10 +103,9 @@ class Report < ActiveRecord::Base
   end
   
   def export_to_format
-    load_activities unless defined?(@activities)
     case export_format
     when :csv
-      @csv = FasterCSV.dump(@activities) unless @activities.empty?
+      @csv = FasterCSV.dump(activities) unless activities.empty?
     end
   end
 end

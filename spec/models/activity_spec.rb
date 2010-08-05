@@ -61,6 +61,7 @@ describe Activity do
   
   describe "named scopes" do
     it "can find all activities between a range of dates" do
+      Activity.destroy_all
       july_activity = Activity.create!({
         :date_of_activity => Date.new(2010, 7, 1),
         :objective_id => 1,

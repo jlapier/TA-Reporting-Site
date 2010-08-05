@@ -9,16 +9,15 @@
 #  include_states :boolean       
 # End Schema
 
-classes/Fixtures.html
 
 one:
   report_id: 1
-  objective_id: 1
+  objective_id: <%= Fixtures.identify :evaluate %>
   breakdown_type: MyString
   include_states: false
 
 two:
   report_id: 1
-  objective_id: 1
+  objective_id: <%= Fixtures.identify :leadership %>
   breakdown_type: MyString
   include_states: false

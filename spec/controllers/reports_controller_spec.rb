@@ -46,7 +46,7 @@ describe ReportsController do
   describe ":show, :id => integer" do
     before(:each) do
       @report = mock_model(Report, {
-        :load_grouped_activities => nil
+        :dates= => nil
       })
       Report.stub(:find).and_return(@report)
     end
@@ -56,10 +56,6 @@ describe ReportsController do
       }).and_return(@report)
       get :show, :id => 1
       assigns[:report].should == @report
-    end
-    it "@report loads grouped activities" do
-      @report.should_receive(:load_grouped_activities)
-      get :show, :id => 1
     end
     it "renders the show template" do
       get :show, :id => 1

@@ -14,14 +14,14 @@
 
 # Read about fixtures at http://ar.rubyonrails.org/
 one:
-  date_of_activity: 2010-05-28
+  date_of_activity: <%= Date.current %>
   activity_type_id: <%= Fixtures.identify :workshop %>
   description: MyText
   intensity_level_id: <%= Fixtures.identify :intensive %>
   objective_id: <%= Fixtures.identify :provide_ta %>
 
 two:
-  date_of_activity: 2010-05-28
+  date_of_activity: <%= Date.current %>
   activity_type_id: <%= Fixtures.identify :consult_onsite %>
   description: MyText
   intensity_level_id: <%= Fixtures.identify :general %>

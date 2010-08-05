@@ -30,6 +30,28 @@ describe Report do
     report.errors.on(:name).to_s.should =~ /has already been taken/
   end
   
+  describe "setting export periods" do
+    before(:each) do
+      @report = Report.new
+      @report.dates = {
+        :start_month => 8,
+        :start_year => 2010,
+        :end_month => 8,
+        :end_year => 2010
+      }
+    end
+    it "can set all dates at once" do
+      @report.start_month.should == 8
+      @report.start_year.should == 2010
+      @report.end_month.should == 8
+      @report.end_year.should == 2010
+    end
+    it "groups start and end dates into periods" do
+      @report.start_period.should == Date.new(2010, 8, 1)
+      @report.end_period.should == Date.new(2010, 8, 31)
+    end
+  end
+  
   describe "export filename formatting, #export_filename" do
     before(:each) do
       @report = Report.new(:name => 'Q1 - 2010')

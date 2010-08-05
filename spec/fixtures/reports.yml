@@ -24,9 +24,8 @@
 #  secondary_breakdown  :string(255)   
 # End Schema
 
-classes/Fixtures.html
-
 one:
+  id: 1
   name: Q2 - 2010
   include_descriptions: true
 

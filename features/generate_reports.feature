@@ -12,11 +12,6 @@ Feature: Generate reports
     Then I should see "New Report successfully created."
     And I should be on the edit report page for "Q1 - 2010"
     
-  Scenario: export a report
-    Given I am on the reports page
-    When I follow "preview" within "#report_1"
-    Then I should see "Previewing Q1 - 2010"
-    
   @javascript
   Scenario: add report breakdowns
     Given I am on the edit report page for "Q2 - 2010"

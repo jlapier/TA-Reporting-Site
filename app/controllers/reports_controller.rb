@@ -1,12 +1,8 @@
 class ReportsController < ApplicationController
 
   before_filter :require_user
-  before_filter :new_report, :only => [:index, :edit]
   
   private
-    def new_report
-      @new_report = Report.new
-    end
     def send_report
       @report.export
       unless @report.csv.nil?
@@ -27,7 +23,7 @@ class ReportsController < ApplicationController
     end
     def show
       @report = Report.find(params[:id], :include => :report_breakdowns)
-      @report.load_grouped_activities
+      @report.dates = params
     end
     def edit
       @report = Report.find(params[:id])
