@@ -20,7 +20,7 @@ end
 # Create Objectives
 {
   'Objective' => [
-    {:number => 1, :name => 'Knowledge development'},
+    {:number => 1, :name => 'Knowledge Development'},
     {:number => 2, :name => 'Provide TA'},
     {:number => 3, :name => 'Leadership and Coordination'},
     {:number => 4, :name => 'Evaluate and Manage (includes Advisory)'}
@@ -104,7 +104,7 @@ end
     {:name => 'Montana', :abbreviation => 'MT'},
     {:name => 'Wyoming', :abbreviation => 'WY'},
     {:name => 'South Dakota', :abbreviation => 'SD'},
-    {:name => 'Nebraska', :abbreviation => 'NE'},
+    {:name => 'Nebraska', :abbreviation => 'NB'},
     {:name => 'Utah', :abbreviation => 'UT'},
     {:name => 'Colorado', :abbreviation => 'CO'},
     {:name => 'Kansas', :abbreviation => 'KS'},
@@ -120,10 +120,14 @@ end
     {:name => 'Hawaii', :abbreviation => 'HI'},
     {:name => 'Nevada', :abbreviation => 'NV'},
     {:name => 'Federated States of Micronesia', :abbreviation => 'FSM'},
-    {:name => 'Guam', :abbreviatin => 'GU'},
+    {:name => 'Guam', :abbreviation => 'GU'},
     {:name => 'Commonwealth of the Northern Marianna Islands', :abbreviation => 'CNMI'},
     {:name => 'Republic of Palau', :abbreviation => 'RP'},
-    {:name => 'Republic of the Marshall Islands', :abbreviation => 'RMI'}
+    {:name => 'Republic of the Marshall Islands', :abbreviation => 'RMI'},
+    {:name => 'Virgin Islands', :abbreviation => "VI"}
+  ],
+  'Foreign' => [
+    {:name => "Burundi", :abbreviation => 'BI'}
   ]
 }.each do |region_name, state_attributes|
   region = State.find_or_create_by_name(region_name)
