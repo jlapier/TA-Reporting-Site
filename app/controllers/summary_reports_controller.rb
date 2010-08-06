@@ -13,6 +13,8 @@ class SummaryReportsController < ApplicationController
     def show
       @summary_report = SummaryReport.find(params[:id])
       @summary_report.dates = params
+      @intensity_levels = IntensityLevel.all
+      @activity_types = ActivityType.all
     end
 
     def new

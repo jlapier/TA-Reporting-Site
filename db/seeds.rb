@@ -120,7 +120,7 @@ end
     {:name => 'Hawaii', :abbreviation => 'HI'},
     {:name => 'Nevada', :abbreviation => 'NV'},
     {:name => 'Federated States of Micronesia', :abbreviation => 'FSM'},
-    {:name => 'Guam', :abbreviatin => 'GU'},
+    {:name => 'Guam', :abbreviation => 'GU'},
     {:name => 'Commonwealth of the Northern Marianna Islands', :abbreviation => 'CNMI'},
     {:name => 'Republic of Palau', :abbreviation => 'RP'},
     {:name => 'Republic of the Marshall Islands', :abbreviation => 'RMI'}

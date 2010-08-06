@@ -1,2 +1,78 @@
-<h1 style="text-align:right;"><%= @summary_report.report_title %></h1>
+<h1 style="text-align:center;"><%= @summary_report.report_title %></h1>
 
+
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Technical Assistance Summary</th>
+      <th colspan="2" class="count">Number of States Participating in Activities</th>
+    </tr>
+    <tr>
+      <th class="count"><%= @summary_report.summary_date_to_s %></th>
+      <th class="count">Year to Date<br/>(<%= @summary_report.ytd_date_to_s %>)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @intensity_levels.each do |intensity_level| %>
+      <% unless @summary_report.activities_by_type_for_ytd(:intensity_level => intensity_level).empty? %>
+        <tr>
+          <td colspan="3">
+            <%= intensity_level.name %>
+          </td>
+        </tr>
+        <% @activity_types.each do |activity_type| %>
+          <% unless @summary_report.activities_by_type_for_ytd(
+                :intensity_level => intensity_level, :activity_type => activity_type).empty? %>
+            <tr>
+              <td style="padding-left: 30px;">
+                <%= pluralize @summary_report.activities_by_type_for_period(
+                      :intensity_level => intensity_level, :activity_type => activity_type).size, 
+                      activity_type.name %>
+                <% unless @summary_report.states_by_type_for_period(
+                      :intensity_level => intensity_level, :activity_type => activity_type).empty? %>
+                  <div style="padding-left: 20px;">
+                    <em>States:</em>
+                    <%= @summary_report.states_by_type_for_period(
+                          :intensity_level => intensity_level, :activity_type => activity_type).
+                            map(&:abbreviation).join(", ") %>
+                  </div>
+                <% end %>
+              </td>
+              <td class="count">
+                <%= @summary_report.states_by_type_for_period(
+                      :intensity_level => intensity_level, :activity_type => activity_type).size %>
+              </td>
+              <td class="count">
+                <%= @summary_report.states_by_type_for_ytd(
+                      :intensity_level => intensity_level, :activity_type => activity_type).size %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <tr>
+      <td style="border-top: 1px solid #333">
+        <strong>Total Number of States receiving some type of TA during <%= @summary_report.summary_date_to_s %></strong><br/>
+        <em>States:</em> <%= @summary_report.states_by_type_for_period.map(&:abbreviation).join(", ") %></em>
+      </td>
+      <td style="border-top: 1px solid #333" class="count">
+        <%= @summary_report.states_by_type_for_period.size %>
+      </td>
+      <td style="border-top: 1px solid #333" class="count">
+        <%= @summary_report.states_by_type_for_ytd.size %>
+      </td>
+    </tr>
+    <tr>
+      <td style="border-top: 1px solid #333">
+        <strong>Total Number of States receiving some type of TA during <%= @summary_report.ytd_date_to_s %></strong><br/>
+        <em>States:</em> <%= @summary_report.states_by_type_for_ytd.map(&:abbreviation).join(", ") %></em>
+      </td>
+      <td style="border-top: 1px solid #333">
+      </td>
+      <td style="border-top: 1px solid #333" class="count">
+        <%= @summary_report.states_by_type_for_ytd.size %>
+      </td>
+    </tr>
+  </tbody>
+</table>
