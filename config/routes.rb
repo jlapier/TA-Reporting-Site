@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :summary_reports
+
   map.root :controller => 'activities', :action => 'index'
   map.resources :activities
   map.resources :criteria

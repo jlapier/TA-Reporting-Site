@@ -57,6 +57,11 @@ class Activity < ActiveRecord::Base
         self.ta_categories << TaCategory.find_or_create_by_name(ta_category_name)
       end
     end
+    
+    def is_like?(options)
+      options.all? {|k,v| self.send(k) == v }
+    end
+
     def csv_headers
       [
         'Date',

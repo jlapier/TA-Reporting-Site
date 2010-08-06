@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
+#
+# Table name: summary_reports
+#
+#  id                  :integer       not null, primary key
+#  name                :string(255)   
+#  start_ytd           :date          
+#  start_period        :date          
+#  end_period          :date          
+#  report_title_format :string(255)   
+#  created_at          :datetime      
+#  updated_at          :datetime      
+# End Schema
+
+classes/Fixtures.html
+
+one:
+  name: MyString
+  start_ytd: 2010-08-05
+  start_period: 2010-08-05
+  end_period: 2010-08-05
+  report_title_format: MyString
+
+two:
+  name: MyString
+  start_ytd: 2010-08-05
+  start_period: 2010-08-05
+  end_period: 2010-08-05
+  report_title_format: MyString

@@ -16,6 +16,7 @@ class ReportsController < ApplicationController
   public
     def index
       @reports = Report.options(:include => :report_breakdowns)
+      @summary_reports = SummaryReport.all
       @objectives = Objective.options(:order => 'number')
     end
     def new
