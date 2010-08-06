@@ -13,7 +13,7 @@
 knowledge_development:
   id: <%= Fixtures.identify :knowledge_development %>
   number: 1
-  name: Knowledge development
+  name: Knowledge Development
   type: Objective
 
 provide_ta:

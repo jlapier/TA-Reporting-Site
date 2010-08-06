@@ -33,8 +33,6 @@ describe Activity do
       @activity.new_ta_category.should == 'New Ta Category'
     end
   end
-  
-  
 
   describe "before validation on save" do
     it "removes any state_ids referencing a region" do
@@ -125,6 +123,23 @@ describe Activity do
                           "#{activity.states.collect{|s|"#{s.name} (#{s.abbreviation})"}.join('; ')}"
         c += 1
       end
+    end
+  end
+  
+  describe "csv load" do
+    before(:all) do
+      %w(Activity Criterium CollaboratingAgency Report ReportBreakdown State).each do |cls|
+        cls.constantize.send(:destroy_all)
+      end
+      require 'db/seeds'
+    end
+    
+    it "creates a new activity for each entry" do
+      pre_count = Activity.count
+      entry_count = File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r').readlines.size - 2
+      #FasterCSV.load(File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r'))
+      Activity.legacy_csv_import('spec/fixtures/activity_import.csv')
+      Activity.count.should == pre_count + entry_count
     end
   end
 end
