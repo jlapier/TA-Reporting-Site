@@ -131,10 +131,14 @@ end
   ]
 }.each do |region_name, state_attributes|
   region = State.find_or_create_by_name(region_name)
-  state_attributes.each do |state_attr|
-    State.find_or_create_by_name(state_attr[:name], {
-      :region_id => region.id,
-      :abbreviation => state_attr[:abbreviation]
-    })
+  if region.valid?
+    state_attributes.each do |state_attr|
+      State.find_or_create_by_name(state_attr[:name], {
+        :region_id => region.id,
+        :abbreviation => state_attr[:abbreviation]
+      })
+    end
+  else
+    puts "Invalid Region: #{region_name} - #{region.errors.full_messages}"
   end
 end
