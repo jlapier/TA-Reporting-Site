@@ -1,0 +1,241 @@
+--- 
+US-NV Label: 
+  x: "133.72099"
+  y: "228.6633"
+  t: NV
+US-MI Label: 
+  x: "663.08899"
+  y: "190.90529"
+  t: MI
+US-FL Label: 
+  x: "759.40503"
+  y: "511.04034"
+  t: FL
+US-CT Label: 
+  x: "1069.42"
+  y: "241.76231"
+  t: CT
+US-AR Label: 
+  x: "540.09302"
+  y: "375.4733"
+  t: AR
+US-BI Label: 
+  x: "1019.418"
+  y: "647.7674"
+  t: BI
+US-FM Label: 
+  x: "411.0311"
+  y: "647.7674"
+  t: FM
+US-AS Label: 
+  x: "325.2579"
+  y: "647.7674"
+  t: AS
+US-MT Label: 
+  x: "290.76599"
+  y: "99.817291"
+  t: MT
+US-IL Label: 
+  x: "592.27301"
+  y: "246.61031"
+  t: IL
+US-ID Label: 
+  x: "187.95799"
+  y: "163.80229"
+  t: ID
+US-VI Label: 
+  x: "933.80347"
+  y: "647.7674"
+  t: VI
+US-WA Label: 
+  x: "122.186"
+  y: "59.492893"
+  t: WA
+US-PA Label: 
+  x: "775.375"
+  y: "214.63431"
+  t: PA
+US-NC Label: 
+  x: "773.62097"
+  y: "340.22629"
+  t: NC
+US-MS Label: 
+  x: "591.953"
+  y: "409.2193"
+  t: MS
+US-LA Label: 
+  x: "553.97198"
+  y: "480.45432"
+  t: LA
+US-KS Label: 
+  x: "426.66101"
+  y: "297.20331"
+  t: KS
+US-WI Label: 
+  x: "571.86798"
+  y: "156.82129"
+  t: WI
+US-VT Label: 
+  x: "765.42401"
+  y: "87.1828"
+  t: VT
+US-CA Label: 
+  x: "60.257999"
+  y: "275.2453"
+  t: CA
+US-NM Label: 
+  x: "295.73999"
+  y: "361.77829"
+  t: NM
+US-CO Label: 
+  x: "320.582"
+  y: "285.86929"
+  t: CO
+US-AK Label: 
+  x: "117.575"
+  y: "501.43829"
+  t: AK
+US-VA Label: 
+  x: "784.70398"
+  y: "294.56628"
+  t: VA
+US-NY Label: 
+  x: "810.30103"
+  y: "171.3593"
+  t: NY
+US-ME Label: 
+  x: "897.39099"
+  y: "90.813385"
+  t: ME
+US-MA Label: 
+  x: "968.06702"
+  y: "148.09129"
+  t: MA
+US-AL Label: 
+  x: "649.14099"
+  y: "430.8913"
+  t: AL
+US-WV Label: 
+  x: "732.74103"
+  y: "275.92029"
+  t: WV
+US-UT Label: 
+  x: "218.39799"
+  y: "289.6123"
+  t: UT
+US-RI Label: 
+  x: "1029.17"
+  y: "196.89429"
+  t: RI
+US-MN Label: 
+  x: "498.70801"
+  y: "108.48631"
+  t: MN
+US-MD Label: 
+  x: "1072.55"
+  y: "309.57629"
+  t: MD
+US-HI Label: 
+  x: "259.51099"
+  y: "568.89935"
+  t: HI
+US-DE Label: 
+  x: "997.198"
+  y: "275.81329"
+  t: DE
+US-DC Label: 
+  x: "913.992"
+  y: "326.69229"
+  t: DC
+US-AZ Label: 
+  x: "203.843"
+  y: "348.45529"
+  t: AZ
+US-WY Label: 
+  x: "289.24799"
+  y: "186.92329"
+  t: WY
+US-TN Label: 
+  x: "645.85199"
+  y: "351.45828"
+  t: TN
+US-OK Label: 
+  x: "450.711"
+  y: "361.79529"
+  t: OK
+US-ND Label: 
+  x: "407.75699"
+  y: "99.885292"
+  t: ND
+US-MO Label: 
+  x: "532.758"
+  y: "308.18228"
+  t: MO
+US-IA Label: 
+  x: "509.06299"
+  y: "216.03329"
+  t: IA
+US-GA Label: 
+  x: "711.659"
+  y: "422.89731"
+  t: GA
+US-MP Label: 
+  x: "671.16156"
+  y: "647.7674"
+  t: MP
+US-OR Label: 
+  x: "92.588303"
+  y: "125.87329"
+  t: OR
+US-NE Label: 
+  x: "432.02499"
+  y: "235.57933"
+  t: NE
+US-KY Label: 
+  x: "676.39502"
+  y: "310.5773"
+  t: KY
+US-IN Label: 
+  x: "639.67999"
+  y: "246.0363"
+  t: IN
+US-PR Label: 
+  x: "844.25879"
+  y: "647.7674"
+  t: PR
+US-TX Label: 
+  x: "429.241"
+  y: "459.77927"
+  t: TX
+US-SD Label: 
+  x: "395.98599"
+  y: "164.7473"
+  t: SD
+US-NJ Label: 
+  x: "910.91101"
+  y: "230.6223"
+  t: NJ
+US-NH Label: 
+  x: "1041.45"
+  y: "96.615295"
+  t: NH
+US-PW Label: 
+  x: "757.35773"
+  y: "647.7674"
+  t: PW
+US-MH Label: 
+  x: "584.96539"
+  y: "647.7674"
+  t: MH
+US-GU Label: 
+  x: "498.4873"
+  y: "647.7674"
+  t: GU
+US-SC Label: 
+  x: "754.29303"
+  y: "377.26129"
+  t: SC
+US-OH Label: 
+  x: "696.565"
+  y: "241.55031"
+  t: OH

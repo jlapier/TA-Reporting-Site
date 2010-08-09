@@ -13,6 +13,10 @@
 # End Schema
 
 class SummaryReport < ActiveRecord::Base
+
+  STATE_SHAPES_FOR_MAP = YAML::load(File.open(File.join(RAILS_ROOT, 'lib', 'state_shapes.yml')))
+  STATE_LABELS_FOR_MAP = YAML::load(File.open(File.join(RAILS_ROOT, 'lib', 'state_labels.yml')))
+
   validates_presence_of :name
   
   attr_accessor :report_errors, :start_ytd_month, :start_month, :end_month, :start_ytd_year, :start_year, :end_year
