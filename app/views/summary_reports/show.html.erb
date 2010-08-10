@@ -74,5 +74,11 @@
         <%= @summary_report.states_by_type_for_ytd.size %>
       </td>
     </tr>
+    <tr>
+      <td colspan="2">
+        <img src="<%= summary_map_summary_report_path(@summary_report, params.merge(:format => :png)) %>" alt="summary_map"  />
+        <img src="<%= ytd_map_summary_report_path(@summary_report, params.merge(:format => :png)) %>" alt="ytd_map"  />
+      </td>
+    </tr>
   </tbody>
 </table>

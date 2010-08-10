@@ -53,21 +53,41 @@ class SummaryReportsController < ApplicationController
 
     def summary_map
       @summary_report.dates = params
-      @intensity_levels = IntensityLevel.find :all, :order => "number DESC"
+      @intensity_levels = IntensityLevel.find :all, :order => "number"
       @states = {}
       @intensity_levels.each do |il|
         @states[il.id] = @summary_report.states_by_type_for_period :intensity_level => il
       end
-      send_data(render(:action => :map), :filename => "map_for_period.svg")
+      
+      respond_to do |format|
+        format.svg { render :action => :map }
+        format.png do
+          il = Magick::ImageList.new
+          il.from_blob(render(:action => :map))
+          sizedil = il.resize_to_fit(315,300)
+          sizedil.format = "PNG"
+          send_data(sizedil.to_blob, :filename => "map_for_period.png")
+        end
+      end
     end
 
     def ytd_map
       @summary_report.dates = params
-      @intensity_levels = IntensityLevel.find :all, :order => "number DESC"
+      @intensity_levels = IntensityLevel.find :all, :order => "number"
       @states = {}
       @intensity_levels.each do |il|
         @states[il.id] = @summary_report.states_by_type_for_ytd :intensity_level => il
       end
-      send_data(render(:action => :map), :filename => "map_for_ytd.svg")
+      
+      respond_to do |format|
+        format.svg { render :action => :map }
+        format.png do
+          il = Magick::ImageList.new
+          il.from_blob(render(:action => :map))
+          sizedil = il.resize_to_fit(315,300)
+          sizedil.format = "PNG"
+          send_data(sizedil.to_blob, :filename => "map_for_ytd.png")
+        end
+      end
     end
 end
