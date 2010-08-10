@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :summary_reports
-
   map.root :controller => 'activities', :action => 'index'
   map.resources :activities
   map.resources :criteria
@@ -15,5 +13,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :reports, :member => {:download => :get} do |report|
     report.resources :report_breakdowns
   end
+  map.resources :summary_reports, :member => { :summary_map => :get, :ytd_map => :get }
   map.resource :user_session
 end

@@ -1,8 +1,12 @@
 class SummaryReportsController < ApplicationController
   
   before_filter :require_user
+  before_filter :get_summary_report, :only => [:show, :edit, :update, :destroy, :summary_map, :ytd_map]
 
   private
+    def get_summary_report
+      @summary_report = SummaryReport.find(params[:id])
+    end
   protected
 
   public
@@ -11,7 +15,6 @@ class SummaryReportsController < ApplicationController
     end
 
     def show
-      @summary_report = SummaryReport.find(params[:id])
       @summary_report.dates = params
       @intensity_levels = IntensityLevel.all
       @activity_types = ActivityType.all
@@ -22,7 +25,6 @@ class SummaryReportsController < ApplicationController
     end
 
     def edit
-      @summary_report = SummaryReport.find(params[:id])
     end
 
     def create
@@ -36,8 +38,6 @@ class SummaryReportsController < ApplicationController
     end
 
     def update
-      @summary_report = SummaryReport.find(params[:id])
-
       if @summary_report.update_attributes(params[:summary_report])
         redirect_to(summary_reports_path, :notice => 'Summary Report was successfully updated.')
       else
@@ -46,9 +46,15 @@ class SummaryReportsController < ApplicationController
     end
 
     def destroy
-      @summary_report = SummaryReport.find(params[:id])
       @summary_report.destroy
 
       redirect_to(summary_reports_url) 
+    end
+
+    def summary_map
+      render :action => :map
+    end
+
+    def ytd_map
     end
 end
