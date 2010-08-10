@@ -53,3 +53,8 @@ nevada:
   region_id: <%= Fixtures.identify :western %>
   name: Nevada
   abbreviation: NV
+
+kentucky:
+  id: <%= Fixtures.identify :kentucky %>
+  name: Kentucky
+  abbreviation: KY

@@ -20,6 +20,9 @@ class State < ActiveRecord::Base
   named_scope :regions, :conditions => {:region_id => nil}, :include => :states, :order => 'name'
   named_scope :just_states, :conditions => "region_id IS NOT NULL", :order => "name"
 
+  validates_presence_of :name
+  validates_presence_of :abbreviation, :unless => Proc.new{|state| state.region_id.nil?}
+
   def name_or_abbrev
     name.split(' ').size > 2 ? abbreviation : name
   end

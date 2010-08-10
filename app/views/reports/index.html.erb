@@ -1,5 +1,5 @@
 <h1>Reports</h1>
-<table class="nice_table cell_borders configurable">
+<table class="nice_table cell_borders">
   <tr>
     <th>&nbsp;</th>
     <th style="text-align: center;" colspan="<%= @objectives.size %>">Objectives</th>
@@ -13,7 +13,7 @@
   <%= render :partial => 'report', :collection => @reports, :locals => {:objectives => @objectives} %>
 </table>
 
-<table class="nice_table cell_borders configurable">
+<table class="nice_table cell_borders">
   <tr>
     <th>Name</th>
     <th>Start YTD</th>

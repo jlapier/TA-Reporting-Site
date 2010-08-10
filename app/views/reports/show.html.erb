@@ -7,43 +7,23 @@
     <p><strong><%=h "Objective #{report_breakdown.objective.display_name}" %></strong>
     todo: provide description field for objectives</p>
       <% if report_breakdown.breakdown_type.blank? %>
-        Specific <%=h report_breakdown.objective.name %> activities included
-        <% if report_breakdown.include_states %>
-          <%= render :partial => 'activities/activity_with_states', :collection => @report.grouped_activities[report_breakdown.objective.number] if @report.grouped_activities[report_breakdown.objective.number]%>
+        <% unless @report.has_activities_like({:objective => report_breakdown.objective}) %>
+        <p>No activity recorded for this period.</p>
         <% else %>
-          <ul>
-            <%= render :partial => 'activities/activity_without_states', :collection => @report.grouped_activities[report_breakdown.objective.number] if @report.grouped_activities[report_breakdown.objective.number] %>
-          </ul>
+        <p>Specific <%=h report_breakdown.objective.name %> activities included</p>
         <% end %>
-      <% else %>
-        <% activities = {} %>
-        <% @report.grouped_activities[report_breakdown.objective.number].each do |activity| %>
-          <% activities[activity.send(report_breakdown.breakdown_type.underscore)] ||= [] %>
-          <% activities[activity.send(report_breakdown.breakdown_type.underscore)] << activity %>
-        <% end %>
-        <% activities.each do |breakdown, activities| %>
+        <%= render :partial => 'activities/activity_for_report', :collection => @report.grouped_activities[report_breakdown.objective.number], :locals => {:include_states => report_breakdown.include_states} if @report.grouped_activities[report_breakdown.objective.number] %>
+      <% elsif report_breakdown.has_activities_between(@report.start_period, @report.end_period) %>
+        <% report_breakdown.activities(@report.start_period, @report.end_period).each do |breakdown, activities| %>
         <div>
-          <h6><%=h breakdown.name %></h6>
-            <% activities.each do |activity| %>
-              <% if report_breakdown.include_states %>
-                <table class="nice_table" id="activities_table" style="width: 100%;">
-                  <tr>
-                    <td style="width: 20%;">
-                      <%= activity.states.sort_by{|s| s.abbreviation}.collect{|s| s.abbreviation}.join(', ') %>
-                    </td>
-                    <td style="width: 80%;">
-                      <%= activity.description%>
-                    </td>
-                  </tr>
-                </table>
-              <% else %>
-                <ul>
-                  <%= render :partial => 'activities/activity_without_states', :collection => @report.activities[report_breakdown.objective.number] if @report.activities[report_breakdown.objective.number] %>
-                </ul>
-              <% end %>
-            <% end %>
+          <% unless breakdown.nil? %>
+          <h6><%=h breakdown %></h6>
+          <% end %>
+          <%= render :partial => 'activities/activity_for_report', :collection => activities, :locals => {:include_states => report_breakdown.include_states} %>
         </div>
         <% end %>
+      <% else %>
+      <p>No activity recorded for this period.</p>
       <% end %>
   </div>
 <% end %>

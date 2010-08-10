@@ -15,8 +15,8 @@ Feature: Generate reports
   @javascript
   Scenario: add report breakdowns
     Given I am on the edit report page for "Q2 - 2010"
-    When I select "1: Knowledge development" from "Objective"
+    When I select "1: Knowledge Development" from "Objective"
     And I select "Activity Type" from "Breakdown type"
     And I check "Include states"
     And I press "Add"
-    Then I should see "1: Knowledge development" within "#report_breakdowns"
+    Then I should see "1: Knowledge Development" within "#report_breakdowns"

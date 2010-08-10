@@ -9,7 +9,7 @@ describe Criterium do
     @criterium = Criterium.new
   end
   
-  %w(reports activities).each do |col|
+  %w(activities).each do |col|
     it "has a collection of #{col}" do
       @criterium.respond_to?(col.to_sym).should be_true
       @criterium.send(col.to_sym).respond_to?(:build).should be_true

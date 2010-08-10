@@ -53,7 +53,14 @@ class Report < ActiveRecord::Base
   def end_year
     @end_year.to_i unless @end_year.blank?
   end
-  
+  def start_period=(date)
+    self.start_year = date.year
+    self.start_month = date.month
+  end
+  def end_period=(date)
+    self.end_year = date.year
+    self.end_month = date.month
+  end
   def start_period
     return Date.new(start_year, start_month, 1)
   end
@@ -80,18 +87,28 @@ class Report < ActiveRecord::Base
     out += FILENAME_SUFFIX
   end
   
+  def activities
+    @activities ||= Activity.all_between(start_period, end_period)
+  end
+  
   def grouped_activities
-    unless defined?(@grouped_activities)
-      @grouped_activities = {}
-      activities.group_by(&:objective).each do |obj, actis|
-        @grouped_activities[obj.number] = actis
+    @grouped_activities ||= {}
+    if @grouped_activities == {}
+      activities.group_by(&:objective).each do |objective, objective_activities|
+        @grouped_activities[objective.number] = objective_activities
       end
     end
     @grouped_activities
   end
   
-  def activities
-    @activities ||= Activity.all_between(start_period, end_period)
+  def has_activities_like(options={})
+    r = false
+    if options[:objective]
+      r = true unless grouped_activities[options.delete(:objective).number].nil?
+    else
+      r = activities.any?{|activity| activity.is_like?(options)}
+    end
+    return r
   end
 
   def export

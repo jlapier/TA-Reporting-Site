@@ -36,7 +36,7 @@ CalendarDateSelect.format = :natural
       %>
       <% every_15.times do %>
         <%
-          lower_limit = col*15
+          lower_limit = col > 0 ? (col*15) + 1 : col*15
           upper_limit = (col+1)*15 >= total_states ? total_states - 1 : (col+1)*15
         %>
         <div class="span-4 <%= last_or_nil(col, 3) %>">
