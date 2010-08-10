@@ -30,7 +30,7 @@ describe Report do
     report.errors.on(:name).to_s.should =~ /has already been taken/
   end
   
-  describe "setting export periods" do
+  describe "export periods" do
     before(:each) do
       @report = Report.new
       @report.dates = {
@@ -49,6 +49,47 @@ describe Report do
     it "groups start and end dates into periods" do
       @report.start_period.should == Date.new(2010, 8, 1)
       @report.end_period.should == Date.new(2010, 8, 31)
+    end
+    it "can set start_period directly" do
+      @report.start_period = Date.new(2010, 7, 1)
+      @report.start_year.should == 2010
+      @report.start_month.should == 7
+    end
+    it "can set end_period directly" do
+      @report.end_period = Date.new(2010, 8, 1)
+      @report.end_year.should == 2010
+      @report.end_month.should == 8
+    end
+    describe "loading activities" do
+      before(:each) do
+        @obj1 = mock_model(Objective, {:number => 1, :name => 'Knowledge Development'})
+        @obj2 = mock_model(Objective, {:number => 2, :name => 'Provide TA'})
+        @obj3 = mock_model(Objective, {:number => 3, :name => 'Leadership and Coordination'})
+        @obj4 = mock_model(Objective, {:number => 4, :name => 'Evaluate and Manage (includes Advisory)'})
+        @act1 = mock_model(Activity, {:objective => @obj1})
+        @act2 = mock_model(Activity, {:objective => @obj2})
+        @act3 = mock_model(Activity, {:objective => @obj3})
+        @act4 = mock_model(Activity, {:objective => @obj4})
+        @activities = [@act1, @act2, @act3, @act4]
+        Activity.stub(:all_between).and_return(@activities)
+      end
+      it "collects all activities between the start and end period" do
+        Activity.should_receive(:all_between).with(@report.start_period, @report.end_period)
+        @report.activities
+      end
+      it "groups activities by objective.number" do
+        @report.grouped_activities.should == {
+          1 => [@act1],
+          2 => [@act2],
+          3 => [@act3],
+          4 => [@act4]
+        }
+      end
+      it "knows whether it has found activities with a given objective" do
+        Activity.stub(:all_between).and_return(@activities - [@act3, @act4])
+        @report.has_activities_like({:objective => @obj1}).should be_true
+        @report.has_activities_like({:objective => @obj3}).should be_false
+      end
     end
   end
   
