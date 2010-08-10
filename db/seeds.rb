@@ -34,9 +34,9 @@ end
     {:name => 'Workshop'}
   ],
   'IntensityLevel' => [
-    {:name => 'General/Universal'},
-    {:name => 'Targeted/Specific'},
-    {:name => 'Intensive/Sustained'}
+    {:name => 'General/Universal', :number => 1},
+    {:name => 'Targeted/Specific', :number => 2},
+    {:name => 'Intensive/Sustained', :number => 3}
   ],
   'TaCategory' => [
     {:name => 'Data collection activities'},

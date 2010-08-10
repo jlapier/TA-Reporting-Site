@@ -52,9 +52,22 @@ class SummaryReportsController < ApplicationController
     end
 
     def summary_map
-      render :action => :map
+      @summary_report.dates = params
+      @intensity_levels = IntensityLevel.find :all, :order => "number DESC"
+      @states = {}
+      @intensity_levels.each do |il|
+        @states[il.id] = @summary_report.states_by_type_for_period :intensity_level => il
+      end
+      send_data(render(:action => :map), :filename => "map_for_period.svg")
     end
 
     def ytd_map
+      @summary_report.dates = params
+      @intensity_levels = IntensityLevel.find :all, :order => "number DESC"
+      @states = {}
+      @intensity_levels.each do |il|
+        @states[il.id] = @summary_report.states_by_type_for_ytd :intensity_level => il
+      end
+      send_data(render(:action => :map), :filename => "map_for_ytd.svg")
     end
 end
