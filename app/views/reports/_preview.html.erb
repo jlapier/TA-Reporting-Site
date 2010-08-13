@@ -1,0 +1,25 @@
+<% @report.report_breakdowns.each do |report_breakdown| %>
+  <div class="highlight span-18 last" style="margin: 5px; padding: 10px;">
+    <p><strong><%=h "Objective #{report_breakdown.objective.display_name}" %></strong>
+    todo: provide description field for objectives</p>
+      <% if report_breakdown.breakdown_type.blank? %>
+        <% unless @report.has_activities_like({:objective => report_breakdown.objective}) %>
+        <p>No activity recorded for this period.</p>
+        <% else %>
+        <p>Specific <%=h report_breakdown.objective.name %> activities included</p>
+        <% end %>
+        <%= render :partial => 'activities/activity_for_report.html.erb', :collection => @report.grouped_activities[report_breakdown.objective.number], :locals => {:include_states => report_breakdown.include_states} if @report.grouped_activities[report_breakdown.objective.number] %>
+      <% elsif report_breakdown.has_activities_between(@report.start_period, @report.end_period) %>
+        <% report_breakdown.activities(@report.start_period, @report.end_period).each do |breakdown, activities| %>
+        <div>
+          <% unless breakdown.nil? %>
+          <h6><%=h breakdown %></h6>
+          <% end %>
+          <%= render :partial => 'activities/activity_for_report.html.erb', :collection => activities, :locals => {:include_states => report_breakdown.include_states} %>
+        </div>
+        <% end %>
+      <% else %>
+      <p>No activity recorded for this period.</p>
+      <% end %>
+  </div>
+<% end %>

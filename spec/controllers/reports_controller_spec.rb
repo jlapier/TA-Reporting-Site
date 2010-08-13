@@ -57,6 +57,15 @@ describe ReportsController do
       get :show, :id => 1
       assigns[:report].should == @report
     end
+    it "sets @link_params" do
+      get :show, :id => 1, :start_month => 1, :start_year => 2010, :end_month => 8, :end_year => 2010
+      assigns[:download_params].should == {
+        'start_month' => '1',
+        'start_year' => '2010',
+        'end_month' => '8',
+        'end_year' => '2010'
+      }
+    end
     it "renders the show template" do
       get :show, :id => 1
       response.should render_template("reports/show.html.erb")
@@ -196,8 +205,9 @@ describe ReportsController do
       @report = mock_model(Report, {
         :dates= => nil,
         :export => nil,
-        :export_filename => "Q1 - 2010 TA Activity Report.csv",
-        :csv => "one,two,three\nfour,five,six\n"
+        :name => "Q1 - 2010",
+        :csv => nil,
+        :activities => []
       })
       Report.stub(:find).and_return(@report)
     end
@@ -206,24 +216,52 @@ describe ReportsController do
       get :download, :id => @report.id, :start_year => 2010, :start_month => 04
       assigns[:report].should == @report
     end
-    context ":start_month => MM, :start_year => YYYY" do
+    context ":format => :csv" do
       before(:each) do
         @report.stub({
           :export_filename => "Q1 - 2010 TA Activity Report.csv",
-          :export => nil,
+          :to_csv => nil,
           :csv => "one,two,three\nfour,five,six\n"
         })
       end
-      it "exports the custom report as csv download" do
-        @report.should_receive(:export)
+      it "sends the report as csv" do
+        @report.should_receive(:to_csv)
         @report.should_receive(:csv).and_return("one,two,three\nfour,five,six\n")
         controller.should_receive(:send_data).with("one,two,three\nfour,five,six\n", {
           :type => "text/csv",
           :disposition => "attachment",
           :filename => "Q1 - 2010 TA Activity Report.csv"
         })
-        get :download, :id => @report.id, :start_month => "January 1, 2010", :start_year => "March 31, 2010"
+        get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => '6', :end_year => '2010', :format => :csv
+        flash[:notice].should be_nil
       end
     end
+    
+    context ":format => :pdf" do
+      before(:each) do
+        @report.stub(:export_filename).and_return("Q1 - 2010 TA Activity Report.pdf")
+        @act1 = mock_model(Activity)
+        @converter = mock(PDFConverter, {
+          :html_to_pdf => "pdf"
+        })
+        PDFConverter.stub(:new).and_return(@converter)
+      end
+      context "report contains activities" do
+        before(:each) do
+          @report.stub(:activities).and_return([@act1])
+        end
+        it "sends the reports as pdf" do
+          @converter.should_receive(:html_to_pdf).and_return("pdf")
+          controller.should_receive(:send_data).with("pdf", {
+            :type => "application/pdf",
+            :disposition => "attachment",
+            :filename => "#{@report.export_filename}"
+          })
+          get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => "6", :end_year => "2010", :format => :pdf
+          flash[:notice].should be_nil
+        end
+      end
+    end
+    
   end
 end

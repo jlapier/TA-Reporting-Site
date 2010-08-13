@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   # -- all .rb files in that directory are automatically loaded.
 
   # Add additional load paths for your own custom dirs
-  config.load_paths += %W( #{RAILS_ROOT}/app/concerns )
+  config.load_paths += %W( )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
   # config.gem "bj"
@@ -30,6 +30,7 @@ Rails::Initializer.run do |config|
   config.gem "rich-acts_as_revisable", :lib => "acts_as_revisable", :source => "http://gems.github.com"
   config.gem "fastercsv"
   config.gem "rmagick", :lib => "RMagick2"
+  config.gem "pdfkit"
   
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -52,3 +53,8 @@ Rails::Initializer.run do |config|
 end
 
 require 'RMagick'
+
+require 'pdfkit'
+PDFKit.configure do |pdfkit_config|
+  pdfkit_config.wkhtmltopdf = "/Users/jf/.rvm/gems/ruby-1.8.7-p299/bin/wkhtmltopdf"
+end

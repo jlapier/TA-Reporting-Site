@@ -4,11 +4,32 @@ class ReportsController < ApplicationController
   
   private
     def send_report
-      @report.export
-      unless @report.csv.nil?
-        send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => @report.export_filename)
+      case !params[:format].blank? && params[:format].to_sym || 'nil'
+      when :csv
+        send_csv_report
+      when :pdf
+        send_pdf_report
       else
-        flash[:notice] = "No activity has been recorded to satisfy the reporting selections."
+        flash[:notice] = "Only CSV and PDF downloads are available."
+        redirect_to reports_path and return
+      end
+    end
+    def send_pdf_report
+      unless @report.activities.empty?
+        converter = PDFConverter.new(:formatter => 'Reports')
+        html = @template.capture{ render :partial => 'reports/preview.html.erb' }
+        send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}")
+      else
+        flash[:notice] = "No activity has been recorded to satisfy the reporting period."
+        redirect_to reports_path and return
+      end
+    end
+    def send_csv_report
+      @report.to_csv
+      unless @report.csv.nil?
+        send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => "#{@report.export_filename}")
+      else
+        flash[:notice] = "No activity has been recorded to satisfy the reporting period."
         redirect_to reports_path and return
       end
     end
@@ -25,6 +46,7 @@ class ReportsController < ApplicationController
     def show
       @report = Report.find(params[:id], :include => :report_breakdowns)
       @report.dates = params
+      @download_params = params.reject{|k,v| k =~ /[^(start_month|start_year|end_month|end_year)]/}
     end
     def edit
       @report = Report.find(params[:id])

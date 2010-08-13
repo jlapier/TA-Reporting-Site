@@ -24,11 +24,11 @@
 one:
   report_id: 1
   objective_id: <%= Fixtures.identify :evaluate %>
-  breakdown_type: MyString
+  breakdown_type: ActivityType
   include_states: false
 
 two:
   report_id: 1
   objective_id: <%= Fixtures.identify :leadership %>
-  breakdown_type: MyString
+  breakdown_type: IntensityLevel
   include_states: false

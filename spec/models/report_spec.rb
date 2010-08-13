@@ -121,7 +121,7 @@ describe Report do
     end
   end
   
-  describe "exporting activities in csv format, #csv_export" do
+  describe "exporting activities" do
     before(:each) do
       @objective = mock_model(Objective, {
         :number => 1,
@@ -182,8 +182,8 @@ describe Report do
       ]
       Activity.stub(:all_between).and_return(@activities)
     end
-    it "updates @csv with dumped activities" do
-      @report.export
+    it "export(:csv) updates @csv with dumped activities" do
+      @report.to_csv
       @report.csv.should == "class,Activity\n"+
         "Date,Objective,Type,Intensity,TA Categories,Agencies,States\n"+
         "#{@activity_one.date_of_activity},#{@objective.number}: #{@objective.name},"+

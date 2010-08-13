@@ -1,5 +1,5 @@
 <% color_class = report_counter % 2 == 0 ? "dark" : "light" %>
-<tr id="<%= "report_#{report.id}" %>" class="row_<%= color_class %>">
+<tr id="<%= "report_#{report.name.parameterize}" %>" class="row_<%= color_class %>">
   <td>
     <%=h report.name %><br />
     <span class="fake_button"><%= link_to "Edit", edit_report_path(report.id) %></span>
@@ -18,7 +18,7 @@
   </td>
   <% end %>
 </tr>  
-<tr id="<%= "report_#{report.id}_dates" %>" class="row_<%= color_class %>">
+<tr id="<%= "report_#{report.name.parameterize}_dates" %>" class="row_<%= color_class %>">
   <td style="text-align: right;" colspan="5">
     <% form_tag(report_path(report), :method => :get, :style => "display: inline;") do %>
       Start: 

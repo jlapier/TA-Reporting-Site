@@ -15,9 +15,9 @@ class Report < ActiveRecord::Base
   
   include GeneralScopes
   
-  attr_reader :csv, :activities, :grouped_activities
+  attr_reader :csv, :pdf, :activities, :grouped_activities
   attr_accessor :export_format, :start_month, :end_month, :start_year, :end_year
-  FILENAME_SUFFIX = "TA Activity Report.csv"
+  FILENAME_SUFFIX = "TA Activity Report"
   YEAR_MONTH_DIGITS = "%Y-%m"
   MONTH_YEAR = "%Y %B"
   
@@ -85,6 +85,7 @@ class Report < ActiveRecord::Base
       out += "#{name} "
     end
     out += FILENAME_SUFFIX
+    out += ".#{export_format.to_s}"
   end
   
   def activities
@@ -111,12 +112,13 @@ class Report < ActiveRecord::Base
     return r
   end
 
-  def export
+  def to_csv
+    @export_format = :csv
     export_to_format
   end
   
   def export_format
-    @export_format || :csv
+    @export_format ||= :csv
   end
   
   def export_to_format
