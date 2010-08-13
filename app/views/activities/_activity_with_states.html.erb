@@ -1,9 +1,9 @@
-<table class="nice_table" id="activities_table" style="width: 100%;">
+<table class="nice_table" style="width: 100%;">
   <tr>
-    <td style="width: 20%;">
+    <td class="states" style="width: 20%;">
       <%= activity_with_states.states.sort_by{|s| s.abbreviation}.collect{|s| s.abbreviation}.join(', ') %>
     </td>
-    <td style="width: 80%;">
+    <td class="description" style="width: 80%;">
       <%= activity_with_states.description%>
     </td>
   </tr>

@@ -37,7 +37,7 @@ describe PDFConverter do
     end
     it "converts html to pdf" do
       @pdfkit.should_receive(:to_pdf)
-      PDFKit.should_receive(:new).with(@html, :page_size => "Letter").and_return(@pdfkit)
+      PDFKit.should_receive(:new).with(@html).and_return(@pdfkit)
       converter = PDFConverter.new
       converter.html_to_pdf(@html)
     end

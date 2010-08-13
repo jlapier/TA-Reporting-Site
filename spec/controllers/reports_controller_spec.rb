@@ -219,7 +219,7 @@ describe ReportsController do
     context ":format => :csv" do
       before(:each) do
         @report.stub({
-          :export_filename => "Q1 - 2010 TA Activity Report.csv",
+          :export_filename => "Q1 - 2010 TA Activity Report",
           :to_csv => nil,
           :csv => "one,two,three\nfour,five,six\n"
         })
@@ -239,7 +239,7 @@ describe ReportsController do
     
     context ":format => :pdf" do
       before(:each) do
-        @report.stub(:export_filename).and_return("Q1 - 2010 TA Activity Report.pdf")
+        @report.stub(:export_filename).and_return("Q1 - 2010 TA Activity Report")
         @act1 = mock_model(Activity)
         @converter = mock(PDFConverter, {
           :html_to_pdf => "pdf"
@@ -255,7 +255,7 @@ describe ReportsController do
           controller.should_receive(:send_data).with("pdf", {
             :type => "application/pdf",
             :disposition => "attachment",
-            :filename => "#{@report.export_filename}"
+            :filename => "#{@report.export_filename}.pdf"
           })
           get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => "6", :end_year => "2010", :format => :pdf
           flash[:notice].should be_nil

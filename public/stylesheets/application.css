@@ -212,3 +212,24 @@ table.nice_table tr.row_light { background: #F6F6F6; }
 table.cell_borders td, table.cell_borders th, table.cell_borders { border: 1px solid #999; }
 
 table th.count, table td.count { text-align:center; }
+
+/* report styles */
+div.report {
+  margin: 5px;
+  padding: 10px;
+}
+div.report h1 {
+  font-weight: bold;
+}
+div.report h2 {
+  border-bottom: 1px solid #666;
+}
+div.report p.note {
+  text-align: right;
+}
+span.note {
+  font-style: italic;
+}
+td.states {
+  font-style: italic;
+}

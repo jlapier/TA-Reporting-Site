@@ -14,7 +14,7 @@ class PDFConverter
   end
 
   def html_to_pdf(html="")
-    @pdfkit = PDFKit.new(html, :page_size => "Letter")
+    @pdfkit = PDFKit.new(html)
     PDFConverter.stylesheets.each do |stylesheet|
       @pdfkit.stylesheets << stylesheet
     end
@@ -25,7 +25,7 @@ end
 module Basic
   def self.included(base)
     PDFConverter.stylesheets = [
-      File.join(Rails.root, "public/stylesheets/blueprint/print.css")
+      File.join(Rails.root, "public/stylesheets/pdf_basic.css")
     ]
   end
 end

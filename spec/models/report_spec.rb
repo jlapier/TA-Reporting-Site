@@ -96,17 +96,17 @@ describe Report do
   describe "export filename formatting, #export_filename" do
     before(:each) do
       @report = Report.new(:name => 'Q1 - 2010')
-      @suffix = "TA Activity Report.csv"
+      @suffix = "TA Activity Report"
     end
     context "if period is set" do
-      it "uses 'YYYY-MM TA Activity Report.csv'" do
+      it "uses 'YYYY-MM TA Activity Report'" do
         @report.start_month = 1
         @report.start_year = 2010
         @report.export_filename.should == "2010-01 Q1 - 2010 #{@suffix}"
       end
     end
     context "if start and end periods are set" do
-      it "uses 'Month YYYY - Month YYYY TA Activity Report.csv'" do
+      it "uses 'Month YYYY - Month YYYY TA Activity Report'" do
         @report.start_month = 1
         @report.start_year = 2010
         @report.end_month = 3
@@ -115,7 +115,7 @@ describe Report do
       end
     end
     context "if no periods are set" do
-      it "uses '@name TA Activity Report.csv'" do
+      it "uses '@name TA Activity Report'" do
         @report.export_filename.should == "Q1 - 2010 #{@suffix}"
       end
     end
