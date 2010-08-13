@@ -85,7 +85,6 @@ class Report < ActiveRecord::Base
       out += "#{name} "
     end
     out += FILENAME_SUFFIX
-    out += ".#{export_format.to_s}"
   end
   
   def activities

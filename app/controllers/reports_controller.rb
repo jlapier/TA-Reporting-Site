@@ -16,9 +16,9 @@ class ReportsController < ApplicationController
     end
     def send_pdf_report
       unless @report.activities.empty?
-        converter = PDFConverter.new(:formatter => 'Reports')
+        converter = PDFConverter.new()
         html = @template.capture{ render :partial => 'reports/preview.html.erb' }
-        send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}")
+        send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf")
       else
         flash[:notice] = "No activity has been recorded to satisfy the reporting period."
         redirect_to reports_path and return
@@ -27,7 +27,7 @@ class ReportsController < ApplicationController
     def send_csv_report
       @report.to_csv
       unless @report.csv.nil?
-        send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => "#{@report.export_filename}")
+        send_data(@report.csv, :type => "text/csv", :disposition => "attachment", :filename => "#{@report.export_filename}.csv")
       else
         flash[:notice] = "No activity has been recorded to satisfy the reporting period."
         redirect_to reports_path and return
