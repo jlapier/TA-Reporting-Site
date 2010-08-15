@@ -1,0 +1,47 @@
+<% if defined?(remote_form_activity_counter) %>
+  <% color_class = remote_form_activity_counter % 2 == 0 ? "light" : "dark" %>
+<% else %>
+  <% color_class = remote_form_activity.id % 2 == 0 ? "dark" : "light" %>
+<% end %>
+<tr id="edit_activity_<%= remote_form_activity.id %>_container" class="row_<%= color_class %>">
+  <td colspan="4">
+    <% remote_form_for remote_form_activity do |form| %>
+      <table>
+        <tr class="row_<%= color_class %>">
+          <td colspan="4">
+            <%= form.error_messages %>
+          </td>
+        </tr>
+        <tr class="row_<%= color_class %>">
+          <td id="activity_date_of_activity_input" class="string required" style="white-space:nowrap">
+            <%= form.label :date_of_activity %><br />
+            <%= form.calendar_date_select :date_of_activity, :buttons => false, :size => 15 %>
+          </td>
+          <td>
+            <%= form.label :objective_id %>
+            <%= form.select :objective_id, options_from_collection_for_select(@objectives, :id, :number, form.object.objective_id) %>
+          </td>
+          <td>
+            <%= form.label :activity_type_id %>
+            <%= form.select :activity_type_id, options_from_collection_for_select(@activity_types, :id, :name, form.object.activity_type_id) %>
+          </td>
+          <td>
+            <%= form.label :intensity_level_id %>
+            <%= form.select :intensity_level_id, options_from_collection_for_select(@intensity_levels, :id, :name, form.object.intensity_level_id) %>
+          </td>
+        </tr>
+        <tr class="row_<%= color_class %>">
+          <td colspan="4">
+            <%= form.label :description %>
+            <%= form.text_area :description, :class => "text required", :style => "height: 50px; width: 98%;" %>
+          </td>
+        </tr>
+        <tr class="row_<%= color_class %>">
+          <td colspan="4" style="text-align: right;">
+            <%= form.submit "Update" %>
+          </td>
+        </tr>
+      </table>
+    <% end %>  
+  </td>
+</tr>

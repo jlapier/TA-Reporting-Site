@@ -4,6 +4,7 @@ describe "/summary_reports/show.html.erb" do
   include SummaryReportsHelper
   before(:each) do
     assigns[:summary_report] = @summary_report = stub_model(SummaryReport,
+      :id => 2,
       :name => "some report name",
       :end_period => Date.new(2010, 5),
       :start_period => Date.new(2010,5),

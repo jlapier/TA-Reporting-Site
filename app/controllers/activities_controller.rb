@@ -5,10 +5,13 @@ class ActivitiesController < ApplicationController
   
   private
     def get_form_options
-      @activity ||= Activity.new
       @criteria = Criterium.all
-      #@regions = State.regions.options(:include => :states)
       @states = State.just_states
+    end
+    def load_criteria
+      @objectives = Objective.all
+      @activity_types = ActivityType.all
+      @intensity_levels = IntensityLevel.all
     end
   protected
   public
@@ -18,6 +21,7 @@ class ActivitiesController < ApplicationController
     end
   
     def new
+      @activity = Activity.new
     end
   
     def create
@@ -30,19 +34,36 @@ class ActivitiesController < ApplicationController
         render :new
       end
     end
-  
+    
+    def edit_all
+      @activities = Activity.all
+      load_criteria
+    end
+    
     def edit
       @activity = Activity.find params[:id]
     end
   
     def update
       @activity = Activity.find params[:id]
-      if @activity.update_attributes(params[:activity])
-        flash[:notice] = "Activity updated."
-        redirect_to activities_path
-      else
-        get_form_options
-        render :edit
+      respond_to do |format|
+        if @activity.update_attributes(params[:activity])
+          unless request.xhr?
+            flash[:notice] = "Activity updated."
+          else
+            load_criteria
+          end
+          format.html{redirect_to activities_path}
+          format.js
+        else
+          if request.xhr?
+            load_criteria
+          else
+            get_form_options
+          end
+          format.html{render :edit}
+          format.js
+        end
       end
     end
 end

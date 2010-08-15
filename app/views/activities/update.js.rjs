@@ -1,0 +1,6 @@
+page.replace "edit_activity_#{@activity.id}_container", :partial => 'remote_form_activity', :object => @activity
+if @activity.id % 2 == 0
+  page.visual_effect :highlight, "edit_activity_#{@activity.id}_container" #, :start_color => "#F6F6F6", :end_color => "#E3E3E3"
+else
+  page.visual_effect :highlight, "edit_activity_#{@activity.id}_container" #, :start_color => "#E3E3E3", :end_color => "#F6F6F6"
+end
