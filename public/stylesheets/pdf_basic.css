@@ -77,16 +77,18 @@ content: " (" attr(href) ")";
 font-size: 90%;
 }
 
+/* report styles */
 div.report {
   margin: 5px;
   padding: 10px;
 }
+div.report ul {
+  list-style-type: none;
+}
 div.report h1 {
-  font-size: 18px;
   font-weight: bold;
 }
 div.report h2 {
-  font-size: 16px;
   border-bottom: 1px solid #666;
 }
 div.report p.note {
@@ -95,11 +97,10 @@ div.report p.note {
 span.note {
   font-style: italic;
 }
-td.states {
-  font-size: 12px;
+li.states {
+  padding-left: 0;
   font-style: italic;
 }
-td.description {
-  font-size: 12px;
-  padding: 5px;
+li.description {
+  font-style: normal;
 }

@@ -1,6 +1,8 @@
 <% if activity_for_report %>
   <% if include_states %>
-    <%= render :partial => 'activities/activity_with_states.html.erb', :object => activity_for_report %>
+    <ul>
+      <%= render :partial => 'activities/activity_with_states.html.erb', :object => activity_for_report %>
+    </ul>
   <% else %>
     <ul>
       <%= render :partial => 'activities/activity_without_states.html.erb', :object => activity_for_report %>
