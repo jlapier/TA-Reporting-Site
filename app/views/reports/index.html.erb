@@ -25,8 +25,8 @@
     <tr>
       <td><%= summary_report.name %></td>
       <td><%= summary_report.start_ytd.strftime("%b, %Y") %></td>
-      <td><%= summary_report.start_period.strftime("%b, %Y") %></td>
-      <td><%= summary_report.end_period.strftime("%b, %Y") %></td>
+      <td><%= summary_report.start_period ? summary_report.start_period.strftime("%b, %Y") : '<em>not set</em>' %></td>
+      <td><%= summary_report.end_period ? summary_report.end_period.strftime("%b, %Y") : '<em>not set</em>' %></td>
       <td><%= link_to "Preview", summary_report_path(summary_report.id), :class => "fake_button" %></td>
    </tr>
   <% end %>
