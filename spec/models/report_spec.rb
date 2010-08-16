@@ -93,31 +93,35 @@ describe Report do
     end
   end
   
+  describe "default periods" do
+    before(:each) do
+      @report = Report.new
+    end
+    it "sets default start_year as current year" do
+      @report.start_year.should eql Date.current.year
+    end
+    it "sets default start_month as January" do
+      @report.start_month.should eql 1
+    end
+    it "sets default end_year as current year" do
+      @report.end_year.should eql Date.current.year
+    end
+    it "sets default end_month as current month - 1" do
+      @report.end_month.should eql Date.current.month - 1
+    end
+  end
+  
   describe "export filename formatting, #export_filename" do
     before(:each) do
       @report = Report.new(:name => 'Q1 - 2010')
       @suffix = "TA Activity Report"
     end
-    context "if period is set" do
-      it "uses 'YYYY-MM TA Activity Report'" do
-        @report.start_month = 1
-        @report.start_year = 2010
-        @report.export_filename.should == "2010-01 Q1 - 2010 #{@suffix}"
-      end
-    end
-    context "if start and end periods are set" do
-      it "uses 'Month YYYY - Month YYYY TA Activity Report'" do
-        @report.start_month = 1
-        @report.start_year = 2010
-        @report.end_month = 3
-        @report.end_year = 2010
-        @report.export_filename.should == "2010 January - 2010 March Q1 - 2010 #{@suffix}"
-      end
-    end
-    context "if no periods are set" do
-      it "uses '@name TA Activity Report'" do
-        @report.export_filename.should == "Q1 - 2010 #{@suffix}"
-      end
+    it "uses 'Month YYYY - Month YYYY TA Activity Report'" do
+      @report.start_month = 1
+      @report.start_year = 2010
+      @report.end_month = 3
+      @report.end_year = 2010
+      @report.export_filename.should == "2010 January - 2010 March Q1 - 2010 #{@suffix}"
     end
   end
   

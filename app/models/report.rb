@@ -42,16 +42,20 @@ class Report < ActiveRecord::Base
   
   # Force
   def start_month
-    @start_month.to_i unless @start_month.blank?
+    @start_month ||= 1
+    @start_month.to_i
   end
   def start_year
-    @start_year.to_i unless @start_year.blank?
+    @start_year ||= Date.current.year
+    @start_year.to_i
   end
   def end_month
-    @end_month.to_i unless @end_month.blank?
+    @end_month ||= Date.current.month - 1
+    @end_month.to_i
   end
   def end_year
-    @end_year.to_i unless @end_year.blank?
+    @end_year ||= Date.current.year
+    @end_year.to_i
   end
   def start_period=(date)
     self.start_year = date.year

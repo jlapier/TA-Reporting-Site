@@ -1,12 +1,15 @@
 <h1>Previewing <%=h @report.name %></h1>
 <div style="float: right;">
   <span class="fake_button">
-    <%= link_to "Download CSV", download_report_path(@report, @download_params.merge!({:format => :csv})) %>
+    <%= link_to "Download CSV", download_report_path(@report, @download_params.merge({:format => :csv})) %>
   </span>
   <span class="fake_button">
-    <%= link_to "Download PDF", download_report_path(@report, @download_params.merge!({:format => :pdf}))%>
+    <%= link_to "Download PDF", download_report_path(@report, @download_params.merge({:format => :pdf})) %>
   </span>
 </div>
+<% if @summary_report %>
+<%= render :partial => 'summary_reports/preview' %>
+<% end %>
 <%= render :partial => 'preview' %>
 
 <%= render :partial => 'sidebar' %>

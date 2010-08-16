@@ -15,7 +15,6 @@ class SummaryReportsController < ApplicationController
     end
 
     def show
-      @summary_report.dates = params
       @intensity_levels = IntensityLevel.all
       @activity_types = ActivityType.all
     end
@@ -52,7 +51,6 @@ class SummaryReportsController < ApplicationController
     end
 
     def summary_map
-      @summary_report.dates = params
       @intensity_levels = IntensityLevel.find :all, :order => "number"
       @states = {}
       @intensity_levels.each do |il|
@@ -72,7 +70,6 @@ class SummaryReportsController < ApplicationController
     end
 
     def ytd_map
-      @summary_report.dates = params
       @intensity_levels = IntensityLevel.find :all, :order => "number"
       @states = {}
       @intensity_levels.each do |il|

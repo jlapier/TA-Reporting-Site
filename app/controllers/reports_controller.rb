@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
 
   before_filter :require_user
+  before_filter :load_summary_report, :only => [:show, :download]
   
   private
     def send_report
@@ -17,7 +18,7 @@ class ReportsController < ApplicationController
     def send_pdf_report
       unless @report.activities.empty?
         converter = PDFConverter.new()
-        html = @template.capture{ render :partial => 'reports/preview.html.erb' }
+        html = @template.capture{ render :partial => 'shared/pdf_output.html.erb' }
         send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf")
       else
         flash[:notice] = "No activity has been recorded to satisfy the reporting period."
@@ -33,6 +34,31 @@ class ReportsController < ApplicationController
         redirect_to reports_path and return
       end
     end
+    def load_summary_report
+      begin
+        @report ||= Report.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        flash[:notice] = "That report could not be found."
+        redirect_to reports_path
+      end
+      begin
+        @summary_report = SummaryReport.find(params[:summary_report_id])
+        @report.dates = {
+          :start_year => @summary_report.start_period.year,
+          :start_month => @summary_report.start_period.month,
+          :end_year => @summary_report.end_period.year,
+          :end_month => @summary_report.end_period.month
+        }
+        @intensity_levels = IntensityLevel.all
+        @activity_types = ActivityType.all
+      rescue ActiveRecord::RecordNotFound
+        if params[:summary_report_id]
+          flash.now[:notice] = "The requested summary report could not be found."
+        else
+          flash.now[:notice] = "No summary report was selected - previewing standard report only with default start - end periods: #{@report.start_period.strftime("%b, %Y")} - #{@report.end_period.strftime("%b, %Y")}"
+        end
+      end
+    end
   protected
   public
     def index
@@ -45,8 +71,8 @@ class ReportsController < ApplicationController
     end
     def show
       @report = Report.find(params[:id], :include => :report_breakdowns)
-      @report.dates = params
-      @download_params = params.reject{|k,v| k =~ /[^(start_month|start_year|end_month|end_year)]/}
+      @download_params = {}
+      @download_params = {:summary_report_id => params[:summary_report_id]} if @summary_report
     end
     def edit
       @report = Report.find(params[:id])
@@ -78,7 +104,6 @@ class ReportsController < ApplicationController
     end
     def download
       @report = Report.find(params[:id])
-      @report.dates = params
       send_report
     end
 end

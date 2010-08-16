@@ -46,7 +46,9 @@ describe ReportsController do
   describe ":show, :id => integer" do
     before(:each) do
       @report = mock_model(Report, {
-        :dates= => nil
+        :dates= => nil,
+        :start_period => Date.new(2010, 1),
+        :end_period => Date.new(2010, 6)
       })
       Report.stub(:find).and_return(@report)
     end
@@ -56,15 +58,6 @@ describe ReportsController do
       }).and_return(@report)
       get :show, :id => 1
       assigns[:report].should == @report
-    end
-    it "sets @link_params" do
-      get :show, :id => 1, :start_month => 1, :start_year => 2010, :end_month => 8, :end_year => 2010
-      assigns[:download_params].should == {
-        'start_month' => '1',
-        'start_year' => '2010',
-        'end_month' => '8',
-        'end_year' => '2010'
-      }
     end
     it "renders the show template" do
       get :show, :id => 1
@@ -207,7 +200,9 @@ describe ReportsController do
         :export => nil,
         :name => "Q1 - 2010",
         :csv => nil,
-        :activities => []
+        :activities => [],
+        :start_period => Date.new(2010, 1),
+        :end_period => Date.new(2010, 6)
       })
       Report.stub(:find).and_return(@report)
     end

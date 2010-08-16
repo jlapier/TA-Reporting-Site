@@ -20,13 +20,9 @@
 </tr>  
 <tr id="<%= "report_#{report.name.parameterize}_dates" %>" class="row_<%= color_class %>">
   <td style="text-align: right;" colspan="5">
+    Using Summary Report Period:
     <% form_tag(report_path(report), :method => :get, :style => "display: inline;") do %>
-      Start: 
-      <%= select_month Date.current, {:use_short_month => true}, {:name => "start_month"} %>
-      <%= select_year Date.current, {}, {:name => "start_year"} %>
-      End: 
-      <%= select_month Date.current, {:use_short_month => true}, {:name => "end_month"} %>
-      <%= select_year Date.current, {}, {:name => "end_year"} %>
+      <%= select_tag 'summary_report_id', "<option value=\"\">Select one</option>" + options_from_collection_for_select(@summary_reports, :id, :name) %>
       <%= submit_tag "Preview", :class => "fake_button" %>
     <% end %>
   </td>
