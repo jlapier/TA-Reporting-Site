@@ -37,7 +37,13 @@
           </td>
         </tr>
         <tr class="row_<%= color_class %>">
-          <td colspan="4" style="text-align: right;">
+          <td colspan="3">
+            <em>
+              Updated: <%= remote_form_activity.updated_at.strftime "%m/%d/%y at %I:%M%p" %>
+              (<%= time_ago_in_words remote_form_activity.updated_at %> ago)
+            </em>
+          </td>
+          <td style="text-align: right;">
             <%= form.submit "Update" %>
           </td>
         </tr>

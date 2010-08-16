@@ -36,7 +36,7 @@ class ActivitiesController < ApplicationController
     end
     
     def edit_all
-      @activities = Activity.all
+      @activities = Activity.all :order => "date_of_activity"
       load_criteria
     end
     
