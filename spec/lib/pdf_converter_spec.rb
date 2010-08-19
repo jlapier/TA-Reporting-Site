@@ -38,7 +38,6 @@ describe PDFConverter do
     it "converts html to pdf" do
       @pdfkit.should_receive(:to_pdf)
       PDFKit.should_receive(:new).with(@html, {
-        :header_center => "[subsection]",
         :footer_center => "[page] / [topage]",
         :header_spacing => "5",
         :footer_spacing => "5"

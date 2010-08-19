@@ -15,7 +15,6 @@ class PDFConverter
 
   def html_to_pdf(html="")
     @pdfkit = PDFKit.new(html, {
-      :header_center => "[subsection]",
       :footer_center => "[page] / [topage]",
       :header_spacing => "5",
       :footer_spacing => "5"
