@@ -12,12 +12,15 @@
 ----------------------------------------------------------------------- */
 
 /* print.css */
-body {
+body, table {
 line-height: 1.5;
 font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 color: #000;
 background: none;
-font-size: 10pt;
+font-size: 11px;
+}
+table {
+  border: 1px solid gray;
 }
 .container {
 background: none;
@@ -97,10 +100,16 @@ div.report p.note {
 span.note {
   font-style: italic;
 }
-li.states {
+table {
+  page-break-inside: avoid;
+}
+td.states {
   padding-left: 0;
   font-style: italic;
 }
-li.description {
+td.description {
   font-style: normal;
+}
+li {
+  line-height: 1.5;
 }
