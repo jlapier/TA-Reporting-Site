@@ -26,7 +26,7 @@ end
     {:number => 4, :name => 'Evaluate and Manage (includes Advisory)'}
   ],
   'ActivityType' => [
-    {:name => 'Information request'},
+    {:name => 'Information Request'},
     {:name => 'Teleconference/webinar'},
     {:name => 'Conference'},
     {:name => 'Consult - Phone/email/in-person'},
@@ -41,9 +41,9 @@ end
   'TaCategory' => [
     {:name => 'Data collection activities'},
     {:name => 'SLDS'},
-    {:name => 'Technical details of the SPP/APR'},
-    {:name => 'Reporting and data use'},
-    {:name => 'Improvement activities'}
+    {:name => 'Technical Details of the SPP/APR'},
+    {:name => 'Reporting and Data Use'},
+    {:name => 'Improvement Activities'}
   ]
 }.each do |type, items|
   items.each do |item|
