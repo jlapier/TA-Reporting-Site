@@ -43,21 +43,48 @@ describe ReportsController do
     end
   end
   
-  describe ":show, :id => integer" do
+  describe ":show, :id => integer, :summary_report_id => optional:integer" do
     before(:each) do
       @report = mock_model(Report, {
         :dates= => nil,
         :start_period => Date.new(2010, 1),
         :end_period => Date.new(2010, 6)
       })
-      Report.stub(:find).and_return(@report)
+      @summary_report = mock_model(SummaryReport, {
+        :start_period => Date.new(2010, 5, 1),
+        :end_period => Date.new(2010, 5, 30)
+      })
+      Report.should_receive(:find).exactly(1).and_return(@report)
+      SummaryReport.should_receive(:find).once.and_return(@summary_report)
     end
     it "loads a report as @report from params[:id]" do
-      Report.should_receive(:find).with('1', {
-        :include => :report_breakdowns
-      }).and_return(@report)
-      get :show, :id => 1
+      get :show, :id => 1, :summary_report_id => 1
       assigns[:report].should == @report
+    end
+    it "loads a summary report from params[:summary_report_id]" do
+      get :show, :id => 1, :summary_report_id => 1
+      assigns[:summary_report].should eql @summary_report
+    end
+    it "updates report periods from summary report periods" do
+      @report.should_receive(:dates=).with({
+        :start_year => 2010,
+        :start_month => 5,
+        :end_year => 2010,
+        :end_month => 5
+      })
+      get :show, :id => 1, :summary_report_id => 1
+    end
+    it "loads all IntensityLevels" do
+      intensity_level = mock_model(IntensityLevel)
+      IntensityLevel.should_receive(:all).and_return([intensity_level])
+      get :show, :id => 1, :summary_report_id => 1
+      assigns[:intensity_levels].should eql [intensity_level]
+    end
+    it "loads all ActivityTypes" do
+      activity_type = mock_model(ActivityType)
+      ActivityType.should_receive(:all).and_return([activity_type])
+      get :show, :id => 1, :summary_report_id => 1
+      assigns[:activity_types].should eql [activity_type]
     end
     it "renders the show template" do
       get :show, :id => 1
@@ -204,10 +231,9 @@ describe ReportsController do
         :start_period => Date.new(2010, 1),
         :end_period => Date.new(2010, 6)
       })
-      Report.stub(:find).and_return(@report)
+      Report.should_receive(:find).once.and_return(@report)
     end
     it "loads a report as @report from params[:id]" do
-      Report.should_receive(:find).and_return(@report)
       get :download, :id => @report.id, :start_year => 2010, :start_month => 04
       assigns[:report].should == @report
     end
