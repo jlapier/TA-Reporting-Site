@@ -36,7 +36,8 @@ end
   'IntensityLevel' => [
     {:name => 'General/Universal', :number => 1},
     {:name => 'Targeted/Specific', :number => 2},
-    {:name => 'Intensive/Sustained', :number => 3}
+    {:name => 'Intensive/Sustained', :number => 3},
+    {:name => 'Unknown', :number => 4}
   ],
   'TaCategory' => [
     {:name => 'Data collection activities'},
