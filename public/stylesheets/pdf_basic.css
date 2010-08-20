@@ -82,16 +82,15 @@ font-size: 90%;
 
 /* report styles */
 div.report {
-  margin: 5px;
+  margin: 15px 5px;
   padding: 10px;
 }
-div.report ul {
-  list-style-type: none;
-}
 div.report h1 {
+  font-size: 14px;
   font-weight: bold;
 }
 div.report h2 {
+  font-size: 12px;
   border-bottom: 1px solid #666;
 }
 div.report p.note {
@@ -100,10 +99,13 @@ div.report p.note {
 span.note {
   font-style: italic;
 }
-table.no_break {
+table.no_break, div.report {
   page-break-inside: avoid;
 }
-table th.count, table td.count { text-align:center; }
+table th.count, table td.count {
+  text-align:center;
+  font-size: 10px;
+}
 td.states {
   padding-left: 0;
   font-style: italic;
@@ -113,4 +115,10 @@ td.description {
 }
 li {
   line-height: 1.5;
+}
+img.map_image {
+  width: 200px;
+}
+.small_title {
+  font-size: 10px;
 }

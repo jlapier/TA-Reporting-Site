@@ -17,8 +17,8 @@ class ReportsController < ApplicationController
     end
     def send_pdf_report
       unless @report.activities.empty?
-        @ytd_summary_map_path = File.join(Rails.root, "public", ytd_map_summary_report_path(@summary_report, :format => :png))
-        @summary_map_path = File.join(Rails.root, "public", summary_map_summary_report_path(@summary_report, :format => :png))
+        @ytd_summary_map_path = File.join(Rails.root, "public", ytd_map_summary_report_path(@summary_report, :format => :svg))
+        @summary_map_path = File.join(Rails.root, "public", summary_map_summary_report_path(@summary_report, :format => :svg))
         converter = PDFConverter.new()
         html = @template.capture{ render :partial => 'shared/pdf_output.html.erb' }
         #file = File.new("temp.html", "w+")

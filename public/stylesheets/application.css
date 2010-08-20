@@ -218,9 +218,6 @@ div.report {
   margin: 5px;
   padding: 10px;
 }
-div.report ul {
-  list-style-type: none;
-}
 div.report h1 {
   font-weight: bold;
 }
@@ -239,4 +236,7 @@ li.states {
 }
 li.description {
   font-style: normal;
+}
+img.map_image {
+  width: 315px;
 }

@@ -9,6 +9,15 @@ class SummaryReportsController < ApplicationController
     def get_summary_report
       @summary_report = SummaryReport.find(params[:id])
     end
+    def cache_map(svgxml, path)
+      full_path = File.join(Rails.root, "public", path)
+      dir = File.dirname(full_path)
+      logger.debug("dirname - #{dir}")
+      FileUtils.mkdir_p(dir)
+      file = File.new(full_path, "w+")
+      file << svgxml
+      file.close
+    end
   protected
 
   public
@@ -62,9 +71,11 @@ class SummaryReportsController < ApplicationController
       respond_to do |format|
         format.svg { render :action => :map }
         format.png do
+          svgxml = render(:action => :map)
           il = Magick::ImageList.new
-          il.from_blob(render(:action => :map))
+          il.from_blob(svgxml)
           sizedil = il.resize_to_fit(315,300)
+          cache_map(svgxml, summary_map_summary_report_path(@summary_report, :format => :svg))
           sizedil.format = "PNG"
           send_data(sizedil.to_blob, :filename => "summary_map.png")
         end
@@ -81,9 +92,11 @@ class SummaryReportsController < ApplicationController
       respond_to do |format|
         format.svg { render :action => :map }
         format.png do
+          svgxml = render(:action => :map)
           il = Magick::ImageList.new
-          il.from_blob(render(:action => :map))
+          il.from_blob(svgxml)
           sizedil = il.resize_to_fit(315,300)
+          cache_map(svgxml, ytd_map_summary_report_path(@summary_report, :format => :svg))
           sizedil.format = "PNG"
           send_data(sizedil.to_blob, :filename => "ytd_map.png")
         end

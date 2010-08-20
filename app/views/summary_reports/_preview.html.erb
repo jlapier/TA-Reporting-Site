@@ -49,11 +49,11 @@
       <% end %>
     <% end %>
     <tr>
-      <td style="border-top: 1px solid #333">
+      <td style="border-top: 1px solid #333;" class="small_title">
         <strong>Total Number of States receiving some type of TA during <%= @summary_report.summary_date_to_s %></strong><br/>
         <em>States:</em> <%= @summary_report.states_by_type_for_period.map(&:abbreviation).join(", ") %></em>
       </td>
-      <td style="border-top: 1px solid #333" class="count">
+      <td style="border-top: 1px solid #333;" class="count">
         <%= @summary_report.states_by_type_for_period.size %>
       </td>
       <td style="border-top: 1px solid #333" class="count">
@@ -61,7 +61,7 @@
       </td>
     </tr>
     <tr>
-      <td style="border-top: 1px solid #333">
+      <td style="border-top: 1px solid #333;" class="small_title">
         <strong>Total Number of States receiving some type of TA during <%= @summary_report.ytd_date_to_s %></strong><br/>
         <em>States:</em> <%= @summary_report.states_by_type_for_ytd.map(&:abbreviation).join(", ") %></em>
       </td>
@@ -72,9 +72,9 @@
       </td>
     </tr>
     <tr>
-      <td colspan="2">
-        <img src="<%= @summary_map_path %>" alt="summary_map" width = "315" />
-        <img src="<%= @ytd_summary_map_path %>" alt="ytd_map" width = "315" />
+      <td colspan="3">
+        <img class="map_image" src="<%= @summary_map_path %>" alt="summary_map" />
+        <img class="map_image" src="<%= @ytd_summary_map_path %>" alt="ytd_map" />
       </td>
     </tr>
   </tbody>
