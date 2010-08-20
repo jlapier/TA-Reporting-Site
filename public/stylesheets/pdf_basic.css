@@ -94,13 +94,16 @@ div.report h2 {
   border-bottom: 1px solid #666;
 }
 div.report p.note {
-  text-align: right;
+  text-align: justify;
 }
 span.note {
   font-style: italic;
 }
-table.no_break, div.report {
+table.no_break {
   page-break-inside: avoid;
+}
+.always_break {
+  page-break-after: always;
 }
 table th.count, table td.count {
   text-align:center;

@@ -1,7 +1,7 @@
 <% @report.report_breakdowns.each do |report_breakdown| %>
   <div class="report highlight span-18 last">
     <h1><%=h "Objective #{report_breakdown.objective.display_name}" %></h1>
-      <p class="note">todo: provide description field for objectives</p>
+      <%= content_tag(:p, report_breakdown.objective.description, :class => "note") %>
       <% if report_breakdown.breakdown_type.blank? %>
         <% unless @report.has_activities_like({:objective => report_breakdown.objective}) %>
         <p>No activity recorded for this period.</p>

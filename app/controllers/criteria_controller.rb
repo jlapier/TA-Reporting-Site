@@ -6,8 +6,8 @@ class CriteriaController < ApplicationController
   private
     def normalize_params
       Criterium.type_options.each do |type|
-        if params[type[1].parameterize]
-          params[:criterium] = params[type[1].parameterize]
+        if params[type[1].underscore.to_sym]
+          params[:criterium] = params[type[1].underscore.to_sym]
         end
       end
     end

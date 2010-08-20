@@ -1,4 +1,4 @@
-<table>
+<table class="always_break">
   <thead>
     <tr>
       <th rowspan="2">Technical Assistance Summary</th>
@@ -73,8 +73,14 @@
     </tr>
     <tr>
       <td colspan="3">
-        <img class="map_image" src="<%= @summary_map_path %>" alt="summary_map" />
-        <img class="map_image" src="<%= @ytd_summary_map_path %>" alt="ytd_map" />
+        <div style="display: inline-block; width: 49%;">
+          <p style="font-weight: bold; text-align: center;">Current: <%= @summary_report.start_period.strftime("%b %Y") %></p>
+          <img class="map_image" src="<%= @summary_map_path %>" alt="summary_map" />
+        </div>
+        <div style="display: inline-block; width: 49%;">
+          <p style="font-weight: bold; text-align: center;">YTD: <%= @summary_report.start_ytd.strftime("%b %Y") %></p>
+          <img class="map_image" src="<%= @ytd_summary_map_path %>" alt="ytd_map" />
+        </div>
       </td>
     </tr>
   </tbody>

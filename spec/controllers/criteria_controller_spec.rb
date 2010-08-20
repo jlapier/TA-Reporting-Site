@@ -4,6 +4,12 @@ describe CriteriaController do
 
   before(:each) do
     controller.stub(:require_user).and_return(true)
+    @post_params = {
+      :kind => "Objective",
+      :number => 2,
+      :name => "Test Objective",
+      :description => "develop practical, efficient, cost-effective, and sustainable strategies for collecting and using data to improve secondary transition and post-secondary outcomes."
+    }
   end
 
   def mock_criterium(stubs={})

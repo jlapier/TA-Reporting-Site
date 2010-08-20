@@ -28,4 +28,14 @@ describe Criterium do
     ta.should be_invalid
     ta.errors.on(:name).include?("can't be blank").should be_true
   end
+  it "should create a new criteria from valid attributes" do
+    attributes = {
+      :kind => "Objective",
+      :number => 2,
+      :name => "Test Objective",
+      :description => "develop practical, efficient, cost-effective, and sustainable strategies for collecting and using data to improve secondary transition and post-secondary outcomes."
+    }
+    criterium = Criterium.create!(attributes)
+    criterium.type.should == "Objective"
+  end
 end

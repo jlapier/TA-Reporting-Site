@@ -225,7 +225,7 @@ div.report h2 {
   border-bottom: 1px solid #666;
 }
 div.report p.note {
-  text-align: right;
+  text-align: justify;
 }
 span.note {
   font-style: italic;

@@ -4,7 +4,8 @@
   <% form.inputs do %>
     <%= form.input :kind, :collection => Criterium.type_options %>
     <%= form.input :number, :label => 'Number' %>
-    <%= form.input :name, :label => 'Name/description' %>
+    <%= form.input :name, :label => 'Name' %>
+    <%= form.input :description, :label => "Description" %>
   <% end %>
 
   <%= form.buttons %>
