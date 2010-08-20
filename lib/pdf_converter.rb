@@ -1,4 +1,5 @@
 class PDFConverter
+  
   cattr_accessor :stylesheets
   attr_reader :pdfkit
   @@stylesheets = []
@@ -12,7 +13,14 @@ class PDFConverter
     self.class.send(:include, options[:formatter].constantize) if options[:formatter]
     self.class.send(:include, Basic) unless options[:formatter]
   end
-
+  def page_to_pdf(url)
+    @pdfkit = PDFKit.new(url, {
+      :footer_center => "[page] / [topage]",
+      :header_spacing => "5",
+      :footer_spacing => "5"
+    })
+    @pdfkit.to_pdf
+  end
   def html_to_pdf(html="")
     @pdfkit = PDFKit.new(html, {
       :footer_center => "[page] / [topage]",

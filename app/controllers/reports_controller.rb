@@ -17,9 +17,21 @@ class ReportsController < ApplicationController
     end
     def send_pdf_report
       unless @report.activities.empty?
+        @ytd_summary_map_path = File.join(Rails.root, "public", ytd_map_summary_report_path(@summary_report, :format => :png))
+        @summary_map_path = File.join(Rails.root, "public", summary_map_summary_report_path(@summary_report, :format => :png))
         converter = PDFConverter.new()
         html = @template.capture{ render :partial => 'shared/pdf_output.html.erb' }
+        #file = File.new("temp.html", "w+")
+        #file << html
+        #file.close
+        #pdfkit = PDFKit.new(html)
+        #pdfkit.stylesheets << File.join(Rails.root, "public/stylesheets/pdf_basic.css")
         send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf")
+        #pdfkit = PDFKit.new("http://localhost:3001/reports/13?summary_report_id=2", :username => "first.user@example.com", :password => "first.user.password")
+        #pdfkit.to_file(File.join(Rails.root, 'public', "#{@report.export_filename}.pdf"))
+        # pdfkit.to_file(File.join(Rails.root, 'public', "report.pdf"))
+        #pdf = File.open(File.join(Rails.root, 'public', "#{@report.export_filename}.pdf"))
+        #send_data(pdfkit.to_pdf, :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf")
       else
         flash[:notice] = "No activity has been recorded to satisfy the reporting period."
         redirect_to reports_path and return
@@ -36,13 +48,15 @@ class ReportsController < ApplicationController
     end
     def load_summary_report
       begin
-        @report ||= Report.find(params[:id])
+        @report = Report.find(params[:id], :include => :report_breakdowns)
       rescue ActiveRecord::RecordNotFound
         flash[:notice] = "That report could not be found."
         redirect_to reports_path
       end
       begin
         @summary_report = SummaryReport.find(params[:summary_report_id])
+        @summary_map_path = summary_map_summary_report_path(@summary_report, :format => :png)
+        @ytd_summary_map_path = ytd_map_summary_report_path(@summary_report, :format => :png)
         @report.dates = {
           :start_year => @summary_report.start_period.year,
           :start_month => @summary_report.start_period.month,
@@ -70,7 +84,6 @@ class ReportsController < ApplicationController
       @report = Report.new
     end
     def show
-      @report = Report.find(params[:id], :include => :report_breakdowns)
       @download_params = {}
       @download_params = {:summary_report_id => params[:summary_report_id]} if @summary_report
     end
@@ -103,7 +116,6 @@ class ReportsController < ApplicationController
       redirect_to reports_path
     end
     def download
-      @report = Report.find(params[:id])
       send_report
     end
 end

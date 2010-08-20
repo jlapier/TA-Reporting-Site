@@ -148,13 +148,12 @@ describe Activity do
   end
   
   describe "csv load" do
-    before(:all) do
+    before(:each) do
       %w(Activity Criterium CollaboratingAgency Report ReportBreakdown State).each do |cls|
         cls.constantize.send(:destroy_all)
       end
       require 'db/seeds'
     end
-    
     it "creates a new activity for each entry" do
       pre_count = Activity.count
       entry_count = File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r').readlines.size - 2

@@ -100,9 +100,10 @@ div.report p.note {
 span.note {
   font-style: italic;
 }
-table {
+table.no_break {
   page-break-inside: avoid;
 }
+table th.count, table td.count { text-align:center; }
 td.states {
   padding-left: 0;
   font-style: italic;

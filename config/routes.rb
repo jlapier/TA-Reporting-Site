@@ -10,7 +10,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :password_resets
   map.resources :states
   map.resources :collaborating_agencies
-  map.resources :reports, :member => {:download => :get} do |report|
+  map.resources :reports, :member => {:download => :get, :preview => :get} do |report|
     report.resources :report_breakdowns
   end
   map.resources :summary_reports, :member => { :summary_map => :get, :ytd_map => :get }

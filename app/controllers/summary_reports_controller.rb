@@ -2,6 +2,8 @@ class SummaryReportsController < ApplicationController
   
   before_filter :require_user
   before_filter :get_summary_report, :only => [:show, :edit, :update, :destroy, :summary_map, :ytd_map]
+  
+  caches_page :summary_map, :ytd_map
 
   private
     def get_summary_report
@@ -64,7 +66,7 @@ class SummaryReportsController < ApplicationController
           il.from_blob(render(:action => :map))
           sizedil = il.resize_to_fit(315,300)
           sizedil.format = "PNG"
-          send_data(sizedil.to_blob, :filename => "map_for_period.png")
+          send_data(sizedil.to_blob, :filename => "summary_map.png")
         end
       end
     end
@@ -83,7 +85,7 @@ class SummaryReportsController < ApplicationController
           il.from_blob(render(:action => :map))
           sizedil = il.resize_to_fit(315,300)
           sizedil.format = "PNG"
-          send_data(sizedil.to_blob, :filename => "map_for_ytd.png")
+          send_data(sizedil.to_blob, :filename => "ytd_map.png")
         end
       end
     end
