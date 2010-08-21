@@ -1,7 +1,7 @@
+@javascript
 Feature: Download reports
 
   Background: When previewing a report
-    Given this test causes 500 server error it is pending, though feature works in browser - same error occurs when running the summary_reports/show_spec via rake spec:rcov but no other times
     Given I am logged in as "test.user@test.com"
     And I am on the reports page
     When I select "Summary Report" from "summary_report_id" within "#report_q2-2010_dates"
