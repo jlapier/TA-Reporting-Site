@@ -17,6 +17,9 @@ module NavigationHelpers
     when /the activities page/
       activities_path
       
+    when /the edit activity page for "(.*)"/
+      edit_activity_path(Activity.find_by_description($1))
+      
     when /the report page for "(.*)"/
       report_path(Report.find_by_name($1))
       

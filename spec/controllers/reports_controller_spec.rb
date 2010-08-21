@@ -16,6 +16,11 @@ describe ReportsController do
       get :index
       assigns[:reports].should == [@report]
     end
+    it "loads all summary reports as @summary_reports" do
+      SummaryReport.should_receive(:find).and_return([@summary_report])
+      get :index
+      assigns[:summary_reports].should eql [@summary_reports]
+    end
     it "loads all objectives as @objectives" do
       objective = mock_model(Objective)
       Objective.should_receive(:find).and_return([objective])
@@ -54,41 +59,78 @@ describe ReportsController do
         :start_period => Date.new(2010, 5, 1),
         :end_period => Date.new(2010, 5, 30)
       })
-      Report.should_receive(:find).exactly(1).and_return(@report)
-      SummaryReport.should_receive(:find).once.and_return(@summary_report)
     end
-    it "loads a report as @report from params[:id]" do
-      get :show, :id => 1, :summary_report_id => 1
-      assigns[:report].should == @report
+    context "report is found" do
+      before(:each) do
+        Report.should_receive(:find).once.and_return(@report)
+      end
+      it "loads a report as @report from params[:id]" do
+        get :show, :id => 1, :summary_report_id => 1
+        assigns[:report].should == @report
+      end
+      it "renders the show template" do
+        get :show, :id => 1
+        response.should render_template("reports/show.html.erb")
+      end
     end
-    it "loads a summary report from params[:summary_report_id]" do
-      get :show, :id => 1, :summary_report_id => 1
-      assigns[:summary_report].should eql @summary_report
+    context "report is not found" do
+      before(:each) do
+        Report.should_receive(:find).once.and_raise(ActiveRecord::RecordNotFound)
+      end
+      it "sets a flash[:notice]" do
+        get :show, :id => 0
+        flash[:notice].should_not be_nil
+      end
+      it "redirects to the reports page" do
+        get :show, :id => 0
+        response.should redirect_to reports_path
+      end
     end
-    it "updates report periods from summary report periods" do
-      @report.should_receive(:dates=).with({
-        :start_year => 2010,
-        :start_month => 5,
-        :end_year => 2010,
-        :end_month => 5
-      })
-      get :show, :id => 1, :summary_report_id => 1
+    context "summary report is found" do
+      before(:each) do
+        Report.should_receive(:find).once.and_return(@report)
+        SummaryReport.should_receive(:find).once.and_return(@summary_report)
+      end
+      it "loads a summary report from params[:summary_report_id]" do
+        get :show, :id => 1, :summary_report_id => 1
+        assigns[:summary_report].should eql @summary_report
+      end
+      it "updates report periods from summary report periods" do
+        @report.should_receive(:dates=).with({
+          :start_year => 2010,
+          :start_month => 5,
+          :end_year => 2010,
+          :end_month => 5
+        })
+        get :show, :id => 1, :summary_report_id => 1
+      end
+      it "loads all IntensityLevels" do
+        intensity_level = mock_model(IntensityLevel)
+        IntensityLevel.should_receive(:all).and_return([intensity_level])
+        get :show, :id => 1, :summary_report_id => 1
+        assigns[:intensity_levels].should eql [intensity_level]
+      end
+      it "loads all ActivityTypes" do
+        activity_type = mock_model(ActivityType)
+        ActivityType.should_receive(:all).and_return([activity_type])
+        get :show, :id => 1, :summary_report_id => 1
+        assigns[:activity_types].should eql [activity_type]
+      end
     end
-    it "loads all IntensityLevels" do
-      intensity_level = mock_model(IntensityLevel)
-      IntensityLevel.should_receive(:all).and_return([intensity_level])
-      get :show, :id => 1, :summary_report_id => 1
-      assigns[:intensity_levels].should eql [intensity_level]
-    end
-    it "loads all ActivityTypes" do
-      activity_type = mock_model(ActivityType)
-      ActivityType.should_receive(:all).and_return([activity_type])
-      get :show, :id => 1, :summary_report_id => 1
-      assigns[:activity_types].should eql [activity_type]
-    end
-    it "renders the show template" do
-      get :show, :id => 1
-      response.should render_template("reports/show.html.erb")
+    context "summary report is not found or is not requested" do
+      before(:each) do
+        Report.should_receive(:find).once.and_return(@report)
+        SummaryReport.should_receive(:find).once.and_raise(ActiveRecord::RecordNotFound)
+        stub_flash_sweeper
+      end
+      it "is not found so sets flash.now[:notice]" do
+        get :show, :id => 0, :summary_report_id => 0
+        flash[:notice].should_not be_nil
+      end
+      it "is not requested so sets a flash.now[:notice]" do
+        get :show, :id => 0
+        flash[:notice].should_not be_nil
+      end
     end
   end
   

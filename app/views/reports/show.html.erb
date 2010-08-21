@@ -1,10 +1,12 @@
 <h1>Previewing <%=h @report.name %></h1>
 <div style="float: right;">
   <span class="fake_button">
-    <%= link_to "Download CSV", download_report_path(@report, @download_params.merge({:format => :csv})) %>
+    <%= link_to_if @summary_report, "Download CSV", download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :csv}) %>
+    <%= link_to_unless @summary_report, "Download CSV", download_report_path(@report, :format => :csv) %>
   </span>
   <span class="fake_button">
-    <%= link_to "Download PDF", download_report_path(@report, @download_params.merge({:format => :pdf})) %>
+    <%= link_to_if @summary_report, "Download PDF", download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :pdf}) %>
+    <%= link_to_unless @summary_report, "Download PDF", download_report_path(@report, :format => :pdf) %>
   </span>
 </div>
 <% if @summary_report %>

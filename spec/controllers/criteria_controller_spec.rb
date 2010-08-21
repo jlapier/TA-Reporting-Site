@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe CriteriaController do
-
+  def mock_criterium(stubs={})
+    @mock_criterium ||= mock_model(Criterium, stubs)
+  end
   before(:each) do
     controller.stub(:require_user).and_return(true)
     @post_params = {
@@ -11,117 +13,129 @@ describe CriteriaController do
       :description => "develop practical, efficient, cost-effective, and sustainable strategies for collecting and using data to improve secondary transition and post-secondary outcomes."
     }
   end
-
-  def mock_criterium(stubs={})
-    @mock_criterium ||= mock_model(Criterium, stubs)
-  end
-
-  describe "GET index" do
+  describe ":index" do
     it "assigns all criteria as @criteria" do
       Criterium.stub(:find).with(:all, :order => 'number').and_return([mock_criterium])
       get :index
       assigns[:criteria].should == [mock_criterium]
     end
   end
-
-  describe "GET show" do
+  describe ":show, :id => integer" do
     it "assigns the requested criterium as @criterium" do
       Criterium.stub(:find).with("37").and_return(mock_criterium)
       get :show, :id => "37"
       assigns[:criterium].should equal(mock_criterium)
     end
   end
-
-  describe "GET new" do
+  describe ":new" do
     it "assigns a new criterium as @criterium" do
-      Criterium.stub(:new).and_return(mock_criterium)
+      Criterium.should_receive(:new).and_return(mock_criterium)
       get :new
       assigns[:criterium].should equal(mock_criterium)
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested criterium as @criterium" do
-      Criterium.stub(:find).with("37").and_return(mock_criterium)
-      get :edit, :id => "37"
-      assigns[:criterium].should equal(mock_criterium)
+  describe ":edit, :id => integer" do
+    before(:each) do
+      @criterium = mock_model(Criterium)
+      Criterium.stub(:find).and_return(@criterium)
+    end
+    it "loads a criterium as @criterium" do
+      get :edit, :id => 1
+      assigns[:criterium].should eql @criterium
+    end
+    it "renders the edit template" do
+      get :edit, :id => 1
+      response.should render_template("criteria/edit")
     end
   end
-
-  describe "POST create" do
-
-    describe "with valid params" do
-      it "assigns a newly created criterium as @criterium" do
-        Criterium.stub(:new).with({'these' => 'params'}).and_return(mock_criterium(:save => true))
-        post :create, :criterium => {:these => 'params'}
-        assigns[:criterium].should equal(mock_criterium)
+  %w( ActivityType IntensityLevel Objective TaCategory ).each do |klass|
+    describe ":create, #{klass.underscore.to_sym} => {}" do
+      
+      it "re-assigns params[#{klass.underscore.to_sym}] to params[:criterium]" do
+        Criterium.stub(:new).and_return(mock_criterium({:save => nil}))
+        post :create, "#{klass.underscore.to_sym}" => {:these => 'params'}
+        params[:criterium].should eql({"these" => "params"})
       end
 
-      it "redirects to the criterium list" do
-        Criterium.stub(:new).and_return(mock_criterium(:save => true))
-        post :create, :criterium => {}
-        response.should redirect_to(criteria_url)
+      describe "with valid params" do
+        it "assigns a newly created criterium as @criterium" do
+          Criterium.stub(:new).with({'these' => 'params'}).and_return(mock_criterium(:save => true))
+          post :create, "#{klass.underscore.to_sym}" => {:these => 'params'}
+          assigns[:criterium].should equal(mock_criterium)
+        end
+
+        it "redirects to the criterium list" do
+          Criterium.stub(:new).and_return(mock_criterium(:save => true))
+          post :create, "#{klass.underscore.to_sym}" => {}
+          response.should redirect_to(criteria_url)
+        end
       end
+
+      describe "with invalid params" do
+        it "assigns a newly created but unsaved criterium as @criterium" do
+          Criterium.stub(:new).with({'these' => 'params'}).and_return(mock_criterium(:save => false))
+          post :create, "#{klass.underscore.to_sym}" => {:these => 'params'}
+          assigns[:criterium].should equal(mock_criterium)
+        end
+
+        it "re-renders the 'new' template" do
+          Criterium.stub(:new).and_return(mock_criterium(:save => false))
+          post :create, "#{klass.underscore.to_sym}" => {}
+          response.should render_template('new')
+        end
+      end
+
     end
+    
+    describe ":update, :id => integer, #{klass.underscore.to_sym} => {}" do
+      it "re-assigns params[#{klass.underscore.to_sym}] to params[:criterium]" do
+        Criterium.stub(:find).and_return(mock_criterium({:update_attributes => nil}))
+        put :update, :id => 1, "#{klass.underscore.to_sym}" => {:these => 'params'}
+        params[:criterium].should eql({"these" => "params"})
+      end
+      describe "with valid params" do
+        it "updates the requested criterium" do
+          Criterium.should_receive(:find).with("37").and_return(mock_criterium)
+          mock_criterium.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, :id => "37", :criterium => {:these => 'params'}
+        end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved criterium as @criterium" do
-        Criterium.stub(:new).with({'these' => 'params'}).and_return(mock_criterium(:save => false))
-        post :create, :criterium => {:these => 'params'}
-        assigns[:criterium].should equal(mock_criterium)
+        it "assigns the requested criterium as @criterium" do
+          Criterium.stub(:find).and_return(mock_criterium(:update_attributes => true))
+          put :update, :id => "1"
+          assigns[:criterium].should equal(mock_criterium)
+        end
+
+        it "redirects to the criterium list" do
+          Criterium.stub(:find).and_return(mock_criterium(:update_attributes => true))
+          put :update, :id => "1"
+          response.should redirect_to(criteria_url)
+        end
       end
 
-      it "re-renders the 'new' template" do
-        Criterium.stub(:new).and_return(mock_criterium(:save => false))
-        post :create, :criterium => {}
-        response.should render_template('new')
+      describe "with invalid params" do
+        it "updates the requested criterium" do
+          Criterium.should_receive(:find).with("37").and_return(mock_criterium)
+          mock_criterium.should_receive(:update_attributes).with({'these' => 'params'})
+          put :update, :id => "37", :criterium => {:these => 'params'}
+        end
+
+        it "assigns the criterium as @criterium" do
+          Criterium.stub(:find).and_return(mock_criterium(:update_attributes => false))
+          put :update, :id => "1"
+          assigns[:criterium].should equal(mock_criterium)
+        end
+
+        it "re-renders the 'edit' template" do
+          Criterium.stub(:find).and_return(mock_criterium(:update_attributes => false))
+          put :update, :id => "1"
+          response.should render_template('edit')
+        end
       end
+
     end
-
-  end
-
-  describe "PUT update" do
-
-    describe "with valid params" do
-      it "updates the requested criterium" do
-        Criterium.should_receive(:find).with("37").and_return(mock_criterium)
-        mock_criterium.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => "37", :criterium => {:these => 'params'}
-      end
-
-      it "assigns the requested criterium as @criterium" do
-        Criterium.stub(:find).and_return(mock_criterium(:update_attributes => true))
-        put :update, :id => "1"
-        assigns[:criterium].should equal(mock_criterium)
-      end
-
-      it "redirects to the criterium list" do
-        Criterium.stub(:find).and_return(mock_criterium(:update_attributes => true))
-        put :update, :id => "1"
-        response.should redirect_to(criteria_url)
-      end
-    end
-
-    describe "with invalid params" do
-      it "updates the requested criterium" do
-        Criterium.should_receive(:find).with("37").and_return(mock_criterium)
-        mock_criterium.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => "37", :criterium => {:these => 'params'}
-      end
-
-      it "assigns the criterium as @criterium" do
-        Criterium.stub(:find).and_return(mock_criterium(:update_attributes => false))
-        put :update, :id => "1"
-        assigns[:criterium].should equal(mock_criterium)
-      end
-
-      it "re-renders the 'edit' template" do
-        Criterium.stub(:find).and_return(mock_criterium(:update_attributes => false))
-        put :update, :id => "1"
-        response.should render_template('edit')
-      end
-    end
-
+    
   end
 
   describe "DELETE destroy" do
