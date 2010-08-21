@@ -269,4 +269,22 @@ describe ActivitiesController do
     end
   end
   
+  describe ":destroy, :id => integer" do
+    before(:each) do
+      Activity.stub(:destroy)
+    end
+    it "destroys the activity of params[:id]" do
+      Activity.should_receive(:destroy)
+      delete :destroy, :id => 1
+    end
+    it "sets a flash[:notice]" do
+      delete :destroy, :id => 1
+      flash[:notice].should_not be_nil
+    end
+    it "redirects to the activities page" do
+      delete :destroy, :id => 1
+      response.should redirect_to activities_path
+    end
+  end
+  
 end

@@ -8,6 +8,7 @@
     <th>Type</th>
     <th>Intensity</th>
     <th>Description</th>
+    <th>&nbsp;</th>
 <!--  </thead> -->
 
 <!--  <tbody> -->
@@ -30,6 +31,9 @@
       <td>
         <%= link_to truncate(activity.description, :length => 75), 
               edit_activity_path(activity) %>
+      </td>
+      <td>
+        <%= link_to "Delete", activity_path(activity), :method => :delete, :confirm => "Permanently delete selected activity?" %>
       </td>
     </tr>
   <% end %>

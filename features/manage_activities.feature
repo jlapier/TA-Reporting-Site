@@ -1,4 +1,3 @@
-@javascript
 Feature: Manage activities
   In order to report on grant-related activities
   I want to record and update activity info
@@ -19,7 +18,13 @@ Feature: Manage activities
     And I press "Save"
     Then I should see "New Activity successfully saved."
     And I should be on the activities page
- 
+    
+  Scenario: delete an activity
+    Given I am on the activities page
+    When I follow "Delete" within "table#activities_table>tr.row_light"
+    Then I should see "Activity deleted."
+  
+  @javascript 
   Scenario: record a new activity with an as yet unrecorded TA Category
     Given I am on the new activity page
     When I fill in "Date of activity" with "July 23, 2010"

@@ -4,6 +4,6 @@ Then /the "(.*)" with a "(.*)" of "(.*)" should have a "(.*)" of "(.*)"/ do |obj
   obj.send(obj_compare_attr.underscore.to_sym).should == attr_compare_val
 end
 
-Then /the image map cache should be cleared/ do
+Then /the summary map cache should be cleared/ do
   Dir.entries(File.join(Rails.root, "public")).should_not include("summary_reports")
 end
