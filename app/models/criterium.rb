@@ -23,6 +23,17 @@ class Criterium < ActiveRecord::Base
   
   validates_presence_of :name
   
+  class << self
+    def get(criterium_id)
+      criteria = Rails.cache.read("all_criteria")
+      unless criteria
+        criteria = Criterium.find :all
+        Rails.cache.write("all_criteria", criteria)
+      end
+      criteria.detect { |crit| crit.id == criterium_id }
+    end
+  end
+
   def self.type_options
     TYPE_OPTIONS
   end
@@ -31,7 +42,10 @@ class Criterium < ActiveRecord::Base
     @kind = val
     self.type = val
   end
+
   def kind
     self.type
   end
+
+
 end
