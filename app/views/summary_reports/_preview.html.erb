@@ -81,6 +81,21 @@
           <p style="font-weight: bold; text-align: center;">YTD: <%= @summary_report.start_ytd.strftime("%b %Y") %></p>
           <img class="map_image" src="<%= @ytd_summary_map_path %>" alt="ytd_map" />
         </div>
+        <div style="clear:both; text-align:center;">
+          <table cellspacing="5px" style="width: 80%; margin-left: auto; margin-right: auto; border: none; font-size: 85%" width="80%" border="0">
+            <tr>
+              <td><em>Map Legend:</em></td>
+              <% SummaryReport::LEVEL_COLORS.each do |num, color| %>
+                <% il = IntensityLevel.find_by_number(num) %>
+                <% if il %>
+                  <td style="background: <%= color %>; text-align:center;">
+                    <%= il.name %>
+                  </td>
+                <% end %>
+              <% end %>
+            </tr>
+          </table>
+        </div>
       </td>
     </tr>
   </tbody>

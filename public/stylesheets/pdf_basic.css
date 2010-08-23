@@ -99,6 +99,9 @@ div.report p.note {
 span.note {
   font-style: italic;
 }
+table { 
+  border: none; 
+}
 table.no_break {
   page-break-inside: avoid;
 }

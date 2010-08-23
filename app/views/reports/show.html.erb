@@ -1,12 +1,18 @@
 <h1>Previewing <%=h @report.name %></h1>
 <div style="float: right;">
   <span class="fake_button">
-    <%= link_to_if @summary_report, "Download CSV", download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :csv}) %>
-    <%= link_to_unless @summary_report, "Download CSV", download_report_path(@report, :format => :csv) %>
+    <%= 
+      link_to_unless(@summary_report, "Download CSV", download_report_path(@report, :format => :csv)) do |name| 
+        link_to name, download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :csv}) 
+      end 
+    %>
   </span>
   <span class="fake_button">
-    <%= link_to_if @summary_report, "Download PDF", download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :pdf}) %>
-    <%= link_to_unless @summary_report, "Download PDF", download_report_path(@report, :format => :pdf) %>
+    <%= 
+      link_to_unless @summary_report, "Download PDF", download_report_path(@report, :format => :pdf) do |name|
+        link_to name, download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :pdf})
+      end
+    %>
   </span>
 </div>
 <% if @summary_report %>

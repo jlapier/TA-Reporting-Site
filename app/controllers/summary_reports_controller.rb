@@ -8,6 +8,8 @@ class SummaryReportsController < ApplicationController
   private
     def get_summary_report
       @summary_report = SummaryReport.find(params[:id])
+      @summary_map_path = summary_map_summary_report_path(@summary_report, :format => :png)
+      @ytd_summary_map_path = ytd_map_summary_report_path(@summary_report, :format => :png)
     end
     def cache_map(svgxml, path)
       full_path = File.join(Rails.root, "public", path)
