@@ -1,19 +1,24 @@
 class StatesController < ApplicationController
 
   before_filter :require_user
-  
+  before_filter :get_regions
+
+  private
+    def get_regions
+      @regions = State.regions
+    end
+  protected
+  public
   def index
     @states = State.regions
   end
   
   def new
     @state = State.new
-    @regions = State.regions
   end
   
   def edit
     @state = State.find(params[:id])
-    @regions = State.regions
   end
   
   def update
@@ -22,7 +27,6 @@ class StatesController < ApplicationController
       flash[:notice] = "State successfully updated."
       redirect_to states_path
     else
-      flash[:warning] = "Please correct any errors and try again."
       render :edit
     end
   end
@@ -33,7 +37,6 @@ class StatesController < ApplicationController
       flash[:notice] = "State created successfully."
       redirect_to states_path
     else
-      flash[:warning] = "PLease correct any errors and try again."
       render :new
     end
   end

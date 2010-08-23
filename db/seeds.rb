@@ -66,7 +66,8 @@ end
     {:name => 'Mississippi', :abbreviation => 'MS'},
     {:name => 'Oklahoma', :abbreviation => 'OK'},
     {:name => 'Texas', :abbreviation => 'TX'},
-    {:name => 'Puerto Rico', :abbreviation => 'PR'}
+    {:name => 'Puerto Rico', :abbreviation => 'PR'},
+    {:name => 'Virgin Islands', :abbreviation => "VI"}
   ],
   'Mid-South' => [
     {:name => 'Kentucky', :abbreviation => 'KY'},
@@ -124,11 +125,10 @@ end
     {:name => 'Guam', :abbreviation => 'GU'},
     {:name => 'Commonwealth of the Northern Marianna Islands', :abbreviation => 'CNMI'},
     {:name => 'Republic of Palau', :abbreviation => 'RP'},
-    {:name => 'Republic of the Marshall Islands', :abbreviation => 'RMI'},
-    {:name => 'Virgin Islands', :abbreviation => "VI"}
+    {:name => 'Republic of the Marshall Islands', :abbreviation => 'RMI'}
   ],
-  'Foreign' => [
-    {:name => "Burundi", :abbreviation => 'BI'}
+  'No Region' => [
+    {:name => "Bureau of Indian Education", :abbreviation => 'BIE'}
   ]
 }.each do |region_name, state_attributes|
   region = State.find_or_create_by_name(region_name)
