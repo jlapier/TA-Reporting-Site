@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.root :controller => 'activities', :action => 'new'
+  map.root :controller => 'activities', :action => 'index'
   map.resources :activities, :collection => {:edit_all => :get}
   map.resources :criteria
   map.resources :activity_types, :controller => 'criteria'

@@ -16,8 +16,16 @@ class ActivitiesController < ApplicationController
   protected
   public
     def index
-      # TODO: check for search or filter
-      @activities = Activity.all
+      load_criteria
+      @search = ActivitySearch.new(params[:activity_search] || {})
+      if params[:activity_search]
+        @activities = @search.activities
+        if @activities.empty?
+          flash.now[:notice] = "No activities found."
+        end
+      else
+        @activities = Activity.options(:order => "date_of_activity DESC")
+      end
     end
   
     def new

@@ -13,6 +13,8 @@
 # End Schema
 
 class Activity < ActiveRecord::Base
+
+  include GeneralScopes
   
   DEFAULT_IMPORT_INTENSITY = 'Unknown'
   DEFAULT_IMPORT_TYPE = 'Information Request'
