@@ -23,7 +23,7 @@ CalendarDateSelect.format = :natural
       <% end %>
     </li>
     <%= form.input :collaborating_agencies, :as => :check_boxes %>
-    <%= form.input :description %>
+    <%= form.input :description, :hint => "Be sure to start the description with a verb." %>
   <% end %>
   <% form.inputs do %>
     <div>
