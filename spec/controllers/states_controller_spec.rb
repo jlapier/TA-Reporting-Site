@@ -13,8 +13,6 @@ describe StatesController do
       State.stub(:regions).and_return(@states)
     end
     it "loads all regions as @states" do
-      state = mock_model(State)
-      @states = [state]
       State.should_receive(:regions).and_return(@states)
       get :index
       assigns[:states].should == @states
@@ -94,10 +92,6 @@ describe StatesController do
       before(:each) do
         @state.stub(:update_attributes).and_return(false)
       end
-      it "sets a flash[:warning]" do
-        put :update, :id => 1
-        flash[:warning].should_not be_nil
-      end
       it "renderes the edit template" do
         put :update, :id => 1
         response.should render_template('states/edit')
@@ -137,10 +131,6 @@ describe StatesController do
     context "save fails :(" do
       before(:each) do
         @state.stub(:save).and_return(false)
-      end
-      it "sets a flash[:warning]" do
-        post :create
-        flash[:warning].should_not be_nil
       end
       it "renders the new template" do
         post :create
