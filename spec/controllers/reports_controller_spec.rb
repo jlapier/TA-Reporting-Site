@@ -313,6 +313,12 @@ describe ReportsController do
         before(:each) do
           @report.stub(:activities).and_return([@act1])
         end
+        it "updates image paths to full paths" do
+          get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => "6", :end_year => "2010", :format => :pdf
+          assigns[:ytd_summary_map_path].should =~ /^#{Rails.root}/
+          assigns[:summary_map_path].should =~ /^#{Rails.root}/
+          assigns[:logo_path].should =~ /^#{Rails.root}/
+        end
         it "sends the reports as pdf" do
           @converter.should_receive(:html_to_pdf).and_return("pdf")
           controller.should_receive(:send_data).with("pdf", {

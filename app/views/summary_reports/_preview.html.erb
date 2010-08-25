@@ -1,3 +1,11 @@
+<div style="padding-bottom: 15px;text-align:center;">
+  <div style="text-align: left; width: 49%; display: inline-block;">
+    <%= image_tag "#{@logo_path || 'logo.jpg'}", :width => '200px;' %>
+  </div>
+  <div style="text-align: right; width: 49%; display: inline-block; vertical-align: top;">
+    <h1><%= @summary_report.report_title %></h1>
+  </div>
+</div>
 <table class="always_break">
   <thead>
     <tr>

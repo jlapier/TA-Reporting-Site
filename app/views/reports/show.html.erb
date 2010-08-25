@@ -1,5 +1,5 @@
 <h1>Previewing <%=h @report.name %></h1>
-<div style="float: right;">
+<div style="float: right; padding-bottom: 15px;">
   <span class="fake_button">
     <%= 
       link_to_unless(@summary_report, "Download CSV", download_report_path(@report, :format => :csv)) do |name| 
@@ -15,6 +15,7 @@
     %>
   </span>
 </div>
+<div style="clear: both;"></div>
 <% if @summary_report %>
 <%= render :partial => 'summary_reports/preview' %>
 <% end %>
