@@ -16,7 +16,7 @@ class Criterium < ActiveRecord::Base
     ['Activity Type','ActivityType'],
     ['Level of Intensity', 'IntensityLevel'],
     ['Objective', 'Objective'],
-    ['TA Category', 'TACategory']
+    ['TA Category', 'TaCategory']
   ]
   
   has_many :activities
