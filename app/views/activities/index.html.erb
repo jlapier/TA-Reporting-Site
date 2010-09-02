@@ -11,19 +11,17 @@
         <tr>
           <td><%= form.calendar_date_select :start_date, :size => 20, :buttons => false %></td>
           <td><%= form.calendar_date_select :end_date, :size => 20, :buttons => false %></td>
-          <td><%= form.select :objective_id, @objectives.map{|o| [o.display_name,o.id.to_s]}, :include_blank => true %></td>
+          <td><%= form.select :objective_id, @objectives.map{|o| [truncate(o.display_name, :length => 30),o.id.to_s]}, :include_blank => true %></td>
         </tr>
         <tr>
           <th><%= form.label :activity_type_id %></th>
           <th><%= form.label :intensity_level_id %></th>
           <th><%= form.label :keywords %></th>
-          <th>&nbsp;</th>
         </tr>
         <tr>
-          <td><%= form.select :activity_type_id, @activity_types.map{|a| [a.name, a.id.to_s]}, :include_blank => true %></td>
+          <td><%= form.select :activity_type_id, @activity_types.map{|a| [truncate(a.name, :length => 30), a.id.to_s]}, :include_blank => true %></td>
           <td><%= form.select :intensity_level_id, @intensity_levels.map{|i| [i.name, i.id.to_s]}, :include_blank => true %></td>
-          <td><%= form.text_field :keywords %></td>
-          <td><%= form.submit "search" %></td>
+          <td><%= form.text_field :keywords, :style => "width: 150px" %> <%= form.submit "search" %></td>
         </tr>
     </table>
   <% end %>

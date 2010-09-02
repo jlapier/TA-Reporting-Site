@@ -17,8 +17,13 @@ line-height: 1.5;
 font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 color: #000;
 background: none;
-font-size: 11px;
+font-size: 9px;
 }
+
+td { font-size: 9px; padding: 0 }
+
+th { font-size: 9px; padding: 1px; }
+
 table {
   border: 1px solid gray;
 }
@@ -42,6 +47,8 @@ visibility: hidden;
 h1, h2, h3, h4, h5, h6 {
 font-family: "Helvetica Neue", Arial, "Lucida Grande", sans-serif;
 }
+
+h1 { font-size: 14px; }
 
 code {
 font: .9em "Courier New", Monaco, Courier, monospace;
@@ -82,15 +89,15 @@ font-size: 90%;
 
 /* report styles */
 div.report {
-  margin: 15px 5px;
-  padding: 10px;
+  margin: 10px 2px;
+  padding: 5px;
 }
 div.report h1 {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
 }
 div.report h2 {
-  font-size: 12px;
+  font-size: 11px;
   border-bottom: 1px solid #666;
 }
 div.report p.note {
@@ -110,7 +117,7 @@ table.no_break {
 }
 table th.count, table td.count {
   text-align:center;
-  font-size: 10px;
+  font-size: 8px;
 }
 td.states {
   padding-left: 0;
@@ -126,5 +133,7 @@ img.map_image {
   width: 200px;
 }
 .small_title {
-  font-size: 10px;
+  font-size: 8px;
 }
+
+.map_legend td { font-size: 7px; }

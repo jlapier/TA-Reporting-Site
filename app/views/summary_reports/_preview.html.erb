@@ -1,6 +1,6 @@
 <div style="padding-bottom: 15px;text-align:center;">
   <div style="text-align: left; width: 49%; display: inline-block;">
-    <img alt="logo" src="<%= @logo_path || image_path('logo.jpg') %>" width="200px" />
+    <img alt="logo" src="<%= @logo_path || image_path('logo.jpg') %>" width="175px" />
   </div>
   <div style="text-align: right; width: 49%; display: inline-block; vertical-align: top;">
     <h1><%= @summary_report.report_title %></h1>
@@ -10,7 +10,7 @@
   <thead>
     <tr>
       <th rowspan="2">Technical Assistance Summary</th>
-      <th colspan="2" class="count">Number of States Participating in Activities</th>
+      <th colspan="2" class="count" style="width:500px;">Number of States Participating in Activities</th>
     </tr>
     <tr>
       <th class="count"><%= @summary_report.summary_date_to_s %></th>
@@ -90,7 +90,7 @@
           <img class="map_image" src="<%= @ytd_summary_map_path %>" alt="ytd_map" />
         </div>
         <div style="clear:both; text-align:center;">
-          <table cellspacing="5px" style="width: 80%; margin-left: auto; margin-right: auto; border: none; font-size: 85%" width="80%" border="0">
+          <table cellspacing="5px" class="map_legend" style="width: 80%; margin-left: auto; margin-right: auto; border: none; font-size: 85%" width="80%" border="0">
             <tr>
               <td><em>Map Legend:</em></td>
               <% SummaryReport::LEVEL_COLORS.each do |num, color| %>

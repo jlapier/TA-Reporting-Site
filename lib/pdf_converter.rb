@@ -24,8 +24,10 @@ class PDFConverter
   def html_to_pdf(html="")
     @pdfkit = PDFKit.new(html, {
       :footer_center => "[page] / [topage]",
-      :header_spacing => "5",
-      :footer_spacing => "5"
+      :margin_bottom => "8mm",
+      :margin_top => "8mm",
+      :margin_left => "9mm",
+      :margin_right => "9mm"
     })
     PDFConverter.stylesheets.each do |stylesheet|
       @pdfkit.stylesheets << stylesheet
