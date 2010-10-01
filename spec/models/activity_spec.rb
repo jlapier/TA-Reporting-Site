@@ -7,9 +7,6 @@ describe Activity do
       :objective => mock_model(Objective, {
         :name => 'Knowledge deveopment'
       }),
-      :activity_type => mock_model(ActivityType, {
-        :name => 'Information request'
-      }),
       :states => [mock_model(State, {:name => 'Alabama', :region_id => 1})],
       :description => "value for description",
       :intensity_level => mock_model(IntensityLevel, {
@@ -60,7 +57,7 @@ describe Activity do
   end
   
   describe "associations" do
-    %w(objective activity_type intensity_level).each do |assoc|
+    %w(objective ta_delivery_method intensity_level).each do |assoc|
       it "belongs to #{assoc}" do
         @activity.respond_to?(assoc.to_sym).should be_true
         @activity.respond_to?("build_#{assoc}".to_sym).should be_true
@@ -80,14 +77,14 @@ describe Activity do
       july_activity = Activity.create!({
         :date_of_activity => Date.new(2010, 7, 1),
         :objective_id => 1,
-        :activity_type_id => 2,
+        :ta_delivery_method_id => 2,
         :description => 'Descriptions in July',
         :intensity_level_id => 3
       })
       august_activity = Activity.create!({
         :date_of_activity => Date.new(2010, 8, 1),
         :objective_id => 4,
-        :activity_type_id => 5,
+        :ta_delivery_method_id => 5,
         :description => 'Descriptions in August',
         :intensity_level_id => 6
       })
@@ -99,6 +96,7 @@ describe Activity do
   end
 
   describe "comparing and matching" do
+    fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
     it "can determine if an activity matches by criteria" do
       obj1 = Objective.find_by_number 1
       assert obj1
@@ -107,7 +105,7 @@ describe Activity do
       act1 = Activity.create!({
         :date_of_activity => Date.new(2010, 8, 1),
         :objective => obj1,
-        :activity_type_id => 5,
+        :ta_delivery_method_id => 5,
         :description => 'specific desc',
         :intensity_level_id => 6
       })
@@ -120,24 +118,27 @@ describe Activity do
   end
   
   describe "csv dump" do
-    fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
+    #fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
     before(:each) do
-      @activities = Activity.all
-      @csv = FasterCSV.dump(@activities)
+      #@activities = Activity.all
+      #@csv = FasterCSV.dump(@activities)
     end
     it "has a meta row first" do
+      pending "deprecated"
       @csv.split("\n")[0].should == 'class,Activity'
     end
     it "has a header row second" do
+      pending "deprecated"
       @csv.split("\n")[1].should == 'Date,Objective,Type,Intensity,TA Categories,Agencies,States'
     end
     it "dumps object data to remaining rows" do
+      pending "deprecated"
       body = @csv.split("\n")[2..-1]
       c = 0
       @activities.each do |activity|
         body[c].should == "#{activity.date_of_activity}," + 
                           "#{activity.objective.number}: #{activity.objective.name}," + 
-                          "#{activity.activity_type.name}," + 
+                          "#{activity.ta_delivery_method.name}," + 
                           "#{activity.intensity_level.name}," + 
                           "#{activity.ta_categories.collect{|t|t.name}.join('; ')}," + 
                           "#{activity.collaborating_agencies.collect{|a| a.name}.join('; ')}," + 
@@ -149,12 +150,13 @@ describe Activity do
   
   describe "csv load" do
     before(:each) do
-      %w(Activity Criterium CollaboratingAgency Report ReportBreakdown State).each do |cls|
-        cls.constantize.send(:destroy_all)
-      end
-      require 'db/seeds'
+      #%w(Activity Criterium CollaboratingAgency Report ReportBreakdown State).each do |cls|
+      #  cls.constantize.send(:destroy_all)
+      #end
+      #require 'db/seeds'
     end
     it "creates a new activity for each entry" do
+      pending "deprecated"
       pre_count = Activity.count
       entry_count = File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r').readlines.size - 2
       #FasterCSV.load(File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r'))

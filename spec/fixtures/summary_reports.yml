@@ -16,12 +16,12 @@ one:
   name: Summary Report
   start_ytd: 2010-01-01
   start_period: 2010-05-01
-  end_period: 2010-08-31
+  end_period: <%= Date.current %>
   report_title_format: title_format
 
 two:
   name: MyString
   start_ytd: 2010-08-05
   start_period: 2010-08-05
-  end_period: 2010-08-05
+  end_period: <%= Date.current %>
   report_title_format: MyString

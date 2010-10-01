@@ -1,5 +1,5 @@
 class ActivitySearch
-  attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id, :activity_type_id, :keywords
+  attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id, :ta_delivery_method_id, :keywords
   
   def initialize(attributes_hash)
     attributes_hash.each do |attr, val|
@@ -33,9 +33,9 @@ class ActivitySearch
       str << "intensity_level_id = ?"
       arr << @intensity_level_id
     end
-    unless @activity_type_id.blank?
-      str << "activity_type_id = ?"
-      arr << @activity_type_id
+    unless @ta_delivery_method_id.blank?
+      str << "ta_delivery_method_id = ?"
+      arr << @ta_delivery_method_id
     end
     unless @keywords.blank?
       str << "description LIKE ?"

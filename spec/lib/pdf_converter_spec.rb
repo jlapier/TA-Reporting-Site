@@ -39,8 +39,10 @@ describe PDFConverter do
       @pdfkit.should_receive(:to_pdf)
       PDFKit.should_receive(:new).with(@html, {
         :footer_center => "[page] / [topage]",
-        :header_spacing => "5",
-        :footer_spacing => "5"
+        :margin_top=>"8mm",
+        :margin_right=>"9mm",
+        :margin_bottom=>"8mm",
+        :margin_left=>"9mm"
       }).and_return(@pdfkit)
       converter = PDFConverter.new
       converter.html_to_pdf(@html)

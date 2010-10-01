@@ -49,7 +49,7 @@ describe CriteriaController do
       response.should render_template("criteria/edit")
     end
   end
-  %w( ActivityType IntensityLevel Objective TaCategory ).each do |klass|
+  %w( TaDeliveryMethod IntensityLevel Objective TaCategory ).each do |klass|
     describe ":create, #{klass.underscore.to_sym} => {}" do
       
       it "re-assigns params[#{klass.underscore.to_sym}] to params[:criterium]" do

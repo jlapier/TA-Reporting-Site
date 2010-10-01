@@ -7,42 +7,42 @@ describe ActivitySearch do
       :date_of_activity => Date.new(2010, 1, 1),
       :objective_id => 1,
       :intensity_level_id => 2,
-      :activity_type_id => 3,
+      :ta_delivery_method_id => 3,
       :description => "January activity (w/ shared criteria)"
     })
     @jan = Activity.create!({
       :date_of_activity => Date.new(2010, 1, 2),
       :objective_id => 10,
       :intensity_level_id => 11,
-      :activity_type_id => 12,
+      :ta_delivery_method_id => 12,
       :description => "January activity"
     })
     @feb_one = Activity.create!({
       :date_of_activity => Date.new(2010, 2, 1),
       :objective_id => 4,
       :intensity_level_id => 5,
-      :activity_type_id => 6,
+      :ta_delivery_method_id => 6,
       :description => "February activity one"
     })
     @mar = Activity.create!({
       :date_of_activity => Date.new(2010, 3, 1),
       :objective_id => 7,
       :intensity_level_id => 8,
-      :activity_type_id => 9,
+      :ta_delivery_method_id => 9,
       :description => "March activity"
     })
     @apr_shared = Activity.create!({
       :date_of_activity => Date.new(2010, 4, 1),
       :objective_id => 1,
       :intensity_level_id => 2,
-      :activity_type_id => 3,
+      :ta_delivery_method_id => 3,
       :description => "April activity (w/ shared criteria)"
     })
     @feb_two = Activity.create!({
       :date_of_activity => Date.new(2010, 2, 2),
       :objective_id => 7,
       :intensity_level_id => 8,
-      :activity_type_id => 9,
+      :ta_delivery_method_id => 9,
       :description => "February activity two"
     })
     # @jan_shared
@@ -51,7 +51,7 @@ describe ActivitySearch do
       :end_date => Date.new(2010, 1, 31),
       :objective_id => 1,
       :intensity_level_id => 2,
-      :activity_type_id => 3,
+      :ta_delivery_method_id => 3,
       :keywords => "January activity (w/ shared criteria)"
     })
     @jan_search_two = ActivitySearch.new({
@@ -61,7 +61,7 @@ describe ActivitySearch do
     @shared_search = ActivitySearch.new({
       :objective_id => 1,
       :intensity_level_id => 2,
-      :activity_type_id => 3
+      :ta_delivery_method_id => 3
     })
     @jan_mar_search = ActivitySearch.new({
       :start_date => Date.new(2010, 1, 1),

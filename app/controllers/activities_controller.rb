@@ -10,7 +10,7 @@ class ActivitiesController < ApplicationController
     end
     def load_criteria
       @objectives = Objective.all
-      @activity_types = ActivityType.all
+      @ta_delivery_methods = TaDeliveryMethod.all
       @intensity_levels = IntensityLevel.all
     end
   protected

@@ -56,7 +56,7 @@ describe ActivitiesController do
       @stringy_params = {
         'date_of_activity' => @date_of_activity,
         'objective_id' => 1,
-        'activity_type_id' => 2,
+        'ta_delivery_method_id' => 2,
         'intensity_level_id' => 3,
         'description' => 'activity went like this...',
         'states' => ['OR','WA','CA']
@@ -64,7 +64,7 @@ describe ActivitiesController do
       @params = {
         :date_of_activity => @date_of_activity,
         :objective_id => 1,
-        :activity_type_id => 2,
+        :ta_delivery_method_id => 2,
         :intensity_level_id => 3,
         :description => 'activity went like this...',
         :states => ['OR','WA','CA']
@@ -126,14 +126,14 @@ describe ActivitiesController do
       @activity.should_receive(:update_attributes).with({
         'date_of_activity' => Date.new(2010, 01),
         'objective_id' => 1,
-        'activity_type_id' => 2,
+        'ta_delivery_method_id' => 2,
         'intensity_level_id' => 3,
         'description' => 'of activity'
       })
       put :update, :id => 1, :activity => {
         :date_of_activity => Date.new(2010, 01),
         :objective_id => 1,
-        :activity_type_id => 2,
+        :ta_delivery_method_id => 2,
         :intensity_level_id => 3,
         :description => 'of activity'
       }
@@ -191,11 +191,11 @@ describe ActivitiesController do
           xhr :put, :update, :id => 1
           assigns[:objectives].should eql [objective]
         end
-        it "loads all activity types as @activity_types" do
-          activity_type = mock_model(ActivityType)
-          ActivityType.stub(:all).and_return([activity_type])
+        it "loads all ta delivery methods as @ta_delivery_methods" do
+          ta_delivery_method = mock_model(TaDeliveryMethod)
+          TaDeliveryMethod.stub(:all).and_return([ta_delivery_method])
           xhr :put, :update, :id => 1
-          assigns[:activity_types].should eql [activity_type]
+          assigns[:ta_delivery_methods].should eql [ta_delivery_method]
         end
         it "loads all intensity levels as @intensity_levels" do
           intensity_level = mock_model(IntensityLevel)
@@ -219,10 +219,10 @@ describe ActivitiesController do
           assigns[:objectives].should eql [objective]
         end
         it "loads all activity types as @activity_types" do
-          activity_type = mock_model(ActivityType)
-          ActivityType.stub(:all).and_return([activity_type])
+          ta_delivery_method = mock_model(TaDeliveryMethod)
+          TaDeliveryMethod.stub(:all).and_return([ta_delivery_method])
           xhr :put, :update, :id => 1
-          assigns[:activity_types].should eql [activity_type]
+          assigns[:ta_delivery_methods].should eql [ta_delivery_method]
         end
         it "loads all intensity levels as @intensity_levels" do
           intensity_level = mock_model(IntensityLevel)
@@ -252,10 +252,10 @@ describe ActivitiesController do
       assigns[:objectives].should eql [objective]
     end
     it "loads all activity types as @activity_types" do
-      activity_type = mock_model(ActivityType)
-      ActivityType.stub(:all).and_return([activity_type])
+      ta_delivery_method = mock_model(TaDeliveryMethod)
+      TaDeliveryMethod.stub(:all).and_return([ta_delivery_method])
       get :edit_all
-      assigns[:activity_types].should eql [activity_type]
+      assigns[:ta_delivery_methods].should eql [ta_delivery_method]
     end
     it "loads all intensity levels as @intensity_levels" do
       intensity_level = mock_model(IntensityLevel)

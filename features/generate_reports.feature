@@ -16,7 +16,7 @@ Feature: Generate reports
   Scenario: add report breakdowns
     Given I am on the edit report page for "Q2 - 2010"
     When I select "1: Knowledge Development" from "Objective"
-    And I select "Activity Type" from "Breakdown type"
+    And I select "TA Delivery Method" from "Breakdown type"
     And I check "Include states"
     And I press "Add"
     Then I should see "1: Knowledge Development" within "#report_breakdowns"
