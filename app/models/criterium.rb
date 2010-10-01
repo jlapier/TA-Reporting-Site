@@ -13,11 +13,12 @@
 class Criterium < ActiveRecord::Base
   
   TYPE_OPTIONS = [
-    ['Activity Type','ActivityType'],
+    ['TA Delivery Method','TaDeliveryMethod'],
     ['Level of Intensity', 'IntensityLevel'],
     ['Objective', 'Objective'],
-    ['TA Category', 'TaCategory']
-  ]
+    ['TA Category', 'TaCategory'],
+    ['Grant Activity', 'GrantActivity']
+  ].sort
   
   has_many :activities
   

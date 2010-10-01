@@ -24,7 +24,16 @@ class ReportBreakdown < ActiveRecord::Base
       report.start_period = start_period
       report.end_period = end_period
       report.grouped_activities[objective.number].each do |activity|
-        key = breakdown_type.blank? ? '' : activity.send(breakdown_type.underscore).send(:name)
+        if breakdown_type.blank? || activity.send(breakdown_type.underscore).nil?
+          key = ''
+        else
+          key = activity.send(breakdown_type.underscore).send(:name)
+        end
+        #begin
+        #  key = breakdown_type.blank? ? '' : activity.send(breakdown_type.underscore).send(:name)
+        #rescue NoMethodError => e
+        #  raise "#{breakdown_type.underscore} - #{e.message}"
+        #end
         @activities[key] ||= []
         @activities[key] << activity
       end unless report.grouped_activities[objective.number].nil?

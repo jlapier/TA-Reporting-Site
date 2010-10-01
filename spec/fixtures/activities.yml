@@ -5,7 +5,7 @@
 #  id                 :integer       not null, primary key
 #  date_of_activity   :date          
 #  objective_id       :integer       
-#  activity_type_id   :integer(255)  
+#  ta_delivery_method_id   :integer(255)  
 #  description        :text          
 #  intensity_level_id :integer(255)  
 #  created_at         :datetime      
@@ -15,14 +15,14 @@
 # Read about fixtures at http://ar.rubyonrails.org/
 one:
   date_of_activity: <%= Date.current %>
-  activity_type_id: <%= Fixtures.identify :workshop %>
+  ta_delivery_method_id: <%= Fixtures.identify :workshop %>
   description: Activity One
   intensity_level_id: <%= Fixtures.identify :intensive %>
   objective_id: <%= Fixtures.identify :provide_ta %>
 
 two:
   date_of_activity: <%= Date.current %>
-  activity_type_id: <%= Fixtures.identify :consult_onsite %>
+  ta_delivery_method_id: <%= Fixtures.identify :consult_onsite %>
   description: Activity Two
   intensity_level_id: <%= Fixtures.identify :general %>
   objective_id: <%= Fixtures.identify :leadership %>

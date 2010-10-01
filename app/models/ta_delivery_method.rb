@@ -1,0 +1,2 @@
+class TaDeliveryMethod < Criterium
+end

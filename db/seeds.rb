@@ -26,7 +26,7 @@ end
     {:number => 4, :name => 'Evaluate and Manage (includes Advisory)'}
   ],
   'ActivityType' => [
-    {:name => 'Information Request'},
+    {:name => 'Information request'},
     {:name => 'Teleconference/webinar'},
     {:name => 'Conference'},
     {:name => 'Consult - Phone/email/in-person'},

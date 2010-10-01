@@ -22,8 +22,8 @@
             <%= form.select :objective_id, options_from_collection_for_select(@objectives, :id, :number, form.object.objective_id) %>
           </td>
           <td>
-            <%= form.label :activity_type_id %>
-            <%= form.select :activity_type_id, options_from_collection_for_select(@activity_types, :id, :name, form.object.activity_type_id) %>
+            <%= form.label :ta_delivery_method_id %>
+            <%= form.select :ta_delivery_method_id, options_from_collection_for_select(@ta_delivery_methods, :id, :name, form.object.ta_delivery_method_id) %>
           </td>
           <td>
             <%= form.label :intensity_level_id %>

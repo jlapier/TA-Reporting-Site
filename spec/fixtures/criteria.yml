@@ -42,32 +42,32 @@ graduation_rates:
 information_request:
   id: <%= Fixtures.identify :information_request %>
   name: Information request
-  type: ActivityType
+  type: TaDeliveryMethod
 
 teleconference_webinar:
   id: <%= Fixtures.identify :teleconference_webinar %>
   name: Teleconference/webinar
-  type: ActivityType
+  type: TaDeliveryMethod
   
 conference:
   id: <%= Fixtures.identify :conference %>
   name: Conference
-  type: ActivityType
+  type: TaDeliveryMethod
 
 consult_phone:
   id: <%= Fixtures.identify :consult_phone %>
   name: Consult - Phone/email/in-person
-  type: ActivityType
+  type: TaDeliveryMethod
   
 consult_onsite:
   id: <%= Fixtures.identify :consult_onsite %>
   name: Consult - onsite
-  type: ActivityType
+  type: TaDeliveryMethod
   
 workshop:
   id: <%= Fixtures.identify :workshop %>
   name: Workshop
-  type: ActivityType
+  type: TaDeliveryMethod
 
 general:
   id: <%= Fixtures.identify :general %>
