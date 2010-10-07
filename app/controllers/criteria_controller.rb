@@ -12,7 +12,7 @@ class CriteriaController < ApplicationController
       end
     end
   protected
-  public
+  public  
     def index
       @criteria = Criterium.find(:all, :order => 'number')
     end
@@ -33,7 +33,14 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.new(params[:criterium])
 
       if @criterium.save
-        redirect_to(criteria_url, :notice => "#{@criterium.class.to_s.titleize} saved.")
+        notice = "#{@criterium.class.to_s.titleize} saved."
+        if @criterium.kind == 'GrantActivity'
+          redirect_to(edit_criterium_url(@criterium), :notice => "#{notice}" + 
+          " You can assign this Grant Activity to Objectives to help trim" +
+          " selectable options when recording Activities.")
+        else
+          redirect_to(criteria_url, :notice => notice)
+        end
       else
         render :action => "new"
       end

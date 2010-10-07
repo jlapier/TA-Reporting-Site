@@ -2,10 +2,19 @@
   <%= form.error_messages %>
 
   <% form.inputs do %>
-    <%= form.input :kind, :collection => Criterium.type_options %>
-    <%= form.input :number, :label => 'Number' %>
+    <% if @criterium.new_record? %>
+      <%= form.input :kind, :collection => Criterium.type_options %>
+    <% end %>
+    <% if @criterium.new_record? ||
+          @criterium.kind == 'IntensityLevel' ||
+          @criterium.kind == 'Objective' %>
+      <%= form.input :number, :label => 'Number' %>
+    <% end %>
     <%= form.input :name, :label => 'Name' %>
     <%= form.input :description, :label => "Description" %>
+    <% if @criterium.class == GrantActivity %>
+      <%= form.input :objectives, :as => :check_boxes %>
+    <% end %>
   <% end %>
 
   <%= form.buttons %>
