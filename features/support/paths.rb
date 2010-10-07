@@ -28,6 +28,9 @@ module NavigationHelpers
       
     when /the new criterium page/
       new_criterium_path
+      
+    when /the edit criterium page for "(.*)"/
+      edit_criterium_path(Criterium.find_by_name($1))
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
