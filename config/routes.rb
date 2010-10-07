@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'activities', :action => 'new'
   map.resources :activities, :collection => {:edit_all => :get}
   map.resources :criteria
+  map.resources :intensity_levels, :controller => 'criteria'
   map.resources :grant_activities, :controller => 'criteria'
   map.resources :ta_delivery_methods, :controller => 'criteria'
   map.resources :objectives, :controller => 'criteria'
