@@ -33,7 +33,7 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.new(params[:criterium])
 
       if @criterium.save
-        notice = "#{@criterium.class.to_s.titleize} saved."
+        notice = "#{@criterium.kind.to_s.titleize} saved."
         if @criterium.kind == 'GrantActivity'
           redirect_to(edit_criterium_url(@criterium), :notice => "#{notice}" + 
           " You can assign this Grant Activity to Objectives to help trim" +
@@ -50,7 +50,7 @@ class CriteriaController < ApplicationController
       @criterium = Criterium.find(params[:id])
 
       if @criterium.update_attributes(params[:criterium])
-        redirect_to(criteria_url, :notice => "#{@criterium.class.to_s.titleize} updated.")
+        redirect_to(criteria_url, :notice => "#{@criterium.kind.to_s.titleize} updated.")
       else
         render :action => "edit"
       end
