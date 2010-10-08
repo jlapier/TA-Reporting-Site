@@ -4,11 +4,21 @@ Feature: Manage activities
   
   Background:
     Given I am logged in as "test.user@test.com"
-  
+
+  Scenario: delete an activity
+    Given I am on the activities page
+    When I follow "Delete" within "table#activities_table>tr.row_light"
+    Then I should see "Activity deleted."
+
+  @javascript
   Scenario: record a new activity
     Given I am on the new activity page
     When I fill in "Date of activity" with "July 23, 2010"
     And I select "2: Provide TA" from "Objective"
+    Then I should not see "Core Meetings"
+    And I should not see "Assessing technical adequacy of Indicator 14 data collection methods"
+    When I check "Budget Management"
+    And I check "Advisory Committee"
     And I select "Consult - onsite" from "Ta delivery method"
     And I select "Targeted/Specific" from "Intensity level"
     And I fill in "Description" with "Troubleshoot and re-configure email client."
@@ -18,17 +28,16 @@ Feature: Manage activities
     And I press "Save"
     Then I should see "New Activity successfully saved."
     And I should be on the activities page
-    
-  Scenario: delete an activity
-    Given I am on the activities page
-    When I follow "Delete" within "table#activities_table>tr.row_light"
-    Then I should see "Activity deleted."
   
   @javascript 
   Scenario: record a new activity with an as yet unrecorded TA Category
     Given I am on the new activity page
     When I fill in "Date of activity" with "July 23, 2010"
-    And I select "2: Provide TA" from "Objective"
+    And I select "1: Knowledge Development" from "Objective"
+    Then I should not see "Budget Management"
+    And I should not see "Advisory Committee"
+    When I check "Core Meetings"
+    And I check "Assessing technical adequacy of Indicator 14 data collection methods"
     And I select "Consult - onsite" from "Ta delivery method"
     And I select "Targeted/Specific" from "Intensity level"
     And I fill in "Description" with "Troubleshoot and re-configure email client."

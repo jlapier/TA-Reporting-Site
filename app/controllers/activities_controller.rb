@@ -1,11 +1,10 @@
 class ActivitiesController < ApplicationController
   
   before_filter :require_user
-  before_filter :get_form_options, :only => [ :new, :edit ]
+  before_filter :load_states, :only => [ :new, :edit ]
   
   private
-    def get_form_options
-      @criteria = Criterium.all
+    def load_states
       @states = State.just_states
     end
     def load_criteria
@@ -13,8 +12,29 @@ class ActivitiesController < ApplicationController
       @ta_delivery_methods = TaDeliveryMethod.all
       @intensity_levels = IntensityLevel.all
     end
+    def load_grant_activities(objective_id='')
+      @grant_activities = []
+      unless objective_id.blank?
+        # @grant_activities = GrantActivity.with_objectives(ga.objective_ids)
+        all_grant_activities = GrantActivity.find(:all, {
+          :include => :objectives
+        })
+        @grant_activities = all_grant_activities.select do |ga|
+          ga.objective_ids.include?(objective_id.to_i)
+        end
+      end
+    end
   protected
   public
+    def update_grant_activities
+      load_grant_activities(params[:objective_id])
+      begin
+        @activity = Activity.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        @activity = Activity.new
+      end
+    end
+    
     def index
       load_criteria
       @search = ActivitySearch.new(params[:activity_search] || {})
@@ -30,6 +50,7 @@ class ActivitiesController < ApplicationController
   
     def new
       @activity = Activity.new
+      load_grant_activities
     end
   
     def create
@@ -38,7 +59,7 @@ class ActivitiesController < ApplicationController
         flash[:notice] = "New Activity successfully saved."
         redirect_to(activities_path)
       else
-        get_form_options
+        load_states
         render :new
       end
     end
@@ -50,6 +71,7 @@ class ActivitiesController < ApplicationController
     
     def edit
       @activity = Activity.find params[:id]
+      load_grant_activities(@activity.objective_id)
     end
   
     def update
@@ -67,7 +89,7 @@ class ActivitiesController < ApplicationController
           if request.xhr?
             load_criteria
           else
-            get_form_options
+            load_states
           end
           format.html{render :edit}
           format.js

@@ -1,0 +1,9 @@
+<li id="activity_grant_activities_input" class="check_boxes required"<%= ' style="display:none;"' if @grant_activities.empty? %>>
+  <% field_set_tag nil do %>
+  <legend class="label"><%= label_tag("activity_grant_activities", "Grant activities <abbr title=\"required\">*</abbr>") %></legend>
+  <ol>
+    <%= render :partial => 'grant_activity_option',
+      :collection => @grant_activities %>
+  </ol>
+  <% end %>
+</li>

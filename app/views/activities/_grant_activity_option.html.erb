@@ -1,0 +1,8 @@
+<li>
+  <%= label_tag("activity[grant_activity_ids][#{grant_activity_option.id}]", 
+        check_box_tag("activity[grant_activity_ids][]", 
+          grant_activity_option.id, 
+          @activity.grant_activity_ids.include?(grant_activity_option.id), {
+            :id => "activity_grant_activity_ids_#{grant_activity_option.id}"
+          }) + grant_activity_option.name) %>
+</li>

@@ -9,9 +9,17 @@ CalendarDateSelect.format = :natural
       <%= form.calendar_date_select :date_of_activity, :buttons => false %>
     </li>
     <%= form.input :objective %>
+    <%= observe_field :activity_objective_id, {
+      :url => {:action => :update_grant_activities},
+      :with => "'objective_id=' + encodeURIComponent(value) + '&id=' + encodeURIComponent(#{@activity.id})",
+      :frequency => 0.5,
+      :method => :get
+    } %>
     <%= form.input :ta_delivery_method %>
     <%= form.input :intensity_level %>
-    <%= form.input :grant_activities, :as => :check_boxes %>
+    
+    <%= render :partial => 'grant_activity_options' %>
+
     <%= form.input :ta_categories, :as => :check_boxes %>
     <li id="activity_ta_category_other_input" class="check_box">
       <% field_set_tag do %>
