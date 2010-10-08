@@ -1,0 +1,2 @@
+page.replace("activity_grant_activities_input", :partial => 'grant_activity_options', :locals => {:activity => @activity})
+#page.show("activity_grant_activities_input") unless @grant_activities.empty?

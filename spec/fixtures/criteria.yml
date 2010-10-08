@@ -83,3 +83,23 @@ intensive:
   id: <%= Fixtures.identify :intensive %>
   name: Intensive/Sustained
   type: IntensityLevel
+
+assessing_technical_adequacy:
+  id: <%= Fixtures.identify :assessing_technical_adequacy %>
+  name: Assessing technical adequacy of Indicator 14 data collection methods
+  type: GrantActivity
+  
+budget_management:
+  id: <%= Fixtures.identify :budget_management %>
+  name: Budget Management
+  type: GrantActivity
+  
+core_meetings:
+  id: <%= Fixtures.identify :core_meetings %>
+  name: Core Meetings
+  type: GrantActivity
+  
+advisory_committee:
+  id: <%= Fixtures.identify :advisory_committee %>
+  name: Advisory Committee
+  type: GrantActivity

@@ -25,13 +25,6 @@ describe ActivitiesController do
       assigns[:states].should eql [state]
     end
     
-    it "loads criteria as @criteria" do
-      criterium = mock_model(Criterium)
-      Criterium.should_receive(:all).and_return([criterium])
-      get :new
-      assigns[:criteria].should eql [criterium]
-    end
-    
     it "renders the new template" do
       get :new
       response.should render_template('activities/new')
@@ -163,13 +156,6 @@ describe ActivitiesController do
           get :new
           assigns[:states].should eql [state]
         end
-
-        it "loads criteria as @criteria" do
-          criterium = mock_model(Criterium)
-          Criterium.should_receive(:all).and_return([criterium])
-          get :new
-          assigns[:criteria].should eql [criterium]
-        end
         it "renders the edit template" do
           put :update, :id => 1
           response.should render_template "activities/edit"
@@ -284,6 +270,49 @@ describe ActivitiesController do
     it "redirects to the activities page" do
       delete :destroy, :id => 1
       response.should redirect_to activities_path
+    end
+  end
+  
+  describe ":update_grant_activites, :objective_id => required, :id => optional" do
+    before(:each) do
+      @grant_activity_one = mock_model(GrantActivity, {
+        :objective_ids => [1,2]
+      })
+      @grant_activity_two = mock_model(GrantActivity, {
+        :objective_ids => [3,4]
+      })
+      @grant_activities = [@grant_activity_one, @grant_activity_two]
+      GrantActivity.stub(:find).with(:all, :include => :objectives).and_return(@grant_activities)
+    end
+    it "loads grant activities eager loading objectives" do
+      GrantActivity.should_receive(:find).with(:all, :include => :objectives).and_return(@grant_activities)
+      xhr :get, :update_grant_activities, :objective_id => "1"
+    end
+    it "selects grant activities associated w/ :objective_id" do
+      xhr :get, :update_grant_activities, :objective_id => "1"
+      assigns[:grant_activities].should eql [@grant_activity_one]
+    end
+    it "instantiates a new Activity as @activity" do
+      activity = mock_model(Activity)
+      Activity.should_receive(:new).and_return(activity)
+      xhr :get, :update_grant_activities, :objective_id => "1"
+      assigns[:activity].should eql activity
+    end
+    it "renders the update_grant_activities.js.rjs template" do
+      xhr :get, :update_grant_activities, :objective_id => "1"
+      response.should render_template("activities/update_grant_activities.js.rjs")
+    end
+    it "without :id, instantiates a new Activity as @activity" do
+      activity = mock_model(Activity).as_new_record
+      Activity.should_receive(:new).and_return(activity)
+      xhr :get, :update_grant_activities
+      assigns[:activity].should eql activity
+    end
+    it "with :id, loads Activity as @activity" do
+      activity = mock_model(Activity)
+      Activity.should_receive(:find).with("1").and_return(activity)
+      xhr :get, :update_grant_activities, :id => "1"
+      assigns[:activity].should eql activity
     end
   end
   

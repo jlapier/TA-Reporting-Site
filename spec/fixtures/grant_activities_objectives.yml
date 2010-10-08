@@ -1,0 +1,15 @@
+one_grant_activities_objectives:
+  grant_activity_id: <%= Fixtures.identify :assessing_technical_adequacy %>
+  objective_id: <%= Fixtures.identify :knowledge_development %>
+  
+two_grant_activities_objectives:
+  grant_activity_id: <%= Fixtures.identify :budget_management %>
+  objective_id: <%= Fixtures.identify :provide_ta %>
+
+three_grant_activities_objectives:
+  grant_activity_id: <%= Fixtures.identify :core_meetings %>
+  objective_id: <%= Fixtures.identify :knowledge_development %>
+  
+four_grant_activities_objectives:
+  grant_activity_id: <%= Fixtures.identify :advisory_committee %>
+  objective_id: <%= Fixtures.identify :provide_ta %>
