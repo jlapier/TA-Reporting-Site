@@ -1,11 +1,18 @@
-<div>
-  <% count = 1 %>
+<h1>Criteria Types</h1>
+
+<ul>
   <% @criteria.group_by(&:type).each do |type, criteria| %>
-  <div id="<%= type.to_s.underscore %>"class="span-4<%= count > 0 && count % Criterium.type_options.size == 0 ? ' last' : '' %>">
-    <h4><%=h type.to_s.titleize %></h4>
+    <li><%= link_to type, :anchor => type.to_s.underscore %></li>
+  <% end %>
+</ul>
+<br/><br/>
+<div>
+  <% @criteria.group_by(&:type).each do |type, criteria| %>
+  <div id="<%= type.to_s.underscore %>">
+    <h4><a name="<%= type.to_s.underscore %>"><%=h type.to_s.titleize %></a></h4>
     <%= render :partial => 'criterium', :collection => criteria %>
   </div>
-  <% count += 1 %>
+  <br/><br/>
   <% end %>
 </div>
 

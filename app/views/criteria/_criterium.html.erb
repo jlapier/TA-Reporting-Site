@@ -1,4 +1,10 @@
 <div class="configurable">
-  <p><%= content_tag :strong, "#{criterium.number}: " if criterium.number %><%=h criterium.name %></p>
+  <p>
+    <%= content_tag :strong, "#{criterium.number}: " if criterium.number %>
+    <% if criterium.respond_to?(:objectives) and !criterium.objectives.empty? %>
+      (Obj <%= criterium.objectives.map(&:number).join(', ') %>)
+    <% end %>
+    <%=h criterium.name %>
+  </p>
   <%= render :partial => 'links', :object => criterium %>
 </div>
