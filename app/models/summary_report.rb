@@ -47,6 +47,7 @@ class SummaryReport < ActiveRecord::Base
   end
 
   def period_activities
+    return @period_activities if @period_activities
     if ytd_activities
       @period_activities ||= ytd_activities.select { |activity| (start_period..end_period).include? activity.date_of_activity }
     else

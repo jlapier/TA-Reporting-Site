@@ -18,6 +18,32 @@
     </tr>
   </thead>
   <tbody>
+    <% bad_activities = @summary_report.activities_by_type_for_period(:grant_activities => []) %>
+    <% unless bad_activities.empty? %>
+      <tr>
+        <td colspan="3">
+          Warning: The following activities are not associated with a Grant Activity
+        </td>
+      </tr>
+      <% bad_activities.each do |bad_act| %>
+        <tr>
+          <td style="padding-left: 30px;">
+            <%= link_to truncate(bad_act.description, :length => 70), bad_act %>
+            <% unless bad_act.states.empty? %>
+              <div style="padding-left: 20px;">
+                <em>States:</em>
+                <%= bad_act.states.map(&:abbreviation).join(", ") %>
+              </div>
+            <% end %>
+          </td>
+          <td class="count">
+            <%= bad_act.states.size %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
+    <% end %>    
+        
     <% @intensity_levels.each do |intensity_level| %>
       <% unless @summary_report.activities_by_type_for_ytd(:intensity_level => intensity_level).empty? %>
         <tr>
@@ -25,31 +51,32 @@
             <%= intensity_level.name %>
           </td>
         </tr>
-        <% @activity_types.each do |activity_type| %>
+        <% @grant_activities.each do |grant_activity| %>
           <% unless @summary_report.activities_by_type_for_ytd(
-                :intensity_level => intensity_level, :activity_type => activity_type).empty? %>
+                :intensity_level => intensity_level, :grant_activity => grant_activity).empty? %>
             <tr>
               <td style="padding-left: 30px;">
                 <%= pluralize @summary_report.activities_by_type_for_period(
-                      :intensity_level => intensity_level, :activity_type => activity_type).size, 
-                      activity_type.name %>
+                      :intensity_level => intensity_level, :grant_activity => grant_activity).size, 
+                      grant_activity.name %>
+
                 <% unless @summary_report.states_by_type_for_period(
-                      :intensity_level => intensity_level, :activity_type => activity_type).empty? %>
+                      :intensity_level => intensity_level, :grant_activity => grant_activity).empty? %>
                   <div style="padding-left: 20px;">
                     <em>States:</em>
                     <%= @summary_report.states_by_type_for_period(
-                          :intensity_level => intensity_level, :activity_type => activity_type).
+                          :intensity_level => intensity_level, :grant_activity => grant_activity).
                             map(&:abbreviation).join(", ") %>
                   </div>
                 <% end %>
               </td>
               <td class="count">
                 <%= @summary_report.states_by_type_for_period(
-                      :intensity_level => intensity_level, :activity_type => activity_type).size %>
+                      :intensity_level => intensity_level, :grant_activity => grant_activity).size %>
               </td>
               <td class="count">
                 <%= @summary_report.states_by_type_for_ytd(
-                      :intensity_level => intensity_level, :activity_type => activity_type).size %>
+                      :intensity_level => intensity_level, :grant_activity => grant_activity).size %>
               </td>
             </tr>
           <% end %>

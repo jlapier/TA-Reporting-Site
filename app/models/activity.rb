@@ -42,9 +42,8 @@ class Activity < ActiveRecord::Base
   
   named_scope :all_between, lambda{ |start_date, end_date|
     {
-      :conditions => {
-        :date_of_activity => start_date..end_date
-      }
+      :conditions => { :date_of_activity => start_date..end_date },
+      :include => [:grant_activities, :states]
     }
   }
   
@@ -62,7 +61,9 @@ class Activity < ActiveRecord::Base
       end
     end
     
-    def is_like?(options)
-      options.all? {|k,v| self.send(k) == v }
+    def is_like?(opts)
+      options = opts.dup
+      ga = options.delete(:grant_activity)
+      options.all? {|k,v| self.send(k) == v } and (ga.nil? or self.grant_activities.include?(ga))
     end
 end

@@ -9,7 +9,7 @@ describe ReportBreakdown do
     @valid_attributes = {
       :report => @report,
       :objective => @objective,
-      :breakdown_type => "ActivityType",
+      :breakdown_type => "GrantActivity",
       :include_states => false
     }
   end
@@ -51,7 +51,7 @@ describe ReportBreakdown do
       @start = Date.new(2010, 7, 1)
       @end = Date.new(2010, 7, 31)
       @obj1 = mock_model(Objective, {:number => 1, :name => 'Knowledge Development'})
-      @act1 = mock_model(Activity, {:objective => @obj1, :activity_type => mock_model(ActivityType, {:name => 'Some Activity Type'})})
+      @act1 = mock_model(Activity, {:objective => @obj1, :grant_activities => [mock_model(GrantActivity, {:name => 'Some Activity Type'})]})
       @report.stub_chain(:grouped_activities, :[]).with(1).and_return([@act1])
       @report.stub(:start_period= => nil, :end_period= => nil)
     end

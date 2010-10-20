@@ -240,3 +240,5 @@ li.description {
 img.map_image {
   width: 315px;
 }
+
+#activities_table th { white-space: nowrap; }

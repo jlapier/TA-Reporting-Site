@@ -33,14 +33,16 @@ describe SummaryReport do
         @i_l_general = mock_model IntensityLevel, :name => "General"
         
         @deliv_method = mock_model TaDeliveryMethod, :name => "phone"
-        
+        @ga1 = mock_model GrantActivity, :name => "GA One"
+        @ga2 = mock_model GrantActivity, :name => "GA Two"
+
         @or = mock_model State, :name => "Oregon", :abbreviation => "OR"
         @wa = mock_model State, :name => "Washington", :abbreviation => "WA"
         @id = mock_model State, :name => "Idaho", :abbreviation => "ID"
         
 
         @jan_act_mock = Activity.new :description => "jan activity", :date_of_activity => Date.new(2010, 1, 12), :states => [ @or, @id ],
-          :intensity_level => @i_l_intensive, :ta_delivery_method => @deliv_method
+          :intensity_level => @i_l_intensive, :ta_delivery_method => @deliv_method, :grant_activities => [@ga1]
         @feb_act_mock = Activity.new :description => "feb activity", :date_of_activity => Date.new(2010, 2, 12), :states => [ @or ],
           :intensity_level => @i_l_general, :ta_delivery_method => @deliv_method
         @march_act_mock = Activity.new :description => "march activity", :date_of_activity => Date.new(2010, 3, 9), :states => [ @or, @wa ],
@@ -56,24 +58,34 @@ describe SummaryReport do
       end
 
       it "should get all activities for an intensity level and ta delivery method in ytd" do
-        @summary_report.activities_by_type_for_ytd( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).should == [ 
-          @jan_act_mock, @march_act_mock ]
-        @summary_report.activities_by_type_for_ytd( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_general } ).should == [
-          @feb_act_mock ]
+        @summary_report.activities_by_type_for_ytd( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).
+          should == [ @jan_act_mock, @march_act_mock ]
+        @summary_report.activities_by_type_for_ytd( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_general } ).
+          should == [ @feb_act_mock ]
+      end
+
+      it "should get all activities for a grant activity in ytd" do
+        @summary_report.activities_by_type_for_ytd( { :grant_activity => @ga1 } ).
+          should == [ @jan_act_mock ]
+        @summary_report.activities_by_type_for_ytd( { :grant_activity => @ga2 } ).
+          should == [ ]
       end
 
       it "should get all activities for an intensity level and activity type in period" do
-        @summary_report.activities_by_type_for_period( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).should == [ 
-          @march_act_mock ]
-        @summary_report.activities_by_type_for_period( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_general } ).should == [ ]
+        @summary_report.activities_by_type_for_period( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).
+          should == [ @march_act_mock ]
+        @summary_report.activities_by_type_for_period( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_general } ).
+          should == [ ]
       end
 
       it "should get all states for an intensity level and activity type in ytd" do
-        @summary_report.states_by_type_for_ytd( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).should == [ @id, @or, @wa ]
+        @summary_report.states_by_type_for_ytd( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).
+          should == [ @id, @or, @wa ]
       end
 
       it "should get all states for an intensity level and activity type in period" do
-        @summary_report.states_by_type_for_period( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).should == [ @or, @wa ]
+        @summary_report.states_by_type_for_period( { :ta_delivery_method => @deliv_method, :intensity_level => @i_l_intensive } ).
+          should == [ @or, @wa ]
       end
     end
   end

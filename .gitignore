@@ -20,5 +20,4 @@ coverage/
 .rvmrc
 public/summary_reports
 public/images/logo.jpg
-tags
 tmp/

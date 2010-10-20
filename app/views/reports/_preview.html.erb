@@ -8,14 +8,19 @@
         <% else %>
         <h2>Specific <%=h report_breakdown.objective.name %> activities included</h2>
         <% end %>
-        <%= render :partial => 'activities/activities_for_report.html.erb', :object => @report.grouped_activities[report_breakdown.objective.number], :locals => {:include_states => report_breakdown.include_states} if @report.grouped_activities[report_breakdown.objective.number] %>
+        <%= render :partial => 'activities/activities_for_report.html.erb', 
+                    :object => @report.grouped_activities[report_breakdown.objective.number], 
+                    :locals => {:include_states => report_breakdown.include_states} if @report.grouped_activities[report_breakdown.objective.number] %>
       <% elsif report_breakdown.has_activities_between(@report.start_period, @report.end_period) %>
         <% report_breakdown.activities(@report.start_period, @report.end_period).each do |breakdown, activities| %>
         <div class="breakdown">
           <% unless breakdown.nil? %>
-          <h2><%=h breakdown %> <span class="note">(Objective <%=h report_breakdown.objective.display_name %>)</span></h2>
+          <h2><%=h breakdown %> 
+            <!-- <span class="note">(Objective <%=h report_breakdown.objective.display_name %>)</span> --></h2>
           <% end %>
-          <%= render :partial => 'activities/activities_for_report.html.erb', :object => activities, :locals => {:include_states => report_breakdown.include_states} %>
+          <%= render :partial => 'activities/activities_for_report.html.erb', 
+                      :object => activities, 
+                      :locals => {:include_states => report_breakdown.include_states} %>
         </div>
         <% end %>
       <% else %>

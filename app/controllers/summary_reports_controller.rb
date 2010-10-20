@@ -29,7 +29,7 @@ class SummaryReportsController < ApplicationController
 
     def show
       @intensity_levels = IntensityLevel.all
-      @activity_types = ActivityType.all
+      @grant_activities = GrantActivity.all
     end
 
     def new

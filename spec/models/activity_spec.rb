@@ -96,24 +96,36 @@ describe Activity do
   end
 
   describe "comparing and matching" do
-    fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
+    fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, 
+              :activities_collaborating_agencies
     it "can determine if an activity matches by criteria" do
       obj1 = Objective.find_by_number 1
       assert obj1
       obj2 = Objective.find_by_number 2
       assert obj2
+      ga1 = GrantActivity.find_by_name "Budget Management"
+      assert ga1
+      ga2 = GrantActivity.find_by_name "Core Meetings"
+      assert ga2
+      ga3 = GrantActivity.find_by_name "Advisory Committee"
+      assert ga3
       act1 = Activity.create!({
         :date_of_activity => Date.new(2010, 8, 1),
         :objective => obj1,
         :ta_delivery_method_id => 5,
         :description => 'specific desc',
-        :intensity_level_id => 6
+        :intensity_level_id => 6,
+        :grant_activities => [ga1, ga2]
       })
 
       assert act1.is_like?(:objective => obj1)
       assert !act1.is_like?(:objective => obj2)
       assert act1.is_like?(:objective => obj1, :description => "specific desc")
       assert !act1.is_like?(:objective => obj1, :description => "wrong desc")
+      assert act1.is_like?(:grant_activity => ga1)
+      assert act1.is_like?(:grant_activity => ga2)
+      assert !act1.is_like?(:grant_activity => ga3)
+      assert act1.is_like?(:grant_activities => [ga1, ga2])
     end
   end
   
