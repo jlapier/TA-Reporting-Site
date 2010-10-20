@@ -110,11 +110,11 @@ describe ReportsController do
         get :show, :id => 1, :summary_report_id => 1
         assigns[:intensity_levels].should eql [intensity_level]
       end
-      it "loads all ActivityTypes" do
-        activity_type = mock_model(ActivityType)
-        ActivityType.should_receive(:all).and_return([activity_type])
+      it "loads all GrantActivities" do
+        grant_activity = mock_model(GrantActivity)
+        GrantActivity.should_receive(:all).and_return([grant_activity])
         get :show, :id => 1, :summary_report_id => 1
-        assigns[:activity_types].should eql [activity_type]
+        assigns[:grant_activities].should eql [grant_activity]
       end
     end
     context "summary report is not found or is not requested" do

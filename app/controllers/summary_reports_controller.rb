@@ -1,7 +1,7 @@
 class SummaryReportsController < ApplicationController
   
   before_filter :require_user
-  before_filter :get_summary_report, :only => [:show, :edit, :update, :destroy, :summary_map, :ytd_map]
+  before_filter :get_summary_report, :only => [:show, :evaluation, :edit, :update, :destroy, :summary_map, :ytd_map]
   
   caches_page :summary_map, :ytd_map
 
@@ -30,6 +30,12 @@ class SummaryReportsController < ApplicationController
     def show
       @intensity_levels = IntensityLevel.all
       @grant_activities = GrantActivity.all
+    end
+
+    def evaluation
+      @ta_delivery_methods = TaDeliveryMethod.all
+      @intensity_levels = IntensityLevel.all
+      @ta_categories = TaCategory.all
     end
 
     def new

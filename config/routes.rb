@@ -24,7 +24,7 @@ ActionController::Routing::Routes.draw do |map|
       report.resources :report_breakdowns
     end
   map.resources :summary_reports, {
-    :member => { :summary_map => :get, :ytd_map => :get }
+    :member => { :summary_map => :get, :ytd_map => :get, :evaluation => :get }
   }
   map.resource :user_session
 end
