@@ -69,6 +69,11 @@ class ActivitiesController < ApplicationController
       load_criteria
     end
     
+    def show
+      @activity = Activity.find params[:id]
+      redirect_to edit_activity_path @activity
+    end
+
     def edit
       @activity = Activity.find params[:id]
       load_grant_activities(@activity.objective_id)

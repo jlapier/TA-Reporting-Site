@@ -18,7 +18,7 @@ class SummaryReport < ActiveRecord::Base
   STATE_LABELS_FOR_MAP = YAML::load(File.open(File.join(RAILS_ROOT, 'lib', 'state_labels.yml')))
   LEVEL_COLORS = { 1 => "#F8BD0E", 2 => "#BB8519", 3 => "#7B4B23", 4 => "#FFFFCC" }
 
-  validates_presence_of :name
+  validates_presence_of :name, :start_ytd
   
   attr_accessor :report_errors, :start_ytd_month, :start_month, :end_month, :start_ytd_year, :start_year, :end_year
 
@@ -47,6 +47,7 @@ class SummaryReport < ActiveRecord::Base
   end
 
   def period_activities
+    return @period_activities if @period_activities
     if ytd_activities
       @period_activities ||= ytd_activities.select { |activity| (start_period..end_period).include? activity.date_of_activity }
     else

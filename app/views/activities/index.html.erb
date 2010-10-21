@@ -1,3 +1,7 @@
+<%
+CalendarDateSelect.format = :natural
+%>
+
 <h1>Activities</h1>
 
 <div>
@@ -9,9 +13,10 @@
           <th><%= form.label :objective_id %></th>
         </tr>
         <tr>
-          <td><%= form.calendar_date_select :start_date, :size => 20, :buttons => false %></td>
-          <td><%= form.calendar_date_select :end_date, :size => 20, :buttons => false %></td>
-          <td><%= form.select :objective_id, @objectives.map{|o| [truncate(o.display_name, :length => 30),o.id.to_s]}, :include_blank => true %></td>
+          <td><%= form.calendar_date_select :start_date, :size => 15, :buttons => false %></td>
+          <td><%= form.calendar_date_select :end_date, :size => 15, :buttons => false %></td>
+          <td><%= form.select :objective_id, @objectives.map{|o| [truncate(o.display_name, :length => 30), o.id]}, 
+                    :include_blank => true %></td>
         </tr>
         <tr>
           <th><%= form.label :ta_delivery_method_id %></th>
@@ -19,8 +24,9 @@
           <th><%= form.label :keywords %></th>
         </tr>
         <tr>
-          <td><%= form.select :ta_delivery_method_id, @ta_delivery_methods.map{|a| [truncate(a.name, :length => 30), a.id.to_s]}, :include_blank => true %></td>
-          <td><%= form.select :intensity_level_id, @intensity_levels.map{|i| [i.name, i.id.to_s]}, :include_blank => true %></td>
+          <td><%= form.select :ta_delivery_method_id, @ta_delivery_methods.map{|a| [truncate(a.name, :length => 30), a.id]}, 
+                    :include_blank => true %></td>
+          <td><%= form.select :intensity_level_id, @intensity_levels.map{|i| [i.name, i.id]}, :include_blank => true %></td>
           <td><%= form.text_field :keywords, :style => "width: 150px" %> <%= form.submit "search" %></td>
         </tr>
     </table>
@@ -32,9 +38,10 @@
 <!--  <thead> -->
     <th>Date</th>
     <th>Obj</th>
+    <th>Grant Activity</th>
     <th>Delivery Method</th>
     <th>Intensity</th>
-    <th>Description</th>
+    <th>Description &nbsp; <em style="font-weight:normal">(click to edit)</em></th>
     <th>&nbsp;</th>
 <!--  </thead> -->
 
@@ -48,6 +55,10 @@
       </td>
       <td>
         <%= activity.objective.number %>
+      </td>
+      <td>
+        <%= activity.grant_activities.map(&:name).join('; ') %>
+      </td>
       </td>
       <td>
         <% unless activity.ta_delivery_method.blank? %>
@@ -69,7 +80,6 @@
 <!--  </tbody> -->
 </table>
 
-
 <%= render :partial => 'sidebar' %>
 
 <% content_for :javascript do %>
@@ -80,4 +90,5 @@
     })
   })
 </script>
+<%= calendar_date_select_includes 'tacs' %>
 <% end %>

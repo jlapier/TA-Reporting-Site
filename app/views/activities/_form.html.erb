@@ -25,9 +25,11 @@ CalendarDateSelect.format = :natural
       <% field_set_tag do %>
       <ol>
         <li>
-        <%= label_tag("activity[other]", check_box_tag("activity[other]", 1, form.object.other, :onclick => "$('new_ta_category_input').toggle();") + " Other") %>
+        <%= check_box_tag("activity[other]", 1, form.object.other, :onclick => "$('new_ta_category_input').toggle();") %>
+        <%= label_tag "activity[other]", "Other" %> 
         </li>
-        <%= form.input :new_ta_category, :label => 'New TA Category', :wrapper_html => {:id => "new_ta_category_input", :style => "display: none;"} %>
+        <%= form.input :new_ta_category, :label => 'New TA Category', :wrapper_html => {:id => "new_ta_category_input", 
+              :style => "display: none;"} %>
       </ol>
       <% end %>
     </li>

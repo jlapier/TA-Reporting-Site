@@ -1,0 +1,72 @@
+<div style="padding-bottom: 15px;text-align:center;">
+  <div style="text-align: left; width: 49%; display: inline-block;">
+    <img alt="logo" src="<%= @logo_path || image_path('logo.jpg') %>" width="175px" />
+  </div>
+  <div style="text-align: right; width: 49%; display: inline-block; vertical-align: top;">
+    <h1><%= @summary_report.report_title %></h1>
+  </div>
+</div>
+
+<h2>TA Delivery Methods</h2>
+<table class="always_break cell_borders">
+  <tbody>
+    <% @ta_delivery_methods.each do |ta_delivery_method| %>
+    <tr>
+      <td>
+        <%= ta_delivery_method.name %>
+      </td>
+      <td>
+         <%= @summary_report.activities_by_type_for_period(:ta_delivery_method => ta_delivery_method).size %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total Activities with TA Delivery</strong></td>
+      <td><%= @summary_report.period_activities.size - @summary_report.activities_by_type_for_period(:ta_delivery_method => nil).size %></td>
+    </tr>
+  </tbody>
+</table>
+
+<br/><br/>
+
+<h2>Intensity Levels</h2>
+<table class="always_break cell_borders">
+  <tbody>
+    <% @intensity_levels.each do |intensity_level| %>
+    <tr>
+      <td>
+        <%= intensity_level.name %>
+      </td>
+      <td>
+         <%= @summary_report.activities_by_type_for_period(:intensity_level => intensity_level).size %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total Activities</strong></td>
+      <td><%= @summary_report.period_activities.size %></td>
+    </tr>
+  </tbody>
+</table>
+
+<br/><br/>
+
+<h2>TA Content</h2>
+<table class="always_break cell_borders">
+  <tbody>
+    <% @ta_categories.each do |ta_category| %>
+    <tr>
+      <td>
+        <%= ta_category.name %>
+      </td>
+      <td>
+         <%= @summary_report.activities_by_type_for_period(:ta_category => ta_category).size %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total Activities with TA Content</strong></td>
+      <td><%= @summary_report.period_activities.size - @summary_report.activities_by_type_for_period(:ta_categories =>[]).size %></td>
+    </tr>
+  </tbody>
+</table>

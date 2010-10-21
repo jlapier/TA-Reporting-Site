@@ -55,7 +55,7 @@ class ReportsController < ApplicationController
           :end_month => @summary_report.end_period.month
         } if @report
         @intensity_levels = IntensityLevel.all
-        @activity_types = ActivityType.all
+        @grant_activities = GrantActivity.all
       rescue ActiveRecord::RecordNotFound
         if params[:summary_report_id]
           flash.now[:notice] = "The requested summary report could not be found."

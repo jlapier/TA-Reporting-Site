@@ -24,3 +24,6 @@ form.formtastic li.highlight {
 
 
 form.formtastic em { font-style: italic }
+form.formtastic fieldset > ol > li.check_boxes fieldset ol li label { font-weight: normal; }
+input[type="checkbox"] + label { font-weight: normal; }
+form.formtastic fieldset > ol > li input[type="checkbox"] + label { display: inline; float:none; }
