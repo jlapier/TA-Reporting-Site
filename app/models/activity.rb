@@ -36,7 +36,7 @@ class Activity < ActiveRecord::Base
   accepts_nested_attributes_for :ta_categories
   
   validates_presence_of :date_of_activity, :objective_id,
-    :description, :intensity_level_id
+    :description #, :intensity_level_id
 
   before_validation :remove_regions
   
