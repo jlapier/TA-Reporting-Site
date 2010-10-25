@@ -20,6 +20,7 @@ describe "/activities/edit" do
       :grant_activity_ids => [],
       :other => nil,
       :new_ta_category => nil,
+      :state_ids => [],
       :errors => mock('Errors', {:[] => {:description => ''}})
     })
     render 'activities/edit'

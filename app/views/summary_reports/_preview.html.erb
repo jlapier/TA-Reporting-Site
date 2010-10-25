@@ -56,9 +56,9 @@
                 :intensity_level => intensity_level, :grant_activity => grant_activity).empty? %>
             <tr>
               <td style="padding-left: 30px;">
-                <%= pluralize @summary_report.activities_by_type_for_period(
-                      :intensity_level => intensity_level, :grant_activity => grant_activity).size, 
-                      grant_activity.name %>
+                <%= @summary_report.activities_by_type_for_period(
+                      :intensity_level => intensity_level, :grant_activity => grant_activity).size %> 
+                <%= grant_activity.name %>
 
                 <% unless @summary_report.states_by_type_for_period(
                       :intensity_level => intensity_level, :grant_activity => grant_activity).empty? %>
