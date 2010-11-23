@@ -1,7 +1,7 @@
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = '2.3.9' unless defined? RAILS_GEM_VERSION
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -12,7 +12,7 @@ Rails::Initializer.run do |config|
   # -- all .rb files in that directory are automatically loaded.
 
   # Add additional load paths for your own custom dirs
-  config.load_paths += %W( )
+  config.autoload_paths += %W( )
 
   # Specify gems that this application depends on and have them installed with rake gems:install
   # config.gem "bj"
@@ -52,9 +52,3 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
 end
 
-require 'RMagick'
-
-require 'pdfkit'
-PDFKit.configure do |pdfkit_config|
-  pdfkit_config.wkhtmltopdf = "/Users/jf/.rvm/gems/ruby-1.8.7-p299/bin/wkhtmltopdf"
-end
