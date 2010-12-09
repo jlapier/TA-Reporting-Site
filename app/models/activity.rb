@@ -54,6 +54,29 @@ class Activity < ActiveRecord::Base
     end
   protected
   public
+    def csv_headers
+      [
+        'Date',
+        'Objective',
+        # todo ? 'Type',
+        'Intensity',
+        'TA Categories',
+        'Agencies',
+        'States'
+      ]
+    end
+    def csv_dump(headers)
+      [
+        date_of_activity,
+        "#{objective.number}: #{objective.name}",
+        # todo ? activity_type.name,
+        intensity_level.name,
+        ta_categories.collect{|ta| ta.name}.join('; '),
+        collaborating_agencies.collect{|a| a.name}.join('; '),
+        states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
+      ]
+    end
+  
     def new_ta_category=(ta_category_name)
       @new_ta_category ||= ta_category_name
       unless ta_category_name.blank?

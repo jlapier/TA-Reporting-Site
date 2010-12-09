@@ -129,51 +129,43 @@ describe Activity do
     end
   end
   
-  describe "csv dump" do
-    #fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, :activities_collaborating_agencies
-    before(:each) do
-      #@activities = Activity.all
-      #@csv = FasterCSV.dump(@activities)
+  describe "FasterCSV integration" do
+    it "provides objects w/ csv_headers" do
+      activity = Activity.new
+      activity.csv_headers.should eql [
+        'Date',
+        'Objective',
+        # todo ? 'Type',
+        'Intensity',
+        'TA Categories',
+        'Agencies',
+        'States'
+      ]
     end
-    it "has a meta row first" do
-      pending "deprecated"
-      @csv.split("\n")[0].should == 'class,Activity'
-    end
-    it "has a header row second" do
-      pending "deprecated"
-      @csv.split("\n")[1].should == 'Date,Objective,Type,Intensity,TA Categories,Agencies,States'
-    end
-    it "dumps object data to remaining rows" do
-      pending "deprecated"
-      body = @csv.split("\n")[2..-1]
-      c = 0
-      @activities.each do |activity|
-        body[c].should == "#{activity.date_of_activity}," + 
-                          "#{activity.objective.number}: #{activity.objective.name}," + 
-                          "#{activity.ta_delivery_method.name}," + 
-                          "#{activity.intensity_level.name}," + 
-                          "#{activity.ta_categories.collect{|t|t.name}.join('; ')}," + 
-                          "#{activity.collaborating_agencies.collect{|a| a.name}.join('; ')}," + 
-                          "#{activity.states.collect{|s|"#{s.name} (#{s.abbreviation})"}.join('; ')}"
-        c += 1
-      end
-    end
-  end
-  
-  describe "csv load" do
-    before(:each) do
-      #%w(Activity Criterium CollaboratingAgency Report ReportBreakdown State).each do |cls|
-      #  cls.constantize.send(:destroy_all)
-      #end
-      #require 'db/seeds'
-    end
-    it "creates a new activity for each entry" do
-      pending "deprecated"
-      pre_count = Activity.count
-      entry_count = File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r').readlines.size - 2
-      #FasterCSV.load(File.new(File.join(Rails.root, 'spec/fixtures', 'activity_import.csv'), 'r'))
-      Activity.legacy_csv_import('spec/fixtures/activity_import.csv')
-      Activity.count.should == pre_count + entry_count
-    end
+    it "provides objects w/ csv_dump" do
+      date = Date.today
+      objective = mock_model(Objective, {:number => 1, :name => 'Work'})
+      intensity_level = mock_model(IntensityLevel, {:name => 'High'})
+      ta_categories = [mock_model(TaCategory, {:name => 'Category'})]
+      collaborating_agencies = [mock_model(CollaboratingAgency, {:name => 'Agency'})]
+      states = [mock_model(State, {:name => 'Oregon', :abbreviation => 'OR'})]
+      activity = Activity.new({
+        :date_of_activity => date,
+        :objective => objective,
+        :intensity_level => intensity_level,
+        :ta_categories => ta_categories,
+        :collaborating_agencies => collaborating_agencies,
+        :states => states
+      })
+      activity.csv_dump(activity.csv_headers).should eql [
+        date,
+        "#{objective.number}: #{objective.name}",
+        # todo ? activity_type.name,
+        intensity_level.name,
+        ta_categories.collect{|ta| ta.name}.join('; '),
+        collaborating_agencies.collect{|a| a.name}.join('; '),
+        states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
+      ]
+    end    
   end
 end

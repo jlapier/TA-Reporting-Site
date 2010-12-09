@@ -130,55 +130,57 @@ describe Report do
       @objective = mock_model(Objective, {
         :number => 1,
         :name => 'Knowledge development'
-      })
+      }).as_null_object
       @activity_type = mock_model(ActivityType, {
         :name => 'Conference'
-      })
+      }).as_null_object
       @intensity_level = mock_model(IntensityLevel, {
         :name => 'Intensive'
-      })
+      }).as_null_object
       @ta_category = mock_model(TaCategory, {
         :name => 'SLDS'
-      })
+      }).as_null_object
       @agency = mock_model(CollaboratingAgency, {
         :name => 'WRRC'
-      })
+      }).as_null_object
       @state = mock_model(State, {
         :name => 'Oregon',
         :abbreviation => 'OR'
-      })
+      }).as_null_object
       ta_categories = [@ta_category]
       collaborating_agencies = [@agency]
       states = [@state]
+      State.stub(:find).and_return([@state])
       activity_stubs = {
         :objective => @objective,
-        :activity_type => @activity_type,
         :intensity_level => @intensity_level,
         :ta_categories => [@ta_category],
         :collaborating_agencies => [@agency],
-        :states => [],
-        :csv_headers => [
-          'Date',
-          'Objective',
-          'Type',
-          'Intensity',
-          'TA Categories',
-          'Agencies',
-          'States'
-        ],
-        :csv_dump => [
-          Time.now.months_ago(2),
-          "#{@objective.number}: #{@objective.name}",
-          @activity_type.name,
-          @intensity_level.name,
-          ta_categories.collect{|ta| ta.name}.join('; '),
-          collaborating_agencies.collect{|a| a.name}.join('; '),
-          states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
-        ]
+        :states => [@state],
+        :state_ids => [@state.id] #,
+        #:csv_headers => [
+        #  'Date',
+        #  'Objective',
+        #  'Type',
+        #  'Intensity',
+        #  'TA Categories',
+        #  'Agencies',
+        #  'States'
+        #],
+        #:csv_dump => [
+        #  Time.now.months_ago(2),
+        #  "#{@objective.number}: #{@objective.name}",
+        #  @activity_type.name,
+        #  @intensity_level.name,
+        #  ta_categories.collect{|ta| ta.name}.join('; '),
+        #  collaborating_agencies.collect{|a| a.name}.join('; '),
+        #  states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
+        #]
       }
       @report = Report.new(:name => 'Q1 - 2010', :start_month => 7, :start_year => 2010)
       date = Time.now.months_ago(2).freeze
-      @activity_one = mock_model(Activity, activity_stubs.merge!({
+      State.stub_chain(:regions, :options, :collect).and_return([])
+      @activity_one = Activity.create(activity_stubs.merge!({
         :date_of_activity => date
       }))
       @activities = [
@@ -189,9 +191,11 @@ describe Report do
     it "export(:csv) updates @csv with dumped activities" do
       @report.to_csv
       @report.csv.should == "class,Activity\n"+
-        "Date,Objective,Type,Intensity,TA Categories,Agencies,States\n"+
+        # todo ? "Date,Objective,Type,Intensity,TA Categories,Agencies,States\n"+
+        "Date,Objective,Intensity,TA Categories,Agencies,States\n"+
         "#{@activity_one.date_of_activity},#{@objective.number}: #{@objective.name},"+
-        "#{@activity_type.name},#{@intensity_level.name},#{@ta_category.name},"+
+        # todo ? "#{@activity_type.name},#{@intensity_level.name},#{@ta_category.name},"+
+        "#{@intensity_level.name},#{@ta_category.name},"+
         "#{@agency.name},#{@state.name} (#{@state.abbreviation})\n"
     end
   end
