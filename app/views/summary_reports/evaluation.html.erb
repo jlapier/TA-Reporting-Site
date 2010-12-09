@@ -14,9 +14,14 @@
     <tr>
       <td>
         <%= ta_delivery_method.name %>
+        <% states = @summary_report.states_by_type_for_period(:ta_delivery_method => ta_delivery_method) %>
+        <% if states.size > 0 %>
+          <br/>
+          <em>States:  <%= states.map(&:abbreviation).join(', ') %></em>
+        <% end %>
       </td>
       <td>
-         <%= @summary_report.activities_by_type_for_period(:ta_delivery_method => ta_delivery_method).size %>
+        <%= @summary_report.activities_by_type_for_period(:ta_delivery_method => ta_delivery_method).size %>
       </td>
     </tr>
     <% end %>
@@ -36,9 +41,14 @@
     <tr>
       <td>
         <%= intensity_level.name %>
+        <% states = @summary_report.states_by_type_for_period(:intensity_level => intensity_level) %>
+        <% if states.size > 0 %>
+          <br/>
+          <em> States: <%= states.map(&:abbreviation).join(', ') %></em>
+        <% end %>
       </td>
       <td>
-         <%= @summary_report.activities_by_type_for_period(:intensity_level => intensity_level).size %>
+        <%= @summary_report.activities_by_type_for_period(:intensity_level => intensity_level).size %>
       </td>
     </tr>
     <% end %>
@@ -58,9 +68,14 @@
     <tr>
       <td>
         <%= ta_category.name %>
+        <% states = @summary_report.states_by_type_for_period(:ta_category => ta_category) %>
+        <% if states.size > 0 %>
+          <br/>
+          <em>States: <%= states.map(&:abbreviation).join(', ') %></em>
+        <% end %>
       </td>
       <td>
-         <%= @summary_report.activities_by_type_for_period(:ta_category => ta_category).size %>
+        <%= @summary_report.activities_by_type_for_period(:ta_category => ta_category).size %>
       </td>
     </tr>
     <% end %>
