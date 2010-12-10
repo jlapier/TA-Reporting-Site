@@ -24,7 +24,6 @@ class Activity < ActiveRecord::Base
   attr_accessor :other
   
   belongs_to :objective
-  #belongs_to :activity_type
   belongs_to :ta_delivery_method
   belongs_to :intensity_level
   
@@ -58,7 +57,7 @@ class Activity < ActiveRecord::Base
       [
         'Date',
         'Objective',
-        # todo ? 'Type',
+        'Grant Activities',
         'Intensity',
         'TA Categories',
         'Agencies',
@@ -69,7 +68,7 @@ class Activity < ActiveRecord::Base
       [
         date_of_activity,
         "#{objective.number}: #{objective.name}",
-        # todo ? activity_type.name,
+        grant_activities.collect{|ga| ga.name}.join('; '),
         intensity_level.name,
         ta_categories.collect{|ta| ta.name}.join('; '),
         collaborating_agencies.collect{|a| a.name}.join('; '),

@@ -131,7 +131,7 @@ describe Report do
         :number => 1,
         :name => 'Knowledge development'
       }).as_null_object
-      @activity_type = mock_model(ActivityType, {
+      @grant_activity = mock_model(GrantActivity, {
         :name => 'Conference'
       }).as_null_object
       @intensity_level = mock_model(IntensityLevel, {
@@ -157,7 +157,8 @@ describe Report do
         :ta_categories => [@ta_category],
         :collaborating_agencies => [@agency],
         :states => [@state],
-        :state_ids => [@state.id] #,
+        :state_ids => [@state.id],
+        :grant_activities => [@grant_activity] #,
         #:csv_headers => [
         #  'Date',
         #  'Objective',
@@ -191,11 +192,9 @@ describe Report do
     it "export(:csv) updates @csv with dumped activities" do
       @report.to_csv
       @report.csv.should == "class,Activity\n"+
-        # todo ? "Date,Objective,Type,Intensity,TA Categories,Agencies,States\n"+
-        "Date,Objective,Intensity,TA Categories,Agencies,States\n"+
+        "Date,Objective,Grant Activities,Intensity,TA Categories,Agencies,States\n"+
         "#{@activity_one.date_of_activity},#{@objective.number}: #{@objective.name},"+
-        # todo ? "#{@activity_type.name},#{@intensity_level.name},#{@ta_category.name},"+
-        "#{@intensity_level.name},#{@ta_category.name},"+
+        "#{@grant_activity.name},#{@intensity_level.name},#{@ta_category.name},"+
         "#{@agency.name},#{@state.name} (#{@state.abbreviation})\n"
     end
   end

@@ -18,6 +18,8 @@ describe "/activities/edit" do
       :intensity_level_id => nil,
       :activity_grant_activities => [],
       :grant_activity_ids => [],
+      :ta_category_ids => [],
+      :collaborating_agency_ids => [],
       :other => nil,
       :new_ta_category => nil,
       :state_ids => [],
