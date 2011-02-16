@@ -72,7 +72,7 @@ class Activity < ActiveRecord::Base
         "#{objective.number}: #{objective.name}",
         ta_delivery_method ? ta_delivery_method.name : '',
         grant_activities.collect{|ga| ga.name}.join('; '),
-        intensity_level.name,
+        intensity_level ? intensity_level.name : 'unknown',
         ta_categories.collect{|ta| ta.name}.join('; '),
         description,
         collaborating_agencies.collect{|a| a.name}.join('; '),
