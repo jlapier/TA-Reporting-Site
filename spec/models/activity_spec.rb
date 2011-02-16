@@ -135,9 +135,11 @@ describe Activity do
       activity.csv_headers.should eql [
         'Date',
         'Objective',
+        'TA Delivery Method',
         'Grant Activities',
         'Intensity',
         'TA Categories',
+        'Description of Activity',
         'Agencies',
         'States'
       ]
@@ -146,6 +148,7 @@ describe Activity do
       date = Date.today
       objective = mock_model(Objective, {:number => 1, :name => 'Work'})
       intensity_level = mock_model(IntensityLevel, {:name => 'High'})
+      ta_delivery_method = mock_model(TaDeliveryMethod, {:name => 'Fax'})
       ta_categories = [mock_model(TaCategory, {:name => 'Category'})]
       collaborating_agencies = [mock_model(CollaboratingAgency, {:name => 'Agency'})]
       states = [mock_model(State, {:name => 'Oregon', :abbreviation => 'OR'})]
@@ -153,8 +156,10 @@ describe Activity do
       activity = Activity.new({
         :date_of_activity => date,
         :objective => objective,
+        :ta_delivery_method => ta_delivery_method,
         :intensity_level => intensity_level,
         :ta_categories => ta_categories,
+        :description => "test desc",
         :collaborating_agencies => collaborating_agencies,
         :states => states,
         :grant_activities => grant_activities
@@ -162,9 +167,11 @@ describe Activity do
       activity.csv_dump(activity.csv_headers).should eql [
         date,
         "#{objective.number}: #{objective.name}",
+        'Fax',
         grant_activities.collect{|ga| ga.name}.join('; '),
         intensity_level.name,
         ta_categories.collect{|ta| ta.name}.join('; '),
+        'test desc',
         collaborating_agencies.collect{|a| a.name}.join('; '),
         states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
       ]

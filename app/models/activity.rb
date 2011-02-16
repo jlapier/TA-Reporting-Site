@@ -57,9 +57,11 @@ class Activity < ActiveRecord::Base
       [
         'Date',
         'Objective',
+        'TA Delivery Method',
         'Grant Activities',
         'Intensity',
         'TA Categories',
+        'Description of Activity',
         'Agencies',
         'States'
       ]
@@ -68,9 +70,11 @@ class Activity < ActiveRecord::Base
       [
         date_of_activity,
         "#{objective.number}: #{objective.name}",
+        ta_delivery_method ? ta_delivery_method.name : '',
         grant_activities.collect{|ga| ga.name}.join('; '),
         intensity_level.name,
         ta_categories.collect{|ta| ta.name}.join('; '),
+        description,
         collaborating_agencies.collect{|a| a.name}.join('; '),
         states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
       ]

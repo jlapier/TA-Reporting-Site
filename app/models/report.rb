@@ -127,7 +127,8 @@ class Report < ActiveRecord::Base
   def export_to_format
     case export_format
     when :csv
-      @csv = FasterCSV.dump(activities) unless activities.empty?
+      # TODO: figure out why FasterCSV is making the first line class,Activity
+      @csv = FasterCSV.dump(activities).gsub("class,Activity\n", "") unless activities.empty?
     end
   end
 end

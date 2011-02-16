@@ -191,10 +191,10 @@ describe Report do
     end
     it "export(:csv) updates @csv with dumped activities" do
       @report.to_csv
-      @report.csv.should == "class,Activity\n"+
-        "Date,Objective,Grant Activities,Intensity,TA Categories,Agencies,States\n"+
-        "#{@activity_one.date_of_activity},#{@objective.number}: #{@objective.name},"+
-        "#{@grant_activity.name},#{@intensity_level.name},#{@ta_category.name},"+
+      @report.csv.should == "" +   # "class,Activity\n"+
+        "Date,Objective,TA Delivery Method,Grant Activities,Intensity,TA Categories,Description of Activity,Agencies,States\n"+
+        "#{@activity_one.date_of_activity},#{@objective.number}: #{@objective.name},\"\","+
+        "#{@grant_activity.name},#{@intensity_level.name},#{@ta_category.name},,"+
         "#{@agency.name},#{@state.name} (#{@state.abbreviation})\n"
     end
   end
