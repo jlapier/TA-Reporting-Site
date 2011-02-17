@@ -12,7 +12,7 @@
 
 class ActivityType < Criterium
   
-  named_scope :find_by_lowercase_name, lambda { |name| 
+  scope :find_by_lowercase_name, lambda { |name| 
     {
       :conditions => ["LOWER(name) = LOWER(?)", name]
     }

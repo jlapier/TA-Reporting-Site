@@ -5,7 +5,7 @@
 <% end %>
 <tr id="edit_activity_<%= remote_form_activity.id %>_container" class="row_<%= color_class %>">
   <td colspan="4">
-    <% remote_form_for remote_form_activity do |form| %>
+    <% form_for(remote_form_activity, :remote => true) do |form| %>
       <table>
         <tr class="row_<%= color_class %>">
           <td colspan="4">

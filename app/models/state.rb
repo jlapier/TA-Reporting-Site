@@ -17,8 +17,8 @@ class State < ActiveRecord::Base
   
   has_and_belongs_to_many :activities
   
-  named_scope :regions, :conditions => {:region_id => nil}, :include => :states, :order => 'name'
-  named_scope :just_states, :conditions => "region_id IS NOT NULL", :order => "name"
+  scope :regions, :conditions => {:region_id => nil}, :include => :states, :order => 'name'
+  scope :just_states, :conditions => "region_id IS NOT NULL", :order => "name"
 
   validates_presence_of :name
   validates_presence_of :abbreviation, :unless => Proc.new{|state| state.region_id.nil?}

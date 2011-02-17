@@ -1,30 +1,35 @@
-ActionController::Routing::Routes.draw do |map|
-  map.root :controller => 'activities', :action => 'new'
-  map.resources :activities, {
-    #:member => {:update_grant_activities => :get},
-    :collection => {
-      :edit_all => :get,
-      :update_grant_activities => :get
-    }
-  }
-  map.resources :criteria
-  map.resources :intensity_levels, :controller => 'criteria'
-  map.resources :grant_activities, :controller => 'criteria'
-  map.resources :ta_delivery_methods, :controller => 'criteria'
-  map.resources :objectives, :controller => 'criteria'
-  map.resources :ta_categories, :controller => 'criteria'
-  map.resource :account, :controller => "users"
-  map.resources :users
-  map.resources :password_resets
-  map.resources :states
-  map.resources :collaborating_agencies
-  map.resources :reports, {
-    :member => {:download => :get, :preview => :get}
-  } do |report|
-      report.resources :report_breakdowns
+TaReportingSite::Application.routes.draw do
+  match '/' => 'activities#new'
+  resources :activities do
+    collection do
+      get :update_grant_activities
+      get :edit_all
     end
-  map.resources :summary_reports, {
-    :member => { :summary_map => :get, :ytd_map => :get, :evaluation => :get }
-  }
-  map.resource :user_session
+  end
+
+  resources :criteria
+  resources :intensity_levels
+  resources :grant_activities
+  resources :ta_delivery_methods
+  resources :objectives
+  resources :ta_categories
+  resource :account
+  resources :users
+  resources :password_resets
+  resources :states
+  resources :collaborating_agencies
+  resources :reports do
+    resources :report_breakdowns
+  end
+
+  resources :summary_reports do
+    member do
+      get :summary_map
+      get :ytd_map
+      get :evaluation
+    end
+  end
+
+  resource :user_session
 end
+

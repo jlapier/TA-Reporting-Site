@@ -16,9 +16,7 @@ class ActivitiesController < ApplicationController
       @grant_activities = []
       unless objective_id.blank?
         # @grant_activities = GrantActivity.with_objectives(ga.objective_ids)
-        all_grant_activities = GrantActivity.find(:all, {
-          :include => :objectives
-        })
+        all_grant_activities = GrantActivity.all :include => :objectives
         @grant_activities = all_grant_activities.select do |ga|
           ga.objective_ids.include?(objective_id.to_i)
         end

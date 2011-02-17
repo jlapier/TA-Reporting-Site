@@ -14,7 +14,7 @@ class CriteriaController < ApplicationController
   protected
   public  
     def index
-      @criteria = Criterium.find(:all, :order => 'number')
+      @criteria = Criterium.all :order => 'number'
     end
 
     def show

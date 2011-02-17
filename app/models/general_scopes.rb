@@ -1,11 +1,11 @@
 module GeneralScopes
   def self.included(base)
     base.class_eval do
-      named_scope(:options, lambda{|options|
+      scope(:options, lambda{|options|
         options ||= {}
         {}.merge!(options)
       })
-      named_scope :except, lambda{|ids|
+      scope :except, lambda{|ids|
         if ids.kind_of?(Array)
           conditions = []
           ids.each do |id|
