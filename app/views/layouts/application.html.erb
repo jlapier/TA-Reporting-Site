@@ -16,6 +16,7 @@
     <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'controls' %>
     <%= javascript_include_tag 'lowpro', 'behaviors', 'utils', 'application' %>
     <%= yield :javascript %>
+    <%= csrf_meta_tag %>
   </head>
   <body>
     <div class="container">

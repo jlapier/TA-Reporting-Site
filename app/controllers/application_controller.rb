@@ -1,11 +1,6 @@
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
 class ApplicationController < ActionController::Base
-  helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  protect_from_forgery
 
-  filter_parameter_logging :password, :password_confirmation
   helper_method :current_user_session, :current_user, :logged_in?, :is_admin?
 
   after_filter :store_location
@@ -68,5 +63,4 @@ class ApplicationController < ActionController::Base
       end
       session[:return_to] = nil
     end
-
 end
