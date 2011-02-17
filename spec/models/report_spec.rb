@@ -20,14 +20,14 @@ describe Report do
   it "is not valid without a name" do
     report = Report.new
     report.valid?.should be_false
-    report.errors.on(:name).to_s.should =~ /can't be blank/
+    report.errors[:name].first.should =~ /can't be blank/
   end
   
   it "is not valid with a non-unique name" do
     Report.create!(@valid_attributes)
     report = Report.new(@valid_attributes)
     report.valid?.should be_false
-    report.errors.on(:name).to_s.should =~ /has already been taken/
+    report.errors[:name].first.should =~ /has already been taken/
   end
   
   describe "export periods" do
@@ -132,20 +132,24 @@ describe Report do
         :name => 'Knowledge development'
       }).as_null_object
       @grant_activity = mock_model(GrantActivity, {
-        :name => 'Conference'
+        :name => 'Conference',
+        :to_ary => nil
       }).as_null_object
       @intensity_level = mock_model(IntensityLevel, {
         :name => 'Intensive'
       }).as_null_object
       @ta_category = mock_model(TaCategory, {
-        :name => 'SLDS'
+        :name => 'SLDS',
+        :to_ary => nil
       }).as_null_object
       @agency = mock_model(CollaboratingAgency, {
-        :name => 'WRRC'
+        :name => 'WRRC',
+        :to_ary => nil
       }).as_null_object
       @state = mock_model(State, {
         :name => 'Oregon',
-        :abbreviation => 'OR'
+        :abbreviation => 'OR',
+        :to_ary => nil
       }).as_null_object
       ta_categories = [@ta_category]
       collaborating_agencies = [@agency]

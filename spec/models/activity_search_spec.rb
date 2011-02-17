@@ -91,20 +91,20 @@ describe ActivitySearch do
     Activity.destroy_all
   end
   it "builds conditions to find activities" do
-    @jan_search_one.activities.should eql [@jan_shared]
-    @jan_search_two.activities.should eql [@jan, @jan_shared]
-    @shared_search.activities.should eql [@apr_shared, @jan_shared]
-    @jan_mar_search.activities.should eql [@mar, @feb_two, @feb_one, @jan, @jan_shared]
-    @partial_description.activities.should eql [@apr_shared, @jan_shared]
+    @jan_search_one.activities.should == [@jan_shared]
+    @jan_search_two.activities.should == [@jan, @jan_shared]
+    @shared_search.activities.should == [@apr_shared, @jan_shared]
+    @jan_mar_search.activities.should == [@mar, @feb_two, @feb_one, @jan, @jan_shared]
+    @partial_description.activities.should == [@apr_shared, @jan_shared]
   end
   it "has a default start date" do
-    @blank_start.activities.should eql [@apr_shared, @jan_shared]
+    @blank_start.activities.should == [@apr_shared, @jan_shared]
   end
   it "has a default end date" do
-    @blank_end.activities.should eql [@apr_shared, @jan_shared]
+    @blank_end.activities.should == [@apr_shared, @jan_shared]
   end
   it "turns string dates into Date objects" do
-    @funky_start.activities.should eql [@feb_one]
-    @funky_end.activities.should eql [@feb_one]
+    @funky_start.activities.should == [@feb_one]
+    @funky_end.activities.should == [@feb_one]
   end
 end

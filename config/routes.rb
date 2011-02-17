@@ -1,4 +1,4 @@
-TaReportingSite::Application.routes.draw do
+TAReportingSite::Application.routes.draw do
   match '/' => 'activities#new'
   resources :activities do
     collection do

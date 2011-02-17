@@ -36,13 +36,15 @@ describe Activity do
       region = mock_model(State, {
         :id => 1,
         :name => 'Western',
-        :quoted_id => "1"
+        :quoted_id => "1",
+        :record_timestamps => nil
       })
       state = mock_model(State, {
         :id => 2,
         :region_id => 1,
         :name => 'Oregon',
-        :quoted_id => "2"
+        :quoted_id => "2",
+        :record_timestamps => nil
       })
       State.stub(:find).and_return([region, state])
       State.stub_chain(:regions, :options).and_return([region])

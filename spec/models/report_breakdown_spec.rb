@@ -29,21 +29,21 @@ describe ReportBreakdown do
     @valid_attributes.delete(:report)
     report_breakdown = ReportBreakdown.new(@valid_attributes)
     report_breakdown.valid?.should be_false
-    report_breakdown.errors.on(:report).to_s.should =~ /can't be blank/
+    report_breakdown.errors[:report].first.should =~ /can't be blank/
   end
   
   it "is not valid without an objective" do
     @valid_attributes.delete(:objective)
     report_breakdown = ReportBreakdown.new(@valid_attributes)
     report_breakdown.valid?.should be_false
-    report_breakdown.errors.on(:objective).to_s.should =~ /can't be blank/
+    report_breakdown.errors[:objective].first.should =~ /can't be blank/
   end
   
   it "cannot duplicate a breakdown of the same objective for the same report" do
     ReportBreakdown.create!(@valid_attributes)
     report_breakdown = ReportBreakdown.new(@valid_attributes)
     report_breakdown.valid?.should be_false
-    report_breakdown.errors.on(:objective_id).to_s.should =~ /has already been taken/
+    report_breakdown.errors[:objective_id].first.should =~ /has already been taken/
   end
   
   describe "accessing activities" do

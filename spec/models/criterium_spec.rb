@@ -26,7 +26,7 @@ describe Criterium do
   it "is not valid without a name" do
     ta = Criterium.new
     ta.should be_invalid
-    ta.errors.on(:name).include?("can't be blank").should be_true
+    ta.errors[:name].include?("can't be blank").should be_true
   end
   it "should create a new criteria from valid attributes" do
     attributes = {

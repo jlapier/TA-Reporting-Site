@@ -18,7 +18,7 @@ class PasswordReset < ActiveRecord::Base
   
   validates_presence_of :sent_to, :status
   
-  before_validation :on => :create { load_user_and_record_status }
+  before_validation :load_user_and_record_status, :on => :create
   after_create :send_confirmation_email
   
   acts_as_stripped :sent_to
