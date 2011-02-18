@@ -7,7 +7,7 @@ describe UserSessionsController do
     end
     describe ":new" do
       it "starts a new user session" do
-        @user_session = mock_model(UserSession).as_new_record
+        @user_session = mock(UserSession)
         UserSession.should_receive(:new).and_return(@user_session)
         get :new
         assigns[:user_session].should == @user_session
@@ -19,9 +19,9 @@ describe UserSessionsController do
     end
     describe ":create" do
       before(:each) do
-        @user_session = mock_model(UserSession, {
+        @user_session = mock(UserSession, {
           :save => nil
-        }).as_new_record
+        })
         UserSession.stub(:new).and_return(@user_session)
       end
       it "starts a new user session" do
@@ -61,7 +61,7 @@ describe UserSessionsController do
   context "authenticated user" do
     before(:each) do
       @user = mock_model(User)
-      @user_session = mock_model(UserSession, {
+      @user_session = mock(UserSession, {
         :user => @user,
         :destroy => nil
       })

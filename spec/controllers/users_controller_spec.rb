@@ -5,7 +5,7 @@ describe UsersController do
   before(:each) do
     @current_user = mock_model(User)
     controller.stub(:current_user_session).and_return(
-      mock_model(UserSession, {
+      mock(UserSession, {
         :user => @current_user,
         :name => ''
       })
@@ -148,7 +148,7 @@ describe UsersController do
         }))
       end
       it "destroys the user of given id" do
-        User.should_receive(:destroy).with("1")
+        User.should_receive(:destroy).with(1)
         delete :destroy, :id => 1
       end
       it "sets a flash[:notice]" do

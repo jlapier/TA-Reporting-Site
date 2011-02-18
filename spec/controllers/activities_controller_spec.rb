@@ -98,7 +98,7 @@ describe ActivitiesController do
       
       it "renders the new template" do
         post :create
-        response.should render_template('activities/new.html.erb')
+        response.should render_template('activities/new')
       end
     end
   end
@@ -111,7 +111,7 @@ describe ActivitiesController do
       Activity.stub(:find).and_return(@activity)
     end
     it "loads an activity as @activity from params[:id]" do
-      Activity.should_receive(:find).with('1').and_return(@activity)
+      Activity.should_receive(:find).with(1).and_return(@activity)
       put :update, :id => 1
       assigns[:activity].should eql @activity
     end
@@ -282,10 +282,10 @@ describe ActivitiesController do
         :objective_ids => [3,4]
       })
       @grant_activities = [@grant_activity_one, @grant_activity_two]
-      GrantActivity.stub(:find).with(:all, :include => :objectives).and_return(@grant_activities)
+      GrantActivity.stub(:all).with(:include => :objectives).and_return(@grant_activities)
     end
     it "loads grant activities eager loading objectives" do
-      GrantActivity.should_receive(:find).with(:all, :include => :objectives).and_return(@grant_activities)
+      GrantActivity.should_receive(:all).with(:include => :objectives).and_return(@grant_activities)
       xhr :get, :update_grant_activities, :objective_id => "1"
     end
     it "selects grant activities associated w/ :objective_id" do
@@ -300,7 +300,7 @@ describe ActivitiesController do
     end
     it "renders the update_grant_activities.js.rjs template" do
       xhr :get, :update_grant_activities, :objective_id => "1"
-      response.should render_template("activities/update_grant_activities.js.rjs")
+      response.should render_template("activities/update_grant_activities")
     end
     it "without :id, instantiates a new Activity as @activity" do
       activity = mock_model(Activity).as_new_record

@@ -60,7 +60,7 @@ describe CriteriaController do
       it "re-assigns params[#{klass.underscore.to_sym}] to params[:criterium]" do
         Criterium.stub(:new).and_return(mock_criterium(@stubs))
         post :create, "#{klass.underscore.to_sym}" => {:these => 'params'}
-        params[:criterium].should eql({"these" => "params"})
+        request.params[:criterium].should eql({"these" => "params"})
       end
 
       describe "with valid params" do
@@ -113,7 +113,7 @@ describe CriteriaController do
       it "re-assigns params[#{klass.underscore.to_sym}] to params[:criterium]" do
         Criterium.stub(:find).and_return(mock_criterium(@stubs))
         put :update, :id => 1, "#{klass.underscore.to_sym}" => {:these => 'params'}
-        params[:criterium].should eql({"these" => "params"})
+        request.params[:criterium].should eql({"these" => "params"})
       end
       describe "with valid params" do
         it "updates the requested criterium" do

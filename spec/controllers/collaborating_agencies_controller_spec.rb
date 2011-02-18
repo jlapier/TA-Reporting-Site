@@ -22,7 +22,7 @@ describe CollaboratingAgenciesController do
     
     it "renders the index template" do
       get :index
-      response.should render_template('collaborating_agencies/index.html.erb')
+      response.should render_template('collaborating_agencies/index')
     end
   end
   
@@ -36,7 +36,7 @@ describe CollaboratingAgenciesController do
     
     it "renders the new template" do
       get :new
-      response.should render_template('collaborating_agencies/new.html.erb')
+      response.should render_template('collaborating_agencies/new')
     end
   end
   
@@ -82,7 +82,7 @@ describe CollaboratingAgenciesController do
       end
       it "renders the new template" do
         post :create
-        response.should render_template("collaborating_agencies/new.html.erb")
+        response.should render_template("collaborating_agencies/new")
       end
     end
   end
@@ -94,13 +94,13 @@ describe CollaboratingAgenciesController do
     end
     it "loads a collaborating agency as @collaborating_agency" do
       @agency = mock_model(CollaboratingAgency)
-      CollaboratingAgency.should_receive(:find).with("1").and_return(@agency)
+      CollaboratingAgency.should_receive(:find).with(1).and_return(@agency)
       get :edit, :id => 1
       assigns[:collaborating_agency].should == @agency
     end
     it "renders the edit template" do
       get :edit, :id => 1
-      response.should render_template("collaborating_agencies/edit.html.erb")
+      response.should render_template("collaborating_agencies/edit")
     end
   end
   
@@ -113,7 +113,7 @@ describe CollaboratingAgenciesController do
     end
     
     it "loads a collaborating agency" do
-      CollaboratingAgency.should_receive(:find).with("1").and_return(@agency)
+      CollaboratingAgency.should_receive(:find).with(1).and_return(@agency)
       put :update, :id => 1
       assigns[:collaborating_agency].should == @agency
     end
@@ -140,7 +140,7 @@ describe CollaboratingAgenciesController do
       end
       it "renders the edit template" do
         put :update, :id => 1
-        response.should render_template("collaborating_agencies/edit.html.erb")
+        response.should render_template("collaborating_agencies/edit")
       end
     end
   end
@@ -155,7 +155,7 @@ describe CollaboratingAgenciesController do
     end
     
     it "destroys the agency of given id" do
-      CollaboratingAgency.should_receive(:destroy).with('1')
+      CollaboratingAgency.should_receive(:destroy).with(1)
       delete :destroy, :id => 1
     end
     
