@@ -2,11 +2,10 @@ require 'spec_helper'
 
 describe "/collaborating_agencies/index" do
   before(:each) do
-    render 'collaborating_agencies/index'
+    render 
   end
 
-  #Delete this example and add some real ones or delete this file
-  it "should tell you where to find the file" do
-    response.should have_tag('h1', %r[Collaborating Agencies])
+  it "should have a header" do
+    rendered.should have_selector('h1', :content => "Collaborating Agencies")
   end
 end

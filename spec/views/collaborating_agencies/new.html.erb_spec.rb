@@ -2,16 +2,12 @@ require 'spec_helper'
 
 describe "/collaborating_agencies/new" do
   before(:each) do
-    assigns[:collaborating_agency] = mock_model(CollaboratingAgency, {
-      :name => '',
-      :abbrev => '',
-      :errors => mock('Errors', {:[] => {:name => '', :abbrev => ''}})
-    }).as_new_record
-    render 'collaborating_agencies/new'
+    assign(:collaborating_agency, CollaboratingAgency.new)
+    
+    render
   end
 
-  #Delete this example and add some real ones or delete this file
-  it "should tell you where to find the file" do
-    response.should have_tag('h1', %r[New Collaborating Agency])
+  it "should have a header tag" do
+    rendered.should have_selector('h1', :content => "New Collaborating Agency")
   end
 end

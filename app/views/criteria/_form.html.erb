@@ -1,7 +1,7 @@
-<% semantic_form_for @criterium do |form| %>
+<%= semantic_form_for @criterium do |form| %>
   <%= form.error_messages %>
 
-  <% form.inputs do %>
+  <%= form.inputs do %>
     <% if @criterium.new_record? %>
       <%= form.input :kind, :collection => Criterium.type_options %>
     <% end %>

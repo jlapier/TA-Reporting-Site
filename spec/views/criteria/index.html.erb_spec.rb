@@ -4,10 +4,10 @@ describe "/criteria/index.html.erb" do
   include CriteriaHelper
 
   before(:each) do
-    assigns[:criteria] = [
+    assign(:criteria, [
       stub_model(Criterium),
       stub_model(Criterium)
-    ]
+    ])
   end
 
   it "renders a list of criteria" do
