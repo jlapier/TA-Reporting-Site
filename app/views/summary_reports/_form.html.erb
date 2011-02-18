@@ -1,5 +1,5 @@
-<% semantic_form_for @summary_report do |f| -%>
-  <% f.inputs do %>
+<%= semantic_form_for @summary_report do |f| -%>
+  <%= f.inputs do %>
     <%= f.input :name, :label => 'Name' %>
     <%= f.input :start_ytd, :label => 'Start ytd' %>
     <%= f.input :start_period, :label => 'Start period' %>

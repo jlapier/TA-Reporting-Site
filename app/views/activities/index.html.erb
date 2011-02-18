@@ -5,7 +5,8 @@ CalendarDateSelect.format = :natural
 <h1>Activities</h1>
 
 <div>
-  <% form_for @search, :url => activities_path, :html => {:method => :get} do |form| %>
+<% puts @search.class %>
+  <%= form_for @search, :url => activities_path, :html => {:method => :get} do |form| %>
     <table>
         <tr>
           <th><%= form.label :start_date %></th>

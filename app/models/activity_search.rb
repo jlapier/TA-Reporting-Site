@@ -1,4 +1,9 @@
 class ActivitySearch
+  # these three lines make our regular ol' ruby class more railsy
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
+  def persisted?; false; end 
+
   attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id, :ta_delivery_method_id, :keywords
   
   def initialize(attributes_hash)

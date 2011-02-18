@@ -23,6 +23,7 @@ gem 'pdfkit'
 group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'webrat'
 end
 
 group :production do

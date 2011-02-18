@@ -7,10 +7,10 @@ describe "/activities/edit" do
     mock_grant_activity = mock_model(GrantActivity, {
         :name => "GA 1" })
 
-    assigns[:grant_activities] = [mock_grant_activity]
-    assigns[:states] = State.all
+    assign(:grant_activities, mock_grant_activity)
+    assign(:states, State.all)
 
-    assigns[:activity] = mock_model(Activity, {
+    assign(:activity, mock_model(Activity, {
       :description => 'Activity',
       :date_of_activity => 4.days.ago,
       :objective_id => mock_objective.id,
@@ -24,8 +24,8 @@ describe "/activities/edit" do
       :new_ta_category => nil,
       :state_ids => [],
       :errors => mock('Errors', {:[] => {:description => ''}})
-    })
-    render 'activities/edit'
+    }))
+    render 
   end
 
   it "should load the proper form" do

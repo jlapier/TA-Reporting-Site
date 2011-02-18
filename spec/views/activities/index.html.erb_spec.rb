@@ -5,13 +5,13 @@ describe "/activities/index" do
     mock_objective = mock_model(Objective, {
         :name => "Obj 1", :display_name => "Obj 1", :number => 1, :id => 99 })
 
-    assigns[:objectives] = [mock_objective]
-    assigns[:ta_delivery_methods] = []
-    assigns[:intensity_levels] = []
+    assign(:objectives, mock_objective)
+    assign(:ta_delivery_methods, [])
+    assign(:intensity_levels, [])
 
-    assigns[:search] = ActivitySearch.new({})
+    assign(:search, ActivitySearch.new({}))
 
-    assigns[:activities] = [
+    assign(:activities, [
       mock_model(Activity, {
         :id => 999,
         :description => 'Activity',
@@ -26,8 +26,8 @@ describe "/activities/index" do
         :grant_activity_ids => [],
         :grant_activities => []
       })
-    ]
-    render 'activities/index'
+    ])
+    render 
   end
 
   it "should load a list of activities" do
