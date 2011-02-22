@@ -5,7 +5,7 @@ describe "/activities/index" do
     mock_objective = mock_model(Objective, {
         :name => "Obj 1", :display_name => "Obj 1", :number => 1, :id => 99 })
 
-    assign(:objectives, mock_objective)
+    assign(:objectives, [mock_objective])
     assign(:ta_delivery_methods, [])
     assign(:intensity_levels, [])
 
@@ -31,6 +31,6 @@ describe "/activities/index" do
   end
 
   it "should load a list of activities" do
-    response.should have_tag('h1', %r[Activities])
+    rendered.should have_selector('h1', :content => "Activities")
   end
 end

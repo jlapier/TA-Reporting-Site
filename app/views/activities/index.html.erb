@@ -1,11 +1,6 @@
-<%
-CalendarDateSelect.format = :natural
-%>
-
 <h1>Activities</h1>
 
 <div>
-<% puts @search.class %>
   <%= form_for @search, :url => activities_path, :html => {:method => :get} do |form| %>
     <table>
         <tr>
@@ -14,8 +9,8 @@ CalendarDateSelect.format = :natural
           <th><%= form.label :objective_id %></th>
         </tr>
         <tr>
-          <td><%= form.calendar_date_select :start_date, :size => 15, :buttons => false %></td>
-          <td><%= form.calendar_date_select :end_date, :size => 15, :buttons => false %></td>
+          <td><%= form.date_select :start_date  %></td>
+          <td><%= form.date_select :end_date %></td>
           <td><%= form.select :objective_id, @objectives.map{|o| [truncate(o.display_name, :length => 30), o.id]}, 
                     :include_blank => true %></td>
         </tr>
@@ -90,5 +85,4 @@ CalendarDateSelect.format = :natural
     })
   })
 </script>
-<%= calendar_date_select_includes 'tacs' %>
 <% end %>

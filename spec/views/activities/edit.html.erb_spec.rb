@@ -7,7 +7,7 @@ describe "/activities/edit" do
     mock_grant_activity = mock_model(GrantActivity, {
         :name => "GA 1" })
 
-    assign(:grant_activities, mock_grant_activity)
+    assign(:grant_activities, [mock_grant_activity])
     assign(:states, State.all)
 
     assign(:activity, mock_model(Activity, {
@@ -29,6 +29,6 @@ describe "/activities/edit" do
   end
 
   it "should load the proper form" do
-    response.should have_tag('h1', %r[Editing Activity])
+    rendered.should have_selector('h1', :content => "Editing Activity")
   end
 end
