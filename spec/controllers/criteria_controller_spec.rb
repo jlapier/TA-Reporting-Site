@@ -15,16 +15,9 @@ describe CriteriaController do
   end
   describe ":index" do
     it "assigns all criteria as @criteria" do
-      Criterium.stub(:find).with(:all, :order => 'number').and_return([mock_criterium])
+      Criterium.stub(:all).with(:order => 'number').and_return([mock_criterium])
       get :index
       assigns[:criteria].should == [mock_criterium]
-    end
-  end
-  describe ":show, :id => integer" do
-    it "assigns the requested criterium as @criterium" do
-      Criterium.stub(:find).with("37").and_return(mock_criterium)
-      get :show, :id => "37"
-      assigns[:criterium].should equal(mock_criterium)
     end
   end
   describe ":new" do

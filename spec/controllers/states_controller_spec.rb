@@ -147,7 +147,7 @@ describe StatesController do
       State.stub(:destroy).and_return(@state)
     end
     it "destroys the state(s) with the given id(s)" do
-      State.should_receive(:destroy).with('1')
+      State.should_receive(:destroy).with(1)
       delete :destroy, :id => 1
     end
     it "sets a flash[:notice]" do

@@ -21,8 +21,8 @@ class ReportsController < ApplicationController
         @summary_map_path = File.join(Rails.root, "public", summary_map_summary_report_path(@summary_report, :format => :svg))
         @logo_path = File.join(Rails.root, "public", "images", "logo.jpg")
         converter = PDFConverter.new()
-        html = @template.capture{ render :partial => 'shared/pdf_output.html.erb' }
-        send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf")
+        html = view_context.capture{ render :partial => 'shared/pdf_output.html.erb' }
+        send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf") and return
       else
         flash[:notice] = "No activity has been recorded to satisfy the reporting period."
         redirect_to reports_path and return
@@ -105,6 +105,6 @@ class ReportsController < ApplicationController
       redirect_to reports_path
     end
     def download
-      send_report
+      send_report and return
     end
 end

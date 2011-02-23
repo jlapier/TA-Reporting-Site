@@ -211,7 +211,7 @@ describe PasswordResetsController do
         
         it "redirects to the home page" do
           put :update, :id => 'UsersPerishableToken', :user => {}
-          response.should redirect_to(root_path)
+          response.should redirect_to('/')
         end
         
       end

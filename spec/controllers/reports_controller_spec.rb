@@ -12,24 +12,25 @@ describe ReportsController do
       Report.stub(:find).and_return([@report])
     end
     it "loads all reports as @reports" do
-      Report.should_receive(:find).and_return([@report])
+      Report.should_receive(:options).and_return([@report])
       get :index
       assigns[:reports].should == [@report]
     end
     it "loads all summary reports as @summary_reports" do
-      SummaryReport.should_receive(:find).and_return([@summary_report])
+      @summary_report = mock_model(SummaryReport)
+      SummaryReport.should_receive(:all).and_return([@summary_report])
       get :index
-      assigns[:summary_reports].should eql [@summary_reports]
+      assigns[:summary_reports].should eql [@summary_report]
     end
     it "loads all objectives as @objectives" do
       objective = mock_model(Objective)
-      Objective.should_receive(:find).and_return([objective])
+      Objective.should_receive(:options).and_return([objective])
       get :index
       assigns[:objectives].should == [objective]
     end
     it "renders the index template" do
       get :index
-      response.should render_template("reports/index.html.erb")
+      response.should render_template("index")
     end
   end
   
@@ -44,7 +45,7 @@ describe ReportsController do
     end
     it "renders the new template" do
       get :new
-      response.should render_template("reports/new.html.erb")
+      response.should render_template("new")
     end
   end
   
@@ -70,7 +71,7 @@ describe ReportsController do
       end
       it "renders the show template" do
         get :show, :id => 1
-        response.should render_template("reports/show.html.erb")
+        response.should render_template("show")
       end
     end
     context "report is not found" do
@@ -140,7 +141,7 @@ describe ReportsController do
       Report.stub(:find).and_return(@report)
     end
     it "loads a report as @report from params[:id]" do
-      Report.should_receive(:find).with('1').and_return(@report)
+      Report.should_receive(:find).with(1).and_return(@report)
       get :edit, :id => 1
       assigns[:report].should == @report
     end
@@ -152,7 +153,7 @@ describe ReportsController do
     end
     it "renders the edit template" do
       get :edit, :id => 1
-      response.should render_template("reports/edit.html.erb")
+      response.should render_template("edit")
     end
   end
   
@@ -194,7 +195,7 @@ describe ReportsController do
       end
       it "renders the new template" do
         post :create
-        response.should render_template("reports/new.html.erb")
+        response.should render_template("new")
       end
     end
   end
@@ -236,7 +237,7 @@ describe ReportsController do
       end
       it "renders the edit template" do
         put :update, :id => @report.id
-        response.should render_template("reports/edit.html.erb")
+        response.should render_template("edit")
       end
     end
   end
@@ -249,7 +250,7 @@ describe ReportsController do
       Report.stub(:destroy).and_return(@report)
     end
     it "destroys the report of params[:id]" do
-      Report.should_receive(:destroy).with(@report.id.to_s).and_return(@report)
+      Report.should_receive(:destroy).with(@report.id).and_return(@report)
       delete :destroy, :id => @report.id
     end
     it "sets a flash[:notice]" do

@@ -21,6 +21,9 @@ class PasswordResetsController < ApplicationController
     end
   protected
   public
+    def index
+    end
+
     def new
       @submitted = session[:password_reset_submitted] || false
       session[:password_reset_submitted] = nil
@@ -57,7 +60,7 @@ class PasswordResetsController < ApplicationController
       @user.password_confirmation = params[:user][:password_confirmation]
       if @user.save
         flash[:notice] = "Your password has been changed."
-        redirect_to root_path
+        redirect_to '/'
       else
         flash[:notice] = "Please correct any errors and try again."
         render :edit

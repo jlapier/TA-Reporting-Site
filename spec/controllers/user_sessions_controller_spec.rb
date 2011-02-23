@@ -44,7 +44,7 @@ describe UserSessionsController do
         end
         it "redirects to the home page" do
           post :create
-          response.should redirect_to root_path
+          response.should redirect_to '/'
         end
       end
       context "save fails :(" do

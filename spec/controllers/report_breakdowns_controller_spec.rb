@@ -36,7 +36,7 @@ describe ReportBreakdownsController do
     end
     it "renders the create rjs template" do
       xhr :post, :create, :report_id => @report.id, :report_breakdown => {}
-      response.should render_template("report_breakdowns/create.js.rjs")
+      response.should render_template("create")
     end
   end
 
