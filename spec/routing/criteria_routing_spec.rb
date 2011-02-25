@@ -16,6 +16,7 @@ describe CriteriaController do
 
     it "recognizes and generates #edit" do
       { :get => "/criteria/1/edit" }.should route_to(:controller => "criteria", :action => "edit", :id => "1")
+      { :get => "/criteria/62/edit" }.should route_to(:controller => "criteria", :action => "edit", :id => "62")
     end
 
     it "recognizes and generates #create" do

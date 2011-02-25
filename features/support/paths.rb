@@ -10,6 +10,9 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
+
+    when /the login page/
+      '/user_session/new'
       
     when /the new activity page/
       new_activity_path
