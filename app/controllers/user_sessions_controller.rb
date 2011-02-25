@@ -14,7 +14,6 @@ class UserSessionsController < ApplicationController
     @user_session.save do |result|
       if result
         flash[:notice] = "Login successful!"
-        puts "should be redirecting"
         redirect_to '/'
       else
         render :action => :new

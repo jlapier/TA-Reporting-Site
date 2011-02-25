@@ -1,5 +1,5 @@
 TAReportingSite::Application.routes.draw do
-  match '/' => 'activities#new'
+  root :to => 'activities#new'
   resources :activities do
     collection do
       get :update_grant_activities

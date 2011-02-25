@@ -21,9 +21,12 @@ gem 'pdfkit'
 
 
 group :development, :test do
+  gem 'cucumber-rails'
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'capybara'
   gem 'webrat'
+  gem 'database_cleaner'
 end
 
 group :production do
