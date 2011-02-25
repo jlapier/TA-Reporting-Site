@@ -18,7 +18,6 @@ class CriteriaController < ApplicationController
     end
 
     def show
-      raise "does this ever get called?"
       @criterium = Criterium.find(params[:id])
     end
 

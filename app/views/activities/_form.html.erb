@@ -1,3 +1,20 @@
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    <%= %Q{
+      document.observe('dom:loaded', function() {
+        new Form.Element.Observer('activity_objective_id', 0.25, function(element, value){
+          new Ajax.Request('#{update_grant_activities_activities_path}', {
+            method: 'get',
+            parameters: {
+              objective_id: encodeURIComponent(value),
+              id: encodeURIComponent('#{@activity.id}')
+            }
+          })
+        })
+      });
+    } %>
+  <% end %>
+<% end %>
 <%= semantic_form_for @activity do |form| %>
 
   <%= form.inputs do %>
@@ -6,14 +23,6 @@
       <%= form.date_select :date_of_activity, :buttons => false %>
     </li>
     <%= form.input :objective %>
-    <li>TODO: fix objective observer</li>
-    <%#= TODO: add field observer
-      observe_field :activity_objective_id, {
-      :url => {:action => :update_grant_activities},
-      :with => "'objective_id=' + encodeURIComponent(value) + '&id=' + encodeURIComponent(#{@activity.id})",
-      :frequency => 0.5,
-      :method => :get
-    } %>
     <%= form.input :ta_delivery_method %>
     <%= form.input :intensity_level %>
     

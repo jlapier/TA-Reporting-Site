@@ -1,26 +1,25 @@
 require 'spec_helper'
 
 describe UsersController do
-
+  let(:user){ mock_model(User) }
+  let(:current_user){ mock_model(User) }
+  let(:user_session) do
+    mock(UserSession, {
+      :user => current_user,
+      :name => ''
+    })
+  end
   before(:each) do
-    @current_user = mock_model(User)
-    controller.stub(:current_user_session).and_return(
-      mock(UserSession, {
-        :user => @current_user,
-        :name => ''
-      })
-    )
+    controller.stub(:current_user_session){ user_session }
   end
 
   describe ":index" do
     before(:each) do
-      @user = mock_model(User)
-      User.stub(:all).and_return([@user])
+      User.should_receive(:all){ [user] }
     end
     it "loads all users as @users" do
-      User.should_receive(:all).and_return([@user])
       get :index
-      assigns[:users].should == [@user]
+      assigns(:users).should eq [user]
     end
     it "renders the index template" do
       get :index
@@ -30,14 +29,12 @@ describe UsersController do
   
   context "new User" do
     before(:each) do
-      @user = mock_model(User).as_new_record
-      User.stub(:new).and_return(@user)
+      User.should_receive(:new){ user }
     end
     describe ":new" do
       it "instantiates a new user as @user" do
-        User.should_receive(:new).and_return(@user)
         get :new
-        assigns[:user].should == @user
+        assigns(:user).should eq user
       end
       it "renders the new template" do
         get :new
@@ -46,37 +43,40 @@ describe UsersController do
     end
     
     describe ":create, :user => {}" do
+      let(:params) do
+        {:user => {:first_name => 'He', :last_name => 'Llo'}}
+      end
       before(:each) do
-        @user.stub(:save).and_return(nil)
+        user.stub(:save){ nil }
+        User.stub(:new){ user }
       end
       it "instantiates a new user as @user" do
-        User.should_receive(:new).and_return(@user)
-        post :create
-        assigns[:user].should == @user
+        post :create, params
+        assigns(:user).should eq user
       end
       it "saves the user" do
-        @user.should_receive(:save)
-        post :create
+        user.should_receive(:save)
+        post :create, params
       end
       context "save succeeds :)" do
         before(:each) do
-          @user.stub(:save).and_return(true)
+          user.stub(:save){ true }
         end
         it "sets a flash[:notice]" do
-          post :create
+          post :create, params
           flash[:notice].should_not be_nil
         end
         it "redirects to the users page" do
-          post :create
+          post :create, params
           response.should redirect_to users_path
         end
       end
       context "save fails :(" do
         before(:each) do
-          @user.stub(:save).and_return(false)
+          user.stub(:save){ false }
         end
         it "renders the new template" do
-          post :create
+          post :create, params
           response.should render_template("users/new")
         end
       end
@@ -84,59 +84,56 @@ describe UsersController do
   end
   
   context "existing User" do
+    let(:params) do
+      {:id => 1}
+    end
     describe ":edit" do
-      it "loads a user as @user from @current_user" do
-        get :edit
-        assigns[:user].should == @current_user
+      it "loads a user as @user from current_user" do
+        get :edit, params
+        assigns(:user).should eq current_user
       end
       it "renders the edit template" do
-        get :edit
+        get :edit, params
         response.should render_template("users/edit")
       end
     end
     describe ":show" do
-      it "loads a user as @user from @current_user" do
-        get :show
-        assigns[:user].should == @current_user
+      it "loads a user as @user from current_user" do
+        get :show, params
+        assigns(:user).should eq current_user
       end
       it "renders the show template" do
-        get :show
+        get :show, params
         response.should render_template("users/show")
       end
     end
     describe ":update" do
       before(:each) do
-        @current_user.stub(:update_attributes).and_return(nil)
+        params.merge!({:user => {:email => 'new.email@test.com'}})
+        # using should_receive here somehow prevents any future return val from being changed eg false
+        current_user.stub(:update_attributes).with(params[:user].stringify_keys){ true }
       end
-      it "loads a user as @user from @current_user" do
-        put :update
-        assigns[:user].should == @current_user
+      it "loads a user as @user from current_user" do
+        put :update, params
+        assigns(:user).should eq current_user
       end
       it "updates the user" do
-        @current_user.should_receive(:update_attributes).with({
-          'email' => 'new.email@test.com'
-        })
-        put :update, :user => {:email => 'new.email@test.com'}
+        put :update, params
       end
       context "update succeeds :)" do
-        before(:each) do
-          @current_user.stub(:update_attributes).and_return(true)
-        end
         it "sets a flash[:notice]" do
-          put :update
+          put :update, params
           flash[:notice].should_not be_nil
         end
         it "redirects to the users page" do
-          put :update
+          put :update, params
           response.should redirect_to users_path
         end
       end
       context "update fails :(" do
-        before(:each) do
-          @current_user.stub(:update_attributes).and_return(false)
-        end
         it "renders the edit template" do
-          put :update
+          current_user.stub(:update_attributes).with(params[:user].stringify_keys){ false }
+          put :update, params
           response.should render_template("users/edit")
         end
       end

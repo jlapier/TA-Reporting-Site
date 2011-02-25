@@ -4,8 +4,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :logged_in?, :is_admin?
 
   after_filter :store_location
+  
+  prepend_before_filter :log_params
 
   private
+    def log_params
+      logger.debug("PARAMS: #{params.inspect}")
+    end
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find

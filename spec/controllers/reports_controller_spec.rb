@@ -1,32 +1,35 @@
 require 'spec_helper'
 
 describe ReportsController do
-
+  
+  let(:report){ mock_model(Report) }
+  let(:summary_report){ mock_model(SummaryReport) }
+  let(:objective){ mock_model(Objective) }
+  let(:intensity_level){ mock_model(IntensityLevel) }
+  let(:grant_activity){ mock_model(GrantActivity) }
+  let(:activity){ mock_model(Activity) }
+  
   before(:each) do
-    controller.stub(:require_user).and_return(true)
+    controller.stub(:require_user){ true }
   end
 
   describe ":index" do
     before(:each) do
-      @report = mock_model(Report)
-      Report.stub(:find).and_return([@report])
+      Report.stub(:options).with(:include => :report_breakdowns){ [report] }
+      SummaryReport.stub(:all){ [summary_report] }
+      Objective.stub(:options).with(:order => 'number'){ [objective] }
     end
     it "loads all reports as @reports" do
-      Report.should_receive(:options).and_return([@report])
       get :index
-      assigns[:reports].should == [@report]
+      assigns(:reports).should eq [report]
     end
     it "loads all summary reports as @summary_reports" do
-      @summary_report = mock_model(SummaryReport)
-      SummaryReport.should_receive(:all).and_return([@summary_report])
       get :index
-      assigns[:summary_reports].should eql [@summary_report]
+      assigns(:summary_reports).should eq [summary_report]
     end
     it "loads all objectives as @objectives" do
-      objective = mock_model(Objective)
-      Objective.should_receive(:options).and_return([objective])
       get :index
-      assigns[:objectives].should == [objective]
+      assigns(:objectives).should eq [objective]
     end
     it "renders the index template" do
       get :index
@@ -35,13 +38,13 @@ describe ReportsController do
   end
   
   describe ":new" do
+    let(:report){ mock_model(Report).as_new_record }
     before(:each) do
-      @report = mock_model(Report).as_new_record
-      Report.stub(:new).and_return(@report)
+      Report.stub(:new){ report }
     end
     it "instantiates a new report as @report" do
       get :new
-      assigns[:report].should == @report
+      assigns[:report].should eq report
     end
     it "renders the new template" do
       get :new
@@ -50,86 +53,89 @@ describe ReportsController do
   end
   
   describe ":show, :id => integer, :summary_report_id => optional:integer" do
-    before(:each) do
-      @report = mock_model(Report, {
+    let(:params) do
+      {:id => 1, :summary_report_id => 1}
+    end
+    let(:report) do
+      mock_model(Report, {
         :dates= => nil,
         :start_period => Date.new(2010, 1),
         :end_period => Date.new(2010, 6)
       })
-      @summary_report = mock_model(SummaryReport, {
+    end
+    let(:summary_report) do
+      mock_model(SummaryReport, {
         :start_period => Date.new(2010, 5, 1),
         :end_period => Date.new(2010, 5, 30)
       })
     end
     context "report is found" do
       before(:each) do
-        Report.should_receive(:find).once.and_return(@report)
+        Report.stub(:find).once.and_return(report)
       end
       it "loads a report as @report from params[:id]" do
-        get :show, :id => 1, :summary_report_id => 1
-        assigns[:report].should == @report
+        get :show, params
+        assigns(:report).should eq report
       end
       it "renders the show template" do
-        get :show, :id => 1
+        get :show, params
         response.should render_template("show")
       end
     end
     context "report is not found" do
       before(:each) do
-        Report.should_receive(:find).once.and_raise(ActiveRecord::RecordNotFound)
+        Report.stub(:find).once.and_raise(ActiveRecord::RecordNotFound)
       end
       it "sets a flash[:notice]" do
-        get :show, :id => 0
+        get :show, params
         flash[:notice].should_not be_nil
       end
       it "redirects to the reports page" do
-        get :show, :id => 0
+        get :show, params
         response.should redirect_to reports_path
       end
     end
     context "summary report is found" do
       before(:each) do
-        Report.should_receive(:find).once.and_return(@report)
-        SummaryReport.should_receive(:find).once.and_return(@summary_report)
+        Report.should_receive(:find).once.and_return(report)
+        SummaryReport.should_receive(:find).once.and_return(summary_report)
+        IntensityLevel.should_receive(:all).and_return([intensity_level])
+        GrantActivity.should_receive(:all).and_return([grant_activity])
       end
       it "loads a summary report from params[:summary_report_id]" do
-        get :show, :id => 1, :summary_report_id => 1
-        assigns[:summary_report].should eql @summary_report
+        get :show, params
+        assigns(:summary_report).should eq summary_report
       end
       it "updates report periods from summary report periods" do
-        @report.should_receive(:dates=).with({
+        report.should_receive(:dates=).with({
           :start_year => 2010,
           :start_month => 5,
           :end_year => 2010,
           :end_month => 5
         })
-        get :show, :id => 1, :summary_report_id => 1
+        get :show, params
       end
       it "loads all IntensityLevels" do
-        intensity_level = mock_model(IntensityLevel)
-        IntensityLevel.should_receive(:all).and_return([intensity_level])
-        get :show, :id => 1, :summary_report_id => 1
-        assigns[:intensity_levels].should eql [intensity_level]
+        get :show, params
+        assigns(:intensity_levels).should eq [intensity_level]
       end
       it "loads all GrantActivities" do
-        grant_activity = mock_model(GrantActivity)
-        GrantActivity.should_receive(:all).and_return([grant_activity])
-        get :show, :id => 1, :summary_report_id => 1
-        assigns[:grant_activities].should eql [grant_activity]
+        get :show, params
+        assigns(:grant_activities).should eq [grant_activity]
       end
     end
     context "summary report is not found or is not requested" do
       before(:each) do
-        Report.should_receive(:find).once.and_return(@report)
+        Report.should_receive(:find).once{ report }
         SummaryReport.should_receive(:find).once.and_raise(ActiveRecord::RecordNotFound)
         stub_flash_sweeper
       end
       it "is not found so sets flash.now[:notice]" do
-        get :show, :id => 0, :summary_report_id => 0
+        get :show, params
         flash[:notice].should_not be_nil
       end
       it "is not requested so sets a flash.now[:notice]" do
-        get :show, :id => 0
+        get :show, params
         flash[:notice].should_not be_nil
       end
     end
@@ -137,19 +143,16 @@ describe ReportsController do
   
   describe ":edit, :id => integer" do
     before(:each) do
-      @report = mock_model(Report)
-      Report.stub(:find).and_return(@report)
+      Report.stub(:find){ report }
+      Objective.should_receive(:all){ [objective] }
     end
     it "loads a report as @report from params[:id]" do
-      Report.should_receive(:find).with(1).and_return(@report)
       get :edit, :id => 1
-      assigns[:report].should == @report
+      assigns(:report).should eq report
     end
     it "loads all objectives as @objectives" do
-      objective = mock_model(Objective)
-      Objective.should_receive(:all).and_return([objective])
       get :edit, :id => 1
-      assigns[:objectives].should == [objective]
+      assigns(:objectives).should eq [objective]
     end
     it "renders the edit template" do
       get :edit, :id => 1
@@ -158,176 +161,182 @@ describe ReportsController do
   end
   
   describe ":create, :report => {}" do
+    let(:params) do
+      {:report => {:name => 'Q1 - 2010'}}
+    end
     before(:each) do
-      @report = mock_model(Report, {
-        :save => nil,
-        :id => 1111
-      })
-      Report.stub(:new).and_return(@report)
+      report.stub(:save){ nil }
+      Report.should_receive(:new).with(params[:report].stringify_keys){ report }
     end
     it "instantiates a new report as @report from params[:report]" do
-      Report.should_receive(:new).with({
-        'name' => 'Q1 - 2010'
-      }).and_return(@report)
-      post :create, :report => {:name => 'Q1 - 2010'}
-      assigns[:report].should == @report
+      post :create, params
+      assigns(:report).should eq report
     end
     it "saves the new report" do
-      @report.should_receive(:save)
-      post :create
+      report.should_receive(:save)
+      post :create, params
     end
     context "save succeeds :)" do
       before(:each) do
-        @report.stub(:save).and_return(true)
+        report.stub(:save){ true }
       end
       it "sets a flash[:notice]" do
-        post :create
+        post :create, params
         flash[:notice].should_not be_nil
       end
       it "redirects to update the new report" do
-        post :create
-        response.should redirect_to edit_report_path(@report.id)
+        post :create, params
+        response.should redirect_to edit_report_path(report.id)
       end
     end
     context "save fails :(" do
       before(:each) do
-        @report.stub(:save).and_return(false)
+        report.stub(:save){ false }
       end
       it "renders the new template" do
-        post :create
+        post :create, params
         response.should render_template("new")
       end
     end
   end
   
   describe ":update, :id => integer, :report => {}" do
+    let(:params) do
+      {:id => report.id, :report => {:name => 'New name'}}
+    end
     before(:each) do
-      @report = mock_model(Report, {
-        :update_attributes => nil
-      })
-      Report.stub(:find).and_return(@report)
+      report.stub(:update_attributes){ nil }
+      Report.should_receive(:find){ report }
     end
     it "loads a report as @report from params[:id]" do
-      Report.should_receive(:find).and_return(@report)
-      put :update, :id => @report.id
-      assigns[:report].should == @report
+      put :update, params
+      assigns(:report).should eq report
     end
     it "updates @report" do
-      @report.should_receive(:update_attributes).with({
-        'name' => 'New name'
-      })
-      put :update, :id => @report.id, :report => {:name => 'New name'}
+      report.should_receive(:update_attributes).with(params[:report].stringify_keys)
+      put :update, params
     end
     context "update succeeds :)" do
       before(:each) do
-        @report.stub(:update_attributes).and_return(true)
+        report.stub(:update_attributes){ true }
       end
       it "sets flash[:notice]" do
-        put :update, :id => @report.id
+        put :update, params
         flash[:notice].should_not be_nil
       end
       it "redirects to the reports page" do
-        put :update, :id => @report.id
+        put :update, params
         response.should redirect_to reports_path
       end
     end
     context "update fails :(" do
       before(:each) do
-        @report.stub(:update_attributes).and_return(false)
+        report.stub(:update_attributes){ false }
       end
       it "renders the edit template" do
-        put :update, :id => @report.id
+        put :update, params
         response.should render_template("edit")
       end
     end
   end
   
   describe ":destroy, :id => integer" do
+    let(:params) do
+      {:id => report.id}
+    end
     before(:each) do
-      @report = mock_model(Report, {
-        :name => "doomed report"
-      })
-      Report.stub(:destroy).and_return(@report)
+      report.stub(:name){ 'doomed report' }
+      Report.should_receive(:destroy).with(report.id){ report }
     end
     it "destroys the report of params[:id]" do
-      Report.should_receive(:destroy).with(@report.id).and_return(@report)
-      delete :destroy, :id => @report.id
+      delete :destroy, params
     end
     it "sets a flash[:notice]" do
-      delete :destroy, :id => @report.id
+      delete :destroy, params
       flash[:notice].should_not be_nil
     end
     it "redirects to the reports page" do
-      delete :destroy, :id => @report.id
+      delete :destroy, params
       response.should redirect_to reports_path
     end
   end
   
   describe ":download, :start_month => MM, start_year => YYYY, :end_month => MM, :end_year => YYYY" do
+    let(:params) do
+      {
+        :id => report.id,
+        :start_month => "1",
+        :start_year => "2010",
+        :end_month => '6',
+        :end_year => '2010',
+        :format => :csv
+      }
+    end
+    let(:csv){ "one,two,three\nfour,five,six\n" }
+    
     before(:each) do
-      @report = mock_model(Report, {
-        :dates= => nil,
-        :export => nil,
-        :name => "Q1 - 2010",
-        :csv => nil,
-        :activities => [],
-        :start_period => Date.new(2010, 1),
-        :end_period => Date.new(2010, 6)
-      })
-      Report.should_receive(:find).once.and_return(@report)
+      controller.stub(:render)
+      report.stub(:dates=){ nil }
+      report.stub(:export){ nil }
+      report.stub(:name){ 'Q1 - 2010' }
+      report.stub(:csv){ nil }
+      report.stub(:activities){ [] }
+      report.stub(:start_period){ Date.new(2010, 1) }
+      report.stub(:end_period){ Date.new(2010, 6) }
+      report.stub(:export_filename){ "Q1 - 2010 TA Activity Report" }
+      report.stub(:to_csv){ nil }
+      report.stub(:csv){ csv }
+      summary_report.stub(:start_period){ Date.new(2010, 1) }
+      summary_report.stub(:end_period){ Date.new(2010, 6) }
+      
+      SummaryReport.stub(:find){ summary_report }
+      Report.should_receive(:find).once{ report }
     end
     it "loads a report as @report from params[:id]" do
-      get :download, :id => @report.id, :start_year => 2010, :start_month => 04
-      assigns[:report].should == @report
+      get :download, params
+      assigns(:report).should eq report
     end
     context ":format => :csv" do
-      before(:each) do
-        @report.stub({
-          :export_filename => "Q1 - 2010 TA Activity Report",
-          :to_csv => nil,
-          :csv => "one,two,three\nfour,five,six\n"
-        })
-      end
       it "sends the report as csv" do
-        @report.should_receive(:to_csv)
-        @report.should_receive(:csv).and_return("one,two,three\nfour,five,six\n")
-        controller.should_receive(:send_data).with("one,two,three\nfour,five,six\n", {
+        report.should_receive(:to_csv)
+        controller.should_receive(:send_data).with(csv, {
           :type => "text/csv",
           :disposition => "attachment",
-          :filename => "Q1 - 2010 TA Activity Report.csv"
+          :filename => "#{report.export_filename}.csv"
         })
-        get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => '6', :end_year => '2010', :format => :csv
+        get :download, params
         flash[:notice].should be_nil
       end
     end
     
     context ":format => :pdf" do
-      before(:each) do
-        @report.stub(:export_filename).and_return("Q1 - 2010 TA Activity Report")
-        @act1 = mock_model(Activity)
-        @converter = mock(PDFConverter, {
+      let(:converter) do
+        mock(PDFConverter, {
           :html_to_pdf => "pdf"
         })
-        PDFConverter.stub(:new).and_return(@converter)
+      end
+      before(:each) do
+        PDFConverter.stub(:new){ converter }
       end
       context "report contains activities" do
         before(:each) do
-          @report.stub(:activities).and_return([@act1])
+          params.merge!({:format => :pdf})
+          report.stub(:activities){ [activity] }
         end
         it "updates image paths to full paths" do
-          get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => "6", :end_year => "2010", :format => :pdf
-          assigns[:ytd_summary_map_path].should =~ /^#{Rails.root}/
-          assigns[:summary_map_path].should =~ /^#{Rails.root}/
-          assigns[:logo_path].should =~ /^#{Rails.root}/
+          get :download, params
+          assigns(:ytd_summary_map_path).should =~ /^#{Rails.root}/
+          assigns(:summary_map_path).should =~ /^#{Rails.root}/
+          assigns(:logo_path).should =~ /^#{Rails.root}/
         end
         it "sends the reports as pdf" do
-          @converter.should_receive(:html_to_pdf).and_return("pdf")
+          converter.should_receive(:html_to_pdf).and_return("pdf")
           controller.should_receive(:send_data).with("pdf", {
             :type => "application/pdf",
             :disposition => "attachment",
-            :filename => "#{@report.export_filename}.pdf"
+            :filename => "#{report.export_filename}.pdf"
           })
-          get :download, :id => @report.id, :start_month => "1", :start_year => "2010", :end_month => "6", :end_year => "2010", :format => :pdf
+          get :download, params
           flash[:notice].should be_nil
         end
       end

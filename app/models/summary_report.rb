@@ -33,7 +33,7 @@ class SummaryReport < ActiveRecord::Base
 
   def report_title
     if ytd_activities
-      end_period.strftime( report_title_format.blank? ? "%B %Y<br />Monthly Report" : report_title_format)
+      end_period.strftime( report_title_format.blank? ? "%B %Y<br />Monthly Report" : report_title_format).html_safe
     end
   end
 

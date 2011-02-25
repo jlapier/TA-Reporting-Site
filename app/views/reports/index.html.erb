@@ -7,7 +7,7 @@
   <tr>
     <th>Name</th>
     <% @objectives.each do |objective| %>
-    <th style="text-align: center;"><%=h objective.number %></th>
+    <th style="text-align: center;"><%= objective.number %></th>
     <% end %>
   </tr>
   <%= render :partial => 'report', :collection => @reports, :locals => {:objectives => @objectives} %>

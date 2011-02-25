@@ -13,7 +13,7 @@ describe State do
   describe "states and regions" do  
     it "must have a name" do
       @state.should_not be_valid
-      @state.errors.on(:name).include?("can't be blank").should be_true
+      @state.errors[:name].include?("can't be blank").should be_true
     end
   
     it "have many activities" do
@@ -46,7 +46,7 @@ describe State do
     it "must have an abbreviation" do
       @state.abbreviation = nil
       @state.should_not be_valid
-      @state.errors.on(:abbreviation).include?("can't be blank").should be_true
+      @state.errors[:abbreviation].include?("can't be blank").should be_true
     end
     it "belongs to a region" do
       @state.respond_to?(:region_id).should be_true

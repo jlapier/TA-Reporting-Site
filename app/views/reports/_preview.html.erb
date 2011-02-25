@@ -1,12 +1,17 @@
 <% @report.report_breakdowns.each do |report_breakdown| %>
   <div class="report highlight span-18 last">
-    <h1><%=h "Objective #{report_breakdown.objective.display_name}" %></h1>
-      <%= content_tag(:p, report_breakdown.objective.description, :class => "note") %>
+    <h1><%= "Objective #{report_breakdown.objective.display_name}" %></h1>
+      <%= 
+        # todo: review raw output of user provided data
+        content_tag(:p, :class => "note") do 
+          raw(report_breakdown.objective.description)
+        end
+      %>
       <% if report_breakdown.breakdown_type.blank? %>
         <% unless @report.has_activities_like({:objective => report_breakdown.objective}) %>
         <p>No activity recorded for this period.</p>
         <% else %>
-        <h2>Specific <%=h report_breakdown.objective.name %> activities included</h2>
+        <h2>Specific <%= report_breakdown.objective.name %> activities included</h2>
         <% end %>
         <%= render :partial => 'activities/activities_for_report.html.erb', 
                     :object => @report.grouped_activities[report_breakdown.objective.number], 
@@ -15,7 +20,7 @@
         <% report_breakdown.activities(@report.start_period, @report.end_period).each do |breakdown, activities| %>
         <div class="breakdown">
           <% unless breakdown.nil? %>
-          <h2><%=h breakdown %> 
+          <h2><%= breakdown %> 
             <!-- <span class="note">(Objective <%=h report_breakdown.objective.display_name %>)</span> --></h2>
           <% end %>
           <%= render :partial => 'activities/activities_for_report.html.erb', 

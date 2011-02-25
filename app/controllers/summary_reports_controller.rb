@@ -4,6 +4,8 @@ class SummaryReportsController < ApplicationController
   before_filter :get_summary_report, :only => [:show, :evaluation, :edit, :update, :destroy, :summary_map, :ytd_map]
   
   caches_page :summary_map, :ytd_map
+  
+  respond_to :png, :svg, :only => [:summary_map, :ytd_map]
 
   private
     def get_summary_report

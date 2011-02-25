@@ -1,7 +1,7 @@
 <% color_class = report_counter % 2 == 0 ? "dark" : "light" %>
 <tr id="<%= "report_#{report.name.parameterize}" %>" class="row_<%= color_class %>">
   <td>
-    <%=h report.name %><br />
+    <%= report.name %><br />
     <span class="fake_button"><%= link_to "Edit", edit_report_path(report.id) %></span>
     <span class="fake_button"><%= link_to "Delete", report_path(report.id), :method => :delete, :confirm => "Delete #{report.name}?" %></span>
   </td>
@@ -10,7 +10,9 @@
     <% report_breakdown = report.report_breakdowns.find_by_objective_id(objective.id) %>
     <% if report_breakdown %>
       <em>Included</em> <br />
-      <%= "Broken down by: #{report_breakdown.breakdown_type}<br />" unless report_breakdown.breakdown_type.blank? %>
+      <% unless report_breakdown.breakdown_type.blank? %>
+        <%= "Broken down by: #{report_breakdown.breakdown_type}" %><br />
+      <%- end -%>
       <%= report_breakdown.include_states ? 'includes' : 'omits' %> states
     <% else %>
       <em>Not included</em>
@@ -21,8 +23,8 @@
 <tr id="<%= "report_#{report.name.parameterize}_dates" %>" class="row_<%= color_class %>">
   <td style="text-align: right;" colspan="5">
     Using Summary Report Period:
-    <% form_tag(report_path(report), :method => :get, :style => "display: inline;") do %>
-      <%= select_tag 'summary_report_id', "<option value=\"\">Select one</option>" + options_from_collection_for_select(@summary_reports, :id, :name) %>
+    <%= form_tag(report_path(report), :method => :get, :style => "display: inline;") do %>
+      <%= select_tag 'summary_report_id', "<option value=\"\">Select one</option>".html_safe + options_from_collection_for_select(@summary_reports, :id, :name) %>
       <%= submit_tag "Preview", :class => "fake_button" %>
     <% end %>
   </td>

@@ -5,10 +5,10 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.3'
 
 gem 'RedCloth'
-gem 'ruby-openid', :require => 'openid'
+#gem 'ruby-openid', :require => 'openid'
 gem 'authlogic', :git => 'http://github.com/binarylogic/authlogic.git'
-gem 'authlogic-oid', :require => 'authlogic_openid'
-gem 'will_paginate' 
+#gem 'authlogic-oid', :require => 'authlogic_openid'
+#gem 'will_paginate' 
 gem 'formtastic'
 gem 'calendar_date_select'
 gem 'acts_as_revisable', {
@@ -21,9 +21,13 @@ gem 'pdfkit'
 
 
 group :development, :test do
+  gem 'cucumber-rails'
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'capybara'
   gem 'webrat'
+  gem 'database_cleaner'
+  gem 'launchy'
 end
 
 group :production do

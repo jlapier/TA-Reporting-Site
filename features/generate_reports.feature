@@ -8,7 +8,7 @@ Feature: Generate reports
   Scenario: create a set of rules by which to generate a report from
     Given I am on the new report page
     When I fill in "Name" with "Q1 - 2010"
-    And I press "Save changes"
+    And I press "Create Report"
     Then I should see "New Report successfully created."
     And I should be on the edit report page for "Q1 - 2010"
     

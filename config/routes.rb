@@ -1,5 +1,5 @@
 TAReportingSite::Application.routes.draw do
-  match '/' => 'activities#new'
+  root :to => 'activities#new'
   resources :activities do
     collection do
       get :update_grant_activities
@@ -8,12 +8,12 @@ TAReportingSite::Application.routes.draw do
   end
 
   resources :criteria
-  resources :intensity_levels
-  resources :grant_activities
-  resources :ta_delivery_methods
-  resources :objectives
-  resources :ta_categories
-  resource :account
+  resources :intensity_levels, :controller => 'criteria'
+  resources :grant_activities, :controller => 'criteria'
+  resources :ta_delivery_methods, :controller => 'criteria'
+  resources :objectives, :controller => 'criteria'
+  resources :ta_categories, :controller => 'criteria'
+  resource :account, :controller => 'users'
   resources :users
   resources :password_resets
   resources :states

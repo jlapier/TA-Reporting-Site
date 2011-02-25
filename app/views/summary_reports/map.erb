@@ -17,15 +17,12 @@
        <% @intensity_levels.each { |il| fill_color = SummaryReport::LEVEL_COLORS[il.number] if @states[il.id].map(&:abbreviation).include?(state_shape_key[0..1]) } %>
        <path d="<%= state_shape_data[:d] %>" id="<%= state_shape_key %>" 
         <% if state_shape_key =~ /Line/ %>
-          <%= "style=\"fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;" + 
-                "stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none\"" %>
+          style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
         <% elsif state_shape_key =~ /Circle/ %>
-          <%= "transform=\"#{state_shape_data[:transform]}\" " + 
-                "style=\"fill:#{fill_color};stroke:#000000;stroke-width:3;stroke-miterlimit:4;" + 
-                "stroke-opacity:1;stroke-dasharray:none;\"" %>
+          transform="<%= state_shape_data[:transform] %>"
+                style="fill:<%= fill_color %>;stroke:#000000;stroke-width:3;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
         <% elsif fill_color != "none" %>
-          <%= "style=\"fill:#{fill_color};stroke:#666666;stroke-width:1;stroke-miterlimit:4;" + 
-                "stroke-opacity:1;stroke-dasharray:none;\"" %>
+          style="fill:<%= fill_color %>;stroke:#666666;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;"
         <% end %> 
        />
      <% end %>

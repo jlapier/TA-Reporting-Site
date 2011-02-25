@@ -13,8 +13,9 @@
     
     <%= stylesheet_link_tag 'application', 'text_and_colors', 'formtastic', 'formtastic_changes', :media => 'screen, projection' %>
     
-    <%= javascript_include_tag 'prototype', 'effects', 'dragdrop', 'controls' %>
-    <%= javascript_include_tag 'lowpro', 'behaviors', 'utils', 'application' %>
+    <%= javascript_include_tag 'prototype', 'rails', 'effects', 'dragdrop',
+                               'controls', 'lowpro', 'behaviors', 'utils',
+                               'application' %>
     <%= yield :javascript %>
     <%= csrf_meta_tag %>
   </head>
