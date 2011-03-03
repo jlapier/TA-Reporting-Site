@@ -4,7 +4,7 @@ class CreateGrantActivitiesObjectives < ActiveRecord::Migration
       t.integer :grant_activity_id
       t.integer :objective_id
     end
-    add_index :grant_activities_objectives, [:grant_activity_id, :objective_id]
+    add_index :grant_activities_objectives, [:grant_activity_id, :objective_id], :name => "grant_act_objs_index"
   end
 
   def self.down

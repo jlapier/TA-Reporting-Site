@@ -28,7 +28,7 @@ class CreateActivities < ActiveRecord::Migration
     add_index "activities_ta_categories", ["ta_category_id"]
 
     add_index "activities_collaborating_agencies", ["activity_id"]
-    add_index "activities_collaborating_agencies", ["collaborating_agency_id"]
+    add_index "activities_collaborating_agencies", ["collaborating_agency_id"], :name => "activities_collab_agencies_index"
 
   end
 
