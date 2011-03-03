@@ -4,8 +4,6 @@ class SummaryReportsController < ApplicationController
   before_filter :get_summary_report, :only => [:show, :evaluation, :edit, :update, :destroy, :summary_map, :ytd_map]
   
   caches_page :summary_map, :ytd_map
-  
-  respond_to :png, :svg, :only => [:summary_map, :ytd_map]
 
   private
     def get_summary_report
@@ -13,13 +11,13 @@ class SummaryReportsController < ApplicationController
       @summary_map_path = summary_map_summary_report_path(@summary_report, :format => :png)
       @ytd_summary_map_path = ytd_map_summary_report_path(@summary_report, :format => :png)
     end
-    def cache_map(svgxml, path)
+    def cache_map(map, path)
       full_path = File.join(Rails.root, "public", path)
       dir = File.dirname(full_path)
       logger.debug("dirname - #{dir}")
       FileUtils.mkdir_p(dir)
       file = File.new(full_path, "w+")
-      file << svgxml
+      file << map
       file.close
     end
   protected
@@ -81,13 +79,13 @@ class SummaryReportsController < ApplicationController
       respond_to do |format|
         format.svg { render :action => :map }
         format.png do
-          svgxml = render(:action => :map)
+          svgxml = render_to_string('summary_reports/map')
           il = Magick::ImageList.new
           il.from_blob(svgxml)
           sizedil = il.resize_to_fit(315,300)
           cache_map(svgxml, summary_map_summary_report_path(@summary_report, :format => :svg))
           sizedil.format = "PNG"
-          send_data(sizedil.to_blob, :filename => "summary_map.png")
+          send_data(sizedil.to_blob, :filename => "summary_map.png") and return
         end
       end
     end
@@ -102,13 +100,13 @@ class SummaryReportsController < ApplicationController
       respond_to do |format|
         format.svg { render :action => :map }
         format.png do
-          svgxml = render(:action => :map)
+          svgxml = render_to_string('summary_reports/map')
           il = Magick::ImageList.new
           il.from_blob(svgxml)
           sizedil = il.resize_to_fit(315,300)
           cache_map(svgxml, ytd_map_summary_report_path(@summary_report, :format => :svg))
           sizedil.format = "PNG"
-          send_data(sizedil.to_blob, :filename => "ytd_map.png")
+          send_data(sizedil.to_blob, :filename => "ytd_map.png") and return
         end
       end
     end
