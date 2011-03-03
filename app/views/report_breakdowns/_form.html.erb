@@ -1,6 +1,6 @@
 <div id="ajax_new_report_breakdown_form">
-  <% semantic_form_for @new_report_breakdown, :url => report_report_breakdowns_path(@report) do |form| %>
-    <% form.inputs do %>
+  <%= semantic_form_for @new_report_breakdown, :url => report_report_breakdowns_path(@report) do |form| %>
+    <%= form.inputs do %>
       <%= form.input :objective %>
       <%= form.input :breakdown_type, 
         :collection => Criterium::TYPE_OPTIONS.reject{|t| t[1] == 'Objective' || t[1] == "TACategory"} %>
