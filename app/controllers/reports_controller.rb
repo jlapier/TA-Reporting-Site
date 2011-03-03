@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
 
   before_filter :require_user
   before_filter :load_summary_report, :only => [:show, :download]
+  respond_to :csv, :pdf, :only => :download
   
   private
     def send_report
@@ -21,7 +22,8 @@ class ReportsController < ApplicationController
         @summary_map_path = File.join(Rails.root.to_s, "public", summary_map_summary_report_path(@summary_report, :format => :svg))
         @logo_path = File.join(Rails.root.to_s, "public", "images", "logo.jpg")
         converter = PDFConverter.new()
-        html = view_context.capture{ render :partial => 'shared/pdf_output.html.erb' }
+        # html = view_context.capture{ render :partial => 'shared/pdf_output.html.erb' }
+        html = render_to_string(:partial => 'shared/pdf_output')
         send_data(converter.html_to_pdf(html), :type => "application/pdf", :disposition => "attachment", :filename => "#{@report.export_filename}.pdf") and return
       else
         flash[:notice] = "No activity has been recorded to satisfy the reporting period."
