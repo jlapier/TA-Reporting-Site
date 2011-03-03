@@ -62,11 +62,6 @@ class ActivitiesController < ApplicationController
       end
     end
     
-    def edit_all
-      @activities = Activity.all :order => "date_of_activity"
-      load_criteria
-    end
-    
     def show
       @activity = Activity.find params[:id]
       redirect_to edit_activity_path @activity
@@ -81,21 +76,11 @@ class ActivitiesController < ApplicationController
       @activity = Activity.find params[:id]
       respond_to do |format|
         if @activity.update_attributes(params[:activity])
-          unless request.xhr?
-            flash[:notice] = "Activity updated."
-          else
-            load_criteria
-          end
+          flash[:notice] = "Activity updated."
           format.html{redirect_to activities_path}
-          format.js
         else
-          if request.xhr?
-            load_criteria
-          else
-            load_states
-          end
+          load_states
           format.html{render :edit}
-          format.js
         end
       end
     end

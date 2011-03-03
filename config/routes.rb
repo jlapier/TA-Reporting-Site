@@ -3,7 +3,6 @@ TAReportingSite::Application.routes.draw do
   resources :activities do
     collection do
       get :update_grant_activities
-      get :edit_all
     end
   end
 
