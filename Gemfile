@@ -10,7 +10,6 @@ gem 'authlogic', :git => 'http://github.com/binarylogic/authlogic.git'
 #gem 'authlogic-oid', :require => 'authlogic_openid'
 #gem 'will_paginate' 
 gem 'formtastic'
-gem 'calendar_date_select'
 gem 'acts_as_revisable', {
   :git => "git://github.com/inertialbit/acts_as_revisable.git",
   :branch => 'rails3'
@@ -18,7 +17,7 @@ gem 'acts_as_revisable', {
 gem 'fastercsv'
 gem 'rmagick', :require => 'RMagick2'
 gem 'pdfkit'
-
+gem 'yaml_db'
 
 group :development, :test do
   gem 'cucumber-rails'
