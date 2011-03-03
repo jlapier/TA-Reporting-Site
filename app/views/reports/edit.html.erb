@@ -1,6 +1,6 @@
 <h1>Editing Report: <%=h @report.name %></h1>
-<% semantic_form_for @report do |form| %>
-  <% form.inputs do %>
+<%= semantic_form_for @report do |form| %>
+  <%= form.inputs do %>
     <%= form.input :name %>
   <% end %>
   <%= form.submit %>
