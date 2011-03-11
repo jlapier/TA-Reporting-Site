@@ -2,8 +2,20 @@ class ActivitiesController < ApplicationController
   
   before_filter :require_user
   before_filter :load_states, :only => [ :new, :edit ]
+  respond_to :csv, :only => :download
   
   private
+    def load_activities
+      @search = ActivitySearch.new(params[:activity_search] || {})
+      if params[:activity_search]
+        @activities = @search.activities
+        if @activities.empty?
+          flash.now[:notice] = "No activities found."
+        end
+      else
+        @activities = Activity.order("date_of_activity DESC")
+      end
+    end
     def load_states
       @states = State.just_states
     end
@@ -39,15 +51,7 @@ class ActivitiesController < ApplicationController
     
     def index
       load_criteria
-      @search = ActivitySearch.new(params[:activity_search] || {})
-      if params[:activity_search]
-        @activities = @search.activities
-        if @activities.empty?
-          flash.now[:notice] = "No activities found."
-        end
-      else
-        @activities = Activity.options(:order => "date_of_activity DESC")
-      end
+      load_activities
     end
   
     def new
@@ -93,5 +97,11 @@ class ActivitiesController < ApplicationController
       Activity.destroy(params[:id])
       flash[:notice] = "Activity deleted."
       redirect_to activities_path
+    end
+    
+    def download
+      load_activities
+      filename = params[:activity_search] ? 'Activity Search Results' : 'All Activities'
+      send_csv_file_of(filename, @activities) and return
     end
 end

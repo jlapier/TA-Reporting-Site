@@ -2,6 +2,7 @@ TAReportingSite::Application.routes.draw do
   root :to => 'activities#new'
   resources :activities do
     collection do
+      get :download
       get :update_grant_activities
     end
   end

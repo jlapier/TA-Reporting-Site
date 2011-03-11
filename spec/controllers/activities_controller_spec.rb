@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe ActivitiesController do
+  
+  let(:activity_search){ mock(ActivitySearch) }
+  let(:activity){ stub_model(Activity) }
 
   before(:each) do
     controller.stub(:require_user).and_return(true)
@@ -160,6 +163,62 @@ describe ActivitiesController do
           put :update, :id => 1
           response.should render_template "activities/edit"
         end
+      end
+    end
+  end
+  
+  describe ":download, :format => :csv, :activity_search => {} (optional)" do
+    let(:params) do
+      {
+        :format => :csv
+      }
+    end
+    let(:search_params) do
+      {
+        :activity_search => {
+          :objective_id => 42,
+          :keywords => 'blah boogity'
+        }
+      }.merge!(params)
+    end
+    before(:each) do
+      controller.stub(:render)
+    end
+    context "with :activity_search params" do
+      before(:each) do
+        activity_search.stub(:activities){ [activity] }
+        ActivitySearch.should_receive(:new).with(search_params[:activity_search].stringify_keys){ activity_search }
+      end
+      it "loads relevant activities" do
+        get :download, search_params
+        assigns(:activities).should eq [activity]
+      end
+      it "sends the CSV export as a file download" do
+        controller.should_receive(:send_data).
+        with("Date,Objective,TA Delivery Method,Grant Activities,Intensity,"+
+          "TA Categories,Description of Activity,Agencies,States\n,,,,,,,,\n",
+          :type => "text/csv", :disposition => "attachment",
+          :filename => "Activity Search Results.csv")
+        get :download, search_params
+      end
+    end
+    context "without :activity_search params" do
+      before(:each) do
+        request.env["HTTP_REFERER"] = activities_path
+        ActivitySearch.should_receive(:new).with({}){ mock(ActivitySearch) }
+        Activity.should_receive(:order).with("date_of_activity DESC"){ [activity] }
+      end
+      it "loads all activities" do
+        get :download, params
+        assigns(:activities).should eq [activity]
+      end
+      it "sends the CSV export as a file download" do
+        controller.should_receive(:send_data).
+        with("Date,Objective,TA Delivery Method,Grant Activities,Intensity,"+
+          "TA Categories,Description of Activity,Agencies,States\n,,,,,,,,\n",
+          :type => "text/csv", :disposition => "attachment",
+          :filename => "All Activities.csv")
+        get :download, params
       end
     end
   end

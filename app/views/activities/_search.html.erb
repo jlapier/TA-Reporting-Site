@@ -1,3 +1,12 @@
+<div style="float: right; padding-bottom: 15px;">
+  <span class="fake_button">
+    <%= 
+      link_to_unless(params[:activity_search], "Download CSV", download_activities_path(:format => :csv)) do |name| 
+        link_to name, download_activities_path({:activity_search => params[:activity_search], :format => :csv}) 
+      end 
+    %>
+  </span>
+</div>
 <%= form_for @search, :url => activities_path, :html => {:method => :get} do |form| %>
   <table>
       <tr>

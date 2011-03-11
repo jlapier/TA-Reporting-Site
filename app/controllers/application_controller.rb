@@ -6,6 +6,22 @@ class ApplicationController < ActionController::Base
   after_filter :store_location
 
   private
+    def collection_to_csv(collection=[])
+      unless collection.nil? || collection.empty?
+        FasterCSV.dump(collection).gsub("class,#{collection.first.class}\n", "")
+      end
+    end
+    
+    def send_csv_file_of(filename="#{controller_name}_#{action_name}", collection=[])
+      csv = collection_to_csv(collection)
+      unless csv.nil?
+        send_data(csv, :type => "text/csv", :disposition => "attachment", :filename => "#{filename}.csv")
+      else
+        flash[:notice] = "No data found to create a CSV export."
+        redirect_to :back and return
+      end
+    end
+  
     def current_user_session
       return @current_user_session if defined?(@current_user_session)
       @current_user_session = UserSession.find
