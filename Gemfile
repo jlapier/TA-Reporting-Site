@@ -5,10 +5,7 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.3'
 
 gem 'RedCloth'
-#gem 'ruby-openid', :require => 'openid'
 gem 'authlogic', :git => 'http://github.com/binarylogic/authlogic.git'
-#gem 'authlogic-oid', :require => 'authlogic_openid'
-#gem 'will_paginate' 
 gem 'formtastic'
 gem 'acts_as_revisable', {
   :git => "git://github.com/inertialbit/acts_as_revisable.git",
@@ -17,7 +14,6 @@ gem 'acts_as_revisable', {
 gem 'fastercsv'
 gem 'rmagick', :require => 'RMagick2'
 gem 'pdfkit'
-gem 'yaml_db'
 
 group :development, :test do
   gem 'cucumber-rails'
