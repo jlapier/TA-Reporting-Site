@@ -8,6 +8,7 @@ describe "/activities/index" do
     assign(:objectives, [mock_objective])
     assign(:ta_delivery_methods, [])
     assign(:intensity_levels, [])
+    assign(:grant_activities, [])
 
     assign(:search, ActivitySearch.new({}))
 

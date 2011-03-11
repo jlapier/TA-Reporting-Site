@@ -2,14 +2,15 @@
 #
 # Table name: activities
 #
-#  id                 :integer       not null, primary key
-#  date_of_activity   :date          
-#  objective_id       :integer       
-#  activity_type_id   :integer(255)  
-#  description        :text          
-#  intensity_level_id :integer(255)  
-#  created_at         :datetime      
-#  updated_at         :datetime      
+#  id                    :integer       not null, primary key
+#  date_of_activity      :date          
+#  objective_id          :integer       
+#  activity_type_id      :integer(255)  
+#  description           :text          
+#  intensity_level_id    :integer(255)  
+#  created_at            :datetime      
+#  updated_at            :datetime      
+#  ta_delivery_method_id :integer       
 # End Schema
 
 class Activity < ActiveRecord::Base

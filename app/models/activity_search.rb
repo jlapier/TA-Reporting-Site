@@ -4,7 +4,7 @@ class ActivitySearch
   include ActiveModel::Conversion
   def persisted?; false; end 
 
-  attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id, :ta_delivery_method_id, :keywords
+  attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id, :ta_delivery_method_id, :keywords, :grant_activity_id
   
   def initialize(attributes_hash)
     attributes_hash.each do |attr, val|
@@ -27,7 +27,7 @@ class ActivitySearch
     end
   end
   
-  def activities
+  def activities_where
     str = []
     arr = []
     unless @objective_id.blank?
@@ -43,10 +43,25 @@ class ActivitySearch
       arr << @ta_delivery_method_id
     end
     unless @keywords.blank?
-      str << "description LIKE ?"
+      str << "'activities'.description LIKE ?"
       arr << "%#{@keywords}%"
     end
-    search_options = [str.join(" AND ")] + arr
-    @activities = Activity.all_between(@start_date, @end_date).options(:conditions => search_options, :order => 'date_of_activity DESC')
+    where_conditions = [str.join(" AND ")] + arr
+    @activities = Activity.where(where_conditions)
+  end
+  
+  def activities_join
+    unless @grant_activity_id.blank?
+      @activities = @activities.joins(:grant_activities).where(["grant_activity_id = ?", @grant_activity_id])
+    end
+  end
+  
+  def activities
+    str = []
+    arr = []
+    activities_where
+    activities_join
+    @activities = @activities.order('date_of_activity DESC').all_between(@start_date, @end_date)
+    # @activities = Activity.all_between(@start_date, @end_date).options(:conditions => search_options, :order => 'date_of_activity DESC')
   end
 end

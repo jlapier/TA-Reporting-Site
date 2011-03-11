@@ -2,14 +2,15 @@
 #
 # Table name: activities
 #
-#  id                 :integer       not null, primary key
-#  date_of_activity   :date          
-#  objective_id       :integer       
-#  ta_delivery_method_id   :integer(255)  
-#  description        :text          
-#  intensity_level_id :integer(255)  
-#  created_at         :datetime      
-#  updated_at         :datetime      
+#  id                    :integer       not null, primary key
+#  date_of_activity      :date          
+#  objective_id          :integer       
+#  activity_type_id      :integer(255)  
+#  description           :text          
+#  intensity_level_id    :integer(255)  
+#  created_at            :datetime      
+#  updated_at            :datetime      
+#  ta_delivery_method_id :integer       
 # End Schema
 
 # Read about fixtures at http://ar.rubyonrails.org/
@@ -26,3 +27,36 @@ two:
   description: Activity Two
   intensity_level_id: <%= Fixtures.identify :general %>
   objective_id: <%= Fixtures.identify :leadership %>
+
+three:
+  id: <%= Fixtures.identify :three %>
+  date_of_activity: 2011-02-01
+  intensity_level_id: <%= Fixtures.identify :general %>
+  objective_id: <%= Fixtures.identify :knowledge_development %>
+  description: "Discussed the state's need for revised Indicator 14 Data Use Toolkit and the state's plan to use the NPSO I-14 DUT to train regional transition specialists.  "
+  
+four:
+  id: <%= Fixtures.identify :four %>
+  date_of_activity: 2011-02-18
+  ta_delivery_method_id: <%= Fixtures.identify :conference %>
+  intensity_level_id: <%= Fixtures.identify :general %>
+  objective_id: <%= Fixtures.identify :provide_ta %>
+  description: "Presented a total of 6 sessions at Oregon Association of Vocational Special Needs Personnel (OAVSNP) and Oregon's Youth Transition Program Statewide meeting. "
+  
+five:
+  id: <%= Fixtures.identify :five %>
+  date_of_activity: 2011-02-23
+  ta_delivery_method_id: <%= Fixtures.identify :event_planning %>
+  intensity_level_id: <%= Fixtures.identify :targeted %>
+  objective_id: <%= Fixtures.identify :provide_ta %>
+  description: "Confirmed NPSO participation in the New Mexico Transition Specialist Cadre meeting to be held Feb. 25-26, 2010 in Las Cruces, NM; OSERS grant resources will be used for NPSO travel expenses. The event is co-sponsored by NMPED Special Education Bureau, National Secondary Transition Technical Assistance Center, National Post-School Outcomes Center, Rec 6, NERED 4, N.M. Highlands University, & Division of Vocational Rehabilitation."
+
+  - - 430
+    - "2010-01-01"
+    - 34
+    - 
+    - Confirmed NPSO participation in the New Mexico Transition Specialist Cadre meeting to be held Feb. 25-26, 2010 in Las Cruces, NM; OSERS grant resources will be used for NPSO travel expenses. The event is co-sponsored by NMPED Special Education Bureau, National Secondary Transition Technical Assistance Center, National Post-School Outcomes Center, Rec 6, NERED 4, N.M. Highlands University, & Division of Vocational Rehabilitation.
+    - 31
+    - 2010-08-16 16:26:34
+    - 2010-10-24 18:58:45
+    - 69

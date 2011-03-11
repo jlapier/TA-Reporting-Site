@@ -13,3 +13,7 @@ three_grant_activities_objectives:
 four_grant_activities_objectives:
   grant_activity_id: <%= Fixtures.identify :advisory_committee %>
   objective_id: <%= Fixtures.identify :provide_ta %>
+
+five_grant_activities_objectives:
+  grant_activity_id: <%= Fixtures.identify :product_development_revision %>
+  objective_id: <%= Fixtures.identify :knowledge_development %>

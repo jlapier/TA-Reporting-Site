@@ -5,3 +5,7 @@ one_graduation_rates:
 two_graduation_rates:
   activity_id: <%= Fixtures.identify :two %>
   ta_category_id: <%= Fixtures.identify :graduation_rates %>
+  
+three_reporting_and_data_use:
+  activity_id: <%= Fixtures.identify :three %>
+  ta_category_id: <%= Fixtures.identify :reporting_and_data_use %>

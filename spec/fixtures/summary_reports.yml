@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: summary_reports
+#
+#  id                  :integer       not null, primary key
+#  name                :string(255)   
+#  start_ytd           :date          
+#  start_period        :date          
+#  end_period          :date          
+#  report_title_format :string(255)   
+#  created_at          :datetime      
+#  updated_at          :datetime      
+# End Schema
+
 # Read about fixtures at http://ar.rubyonrails.org/# == Schema Information
 #
 # Table name: summary_reports

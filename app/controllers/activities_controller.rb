@@ -11,6 +11,7 @@ class ActivitiesController < ApplicationController
       @objectives = Objective.all
       @ta_delivery_methods = TaDeliveryMethod.all
       @intensity_levels = IntensityLevel.all
+      @grant_activities = GrantActivity.all
     end
     def load_grant_activities(objective_id='')
       @grant_activities = []

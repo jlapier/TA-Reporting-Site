@@ -1,0 +1,7 @@
+three_product_development_revision:
+  activity_id: <%= Fixtures.identify :three %>
+  grant_activity_id: <%= Fixtures.identify :product_development_revision %>
+  
+four_data_collection_analysis_use:
+  activity_id: <%= Fixtures.identify :four %>
+  grant_activity_id: <%= Fixtures.identify :data_collection_analysis_use %>

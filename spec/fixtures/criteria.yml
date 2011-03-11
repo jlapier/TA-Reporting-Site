@@ -2,12 +2,13 @@
 #
 # Table name: criteria
 #
-#  id         :integer       not null, primary key
-#  number     :integer       
-#  type       :string(255)   
-#  name       :string(255)   
-#  created_at :datetime      
-#  updated_at :datetime      
+#  id          :integer       not null, primary key
+#  number      :integer       
+#  type        :string(255)   
+#  name        :string(255)   
+#  created_at  :datetime      
+#  updated_at  :datetime      
+#  description :text          
 # End Schema
 
 knowledge_development:
@@ -39,6 +40,11 @@ graduation_rates:
   name: Graduation rates
   type: TaCategory
   
+reporting_and_data_use:
+  id: <%= Fixtures.identify :reporting_and_data_use %>
+  name: Reporting and data use
+  type: TaCategory
+  
 information_request:
   id: <%= Fixtures.identify :information_request %>
   name: Information request
@@ -67,6 +73,11 @@ consult_onsite:
 workshop:
   id: <%= Fixtures.identify :workshop %>
   name: Workshop
+  type: TaDeliveryMethod
+  
+event_planning:
+  id: <%= Fixtures.identify :event_planning %>
+  name: Event Planning/preparation
   type: TaDeliveryMethod
 
 general:
@@ -102,4 +113,14 @@ core_meetings:
 advisory_committee:
   id: <%= Fixtures.identify :advisory_committee %>
   name: Advisory Committee
+  type: GrantActivity
+
+product_development_revision:
+  id: <%= Fixtures.identify :product_development_revision %>
+  name: Product development/revision
+  type: GrantActivity
+  
+data_collection_analysis_use:
+  id: <%= Fixtures.identify :data_collection_analysis_use %>
+  name: "Provide general TA to States to assist them in improving their data collection, analysis and use of postsecondary outcome data for program improvement."
   type: GrantActivity
