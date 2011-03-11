@@ -90,6 +90,7 @@ describe ActivitySearch do
   after(:all) do
     Activity.destroy_all
   end
+  
   it "builds conditions to find activities" do
     @jan_search_one.activities.should == [@jan_shared]
     @jan_search_two.activities.should == [@jan, @jan_shared]
@@ -106,5 +107,50 @@ describe ActivitySearch do
   it "turns string dates into Date objects" do
     @funky_start.activities.should == [@feb_one]
     @funky_end.activities.should == [@feb_one]
+  end
+  context "Attribute Accessors" do
+    before(:each) do
+      @activity = ActivitySearch.new
+    end
+    it "start_date" do
+      @activity.should respond_to :start_date
+      @activity.should respond_to :start_date=
+    end
+    it "end_date" do
+      @activity.should respond_to :end_date
+      @activity.should respond_to :end_date=
+    end
+    it "objective_id" do
+      @activity.should respond_to :objective_id
+      @activity.should respond_to :objective_id=
+    end
+    it "intensity_level_id" do
+      @activity.should respond_to :intensity_level_id
+      @activity.should respond_to :intensity_level_id=
+    end
+    it "ta_delivery_method_id" do
+      @activity.should respond_to :ta_delivery_method_id
+      @activity.should respond_to :ta_delivery_method_id=
+    end
+    it "grant_activity_id" do
+      @activity.should respond_to :grant_activity_id
+      @activity.should respond_to :grant_activity_id=
+    end
+    it "state_id" do
+      @activity.should respond_to :state_id
+      @activity.should respond_to :state_id=
+    end
+    it "ta_category_id" do
+      @activity.should respond_to :ta_category_id
+      @activity.should respond_to :ta_category_id=
+    end
+    it "collaborating_agency_id" do
+      @activity.should respond_to :collaborating_agency_id
+      @activity.should respond_to :collaborating_agency_id=
+    end
+    it "keywords" do
+      @activity.should respond_to :keywords
+      @activity.should respond_to :keywords=
+    end
   end
 end

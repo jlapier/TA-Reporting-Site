@@ -9,6 +9,9 @@ describe "/activities/index" do
     assign(:ta_delivery_methods, [])
     assign(:intensity_levels, [])
     assign(:grant_activities, [])
+    assign(:ta_categories, [])
+    assign(:collaborating_agencies, [])
+    assign(:states, [])
 
     assign(:search, ActivitySearch.new({}))
 

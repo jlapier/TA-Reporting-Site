@@ -4,13 +4,14 @@ class ActivitySearch
   include ActiveModel::Conversion
   def persisted?; false; end 
 
-  attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id, :ta_delivery_method_id, :keywords, :grant_activity_id
+  attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id,
+                :ta_delivery_method_id,:grant_activity_id, :state_id,
+                :ta_category_id, :collaborating_agency_id, :keywords
   
-  def initialize(attributes_hash)
+  def initialize(attributes_hash={})
     attributes_hash.each do |attr, val|
       self.send("#{attr}=", val) if self.respond_to?("#{attr}=")
     end
-    
     normalize_dates
   end
   
@@ -46,22 +47,40 @@ class ActivitySearch
       str << "'activities'.description LIKE ?"
       arr << "%#{@keywords}%"
     end
-    where_conditions = [str.join(" AND ")] + arr
-    @activities = Activity.where(where_conditions)
+    @activities = Activity.where([str.join(" AND ")] + arr)
   end
   
   def activities_join
     unless @grant_activity_id.blank?
-      @activities = @activities.joins(:grant_activities).where(["grant_activity_id = ?", @grant_activity_id])
+      @activities = @activities.joins(:grant_activities).
+                          where(["grant_activity_id = ?", @grant_activity_id])
+    end
+    unless @state_id.blank?
+      @activities = @activities.joins(:states).
+                                where(["state_id = ?", @state_id])
+    end
+    unless @ta_category_id.blank?
+      @activities = @activities.joins(:ta_categories).
+                                where(["ta_category_id = ?", @ta_category_id])
+    end
+    unless @collaborating_agency_id.blank?
+      @activities = @activities.joins(:collaborating_agencies).
+              where(["collaborating_agency_id = ?", @collaborating_agency_id])
     end
   end
   
+  def activities_order
+    @activities = @activities.order('date_of_activity DESC')
+  end
+  
+  def activities_scope
+    @activities = @activities.all_between(@start_date, @end_date)
+  end
+  
   def activities
-    str = []
-    arr = []
     activities_where
     activities_join
-    @activities = @activities.order('date_of_activity DESC').all_between(@start_date, @end_date)
-    # @activities = Activity.all_between(@start_date, @end_date).options(:conditions => search_options, :order => 'date_of_activity DESC')
+    activities_order
+    activities_scope
   end
 end
