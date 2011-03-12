@@ -1,6 +1,10 @@
-if @saved
-  page.insert_html :bottom, "report_breakdowns", :partial => 'report_breakdown', :object => @new_report_breakdown
-  page << "$('new_report_breakdown').reset();"
+page << if @saved
+  %Q{
+    $('#report_breakdowns').append('#{escape_javascript(render(:partial => 'report_breakdown', :object => @new_report_breakdown))}');
+    $('#new_report_breakdown').reset();
+  }
 else
-  page.replace('ajax_new_report_breakdown_form', :partial => 'form')
+  %Q{
+    $('#ajax_new_report_breakdown_form').replaceWith('#{escape_javascript(render(:partial => 'form'))}');
+  }
 end

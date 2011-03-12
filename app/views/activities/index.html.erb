@@ -6,7 +6,8 @@
 
 <span class="note">click a header to sort</span>
 <table class="nice_table sortable" id="activities_table" style="width:100%">
-<!--  <thead> -->
+<thead>
+  <tr>
     <th>Date</th>
     <th>Obj</th>
     <th>Grant Activity</th>
@@ -14,9 +15,10 @@
     <th>Intensity</th>
     <th>Description &nbsp; <em style="font-weight:normal">(click to edit)</em></th>
     <th>&nbsp;</th>
-<!--  </thead> -->
+  </tr>
+</thead>
 
-<!--  <tbody> -->
+<tbody>
   <% color_class = "dark" %>
   <% @activities.each do |activity| %>
     <% color_class = color_class == "light" ? "dark" : "light" %>
@@ -47,17 +49,17 @@
       </td>
     </tr>
   <% end %>
-<!--  </tbody> -->
+</tbody>
 </table>
 
 <%= render :partial => 'sidebar' %>
 
 <% content_for :javascript do %>
 <script type="text/javascript">
-  Event.observe(window, 'load', function() {
-    Event.addBehavior({
-      '#activities_table': SortableTable
-    })
-  })
+$(document).ready(function()
+	{
+		$("#activities_table").tablesorter();
+	}
+);
 </script>
 <% end %>

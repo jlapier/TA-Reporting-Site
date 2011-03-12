@@ -13,9 +13,11 @@
     
     <%= stylesheet_link_tag 'application', 'text_and_colors', 'formtastic', 'formtastic_changes', :media => 'screen, projection' %>
     
-    <%= javascript_include_tag 'prototype', 'rails', 'effects', 'dragdrop',
-                               'controls', 'lowpro', 'behaviors', 'utils',
-                               'application' %>
+    <%= 
+    javascript_include_tag  'jquery-1.5.1.min.js', 'rails.jquery.js',
+                            'lowpro.jquery.js', 'jquery.tablesorter.min.js',
+                            'behaviors', 'application'
+    %>
     <%= yield :javascript %>
     <%= csrf_meta_tag %>
   </head>

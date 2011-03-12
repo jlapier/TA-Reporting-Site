@@ -10,8 +10,8 @@
   <% end %>
 
   <script type="text/javascript" charset="utf-8">
-    Event.addBehavior({
-      '#new_report_breakdown': Remote
+    jQuery(function($) {
+      $('#new_report_breakdown').attach(Remote)
     });
   </script>
 </div>

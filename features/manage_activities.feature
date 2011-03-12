@@ -7,7 +7,7 @@ Feature: Manage activities
 
   Scenario: delete an activity
     Given I am on the activities page
-    When I follow "Delete" within "table#activities_table>tr.row_light"
+    When I follow "Delete" within "table#activities_table>tbody>tr.row_light"
     Then I should see "Activity deleted."
 
   @javascript

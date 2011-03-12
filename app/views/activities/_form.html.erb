@@ -1,16 +1,14 @@
 <% content_for :javascript do %>
   <%= javascript_tag do %>
     <%= %Q{
-      document.observe('dom:loaded', function() {
-        new Form.Element.Observer('activity_objective_id', 0.25, function(element, value){
-          new Ajax.Request('#{update_grant_activities_activities_path}', {
-            method: 'get',
-            parameters: {
-              objective_id: encodeURIComponent(value),
-              id: encodeURIComponent('#{@activity.id}')
-            }
-          })
-        })
+      jQuery(function($) {
+       $('#activity_objective_id').change(function() {
+         jQuery.ajax('#{update_grant_activities_activities_path}', {
+           data: {
+             objective_id: encodeURIComponent(this.value)
+           }
+         });
+       });
       });
     } %>
   <% end %>
@@ -33,7 +31,7 @@
       <%= field_set_tag do %>
       <ol>
         <li>
-        <%= check_box_tag("activity[other]", 1, form.object.other, :onclick => "$('new_ta_category_input').toggle();") %>
+        <%= check_box_tag("activity[other]", 1, form.object.other, :onclick => "$('#new_ta_category_input').toggle();") %>
         <%= label_tag "activity[other]", "Other" %> 
         </li>
         <%= form.input :new_ta_category, :label => 'New TA Category', :wrapper_html => {:id => "new_ta_category_input", 
@@ -81,11 +79,8 @@
 
 <% content_for :javascript do %>
 <script type="text/javascript">
-  Event.observe(window, 'load', function() {
-    Event.addBehavior({
-      '#activity_description': TextareaExpander
-    })
-  })
-  
+  jQuery(function($) {
+    $('#activity_description').attach(TextareaExpander);
+  });  
 </script>
 <% end %>
