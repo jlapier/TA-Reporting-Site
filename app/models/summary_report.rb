@@ -10,6 +10,7 @@
 #  report_title_format :string(255)   
 #  created_at          :datetime      
 #  updated_at          :datetime      
+#  objective_id        :integer       
 # End Schema
 
 class SummaryReport < ActiveRecord::Base
@@ -17,6 +18,8 @@ class SummaryReport < ActiveRecord::Base
   STATE_SHAPES_FOR_MAP = YAML::load(File.open(File.join(Rails.root, 'lib', 'state_shapes.yml')))
   STATE_LABELS_FOR_MAP = YAML::load(File.open(File.join(Rails.root, 'lib', 'state_labels.yml')))
   LEVEL_COLORS = { 1 => "#F8BD0E", 2 => "#BB8519", 3 => "#7B4B23", 4 => "#FFFFCC" }
+  
+  belongs_to :objective
 
   validates_presence_of :name, :start_ytd
   
@@ -49,7 +52,7 @@ class SummaryReport < ActiveRecord::Base
   def period_activities
     return @period_activities if @period_activities
     if ytd_activities
-      @period_activities ||= ytd_activities.select { |activity| (start_period..end_period).include? activity.date_of_activity }
+      @period_activities = ytd_activities.select { |activity| (start_period..end_period).include? activity.date_of_activity }
     else
       nil
     end

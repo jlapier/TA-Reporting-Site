@@ -24,6 +24,7 @@ class SummaryReportsController < ApplicationController
 
   public
     def index
+      flash.keep
       redirect_to reports_path
     end
 

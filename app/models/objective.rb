@@ -15,6 +15,7 @@ class Objective < Criterium
   
   include GeneralScopes
   
+  has_one :summary_report
   has_many :report_breakdowns
   has_and_belongs_to_many :grant_activities
   

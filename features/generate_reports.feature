@@ -12,6 +12,16 @@ Feature: Generate reports
     Then I should see "New Report successfully created."
     And I should be on the edit report page for "Q1 - 2010"
     
+  Scenario: create a summary report
+    Given I am on the new summary report page
+    When I fill in "Name*" with "Full Year 2010 - Evaluation"
+    And I fill in "Start ytd*" with "01/01/2011"
+    And I fill in "Start period" with "03/01/2011"
+    And I fill in "End period" with "03/30/2011"
+    And I select "1: Knowledge Development" from "Objective"
+    And I press "Create Summary report"
+    Then I should see "Summary Report was successfully created."
+    
   @javascript
   Scenario: add report breakdowns
     Given I am on the edit report page for "Q2 - 2010"

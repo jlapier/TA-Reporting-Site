@@ -1,3 +1,4 @@
+<% conditions = @summary_report.objective_id.blank? ? {} : {:objective_id => @summary_report.objective_id} %>
 <div style="padding-bottom: 15px;text-align:center;">
   <div style="text-align: left; width: 49%; display: inline-block;">
     <img alt="logo" src="<%= @logo_path || image_path('logo.jpg') %>" width="175px" />
@@ -18,7 +19,7 @@
     </tr>
   </thead>
   <tbody>
-    <% bad_activities = @summary_report.activities_by_type_for_period(:grant_activities => []) %>
+    <% bad_activities = @summary_report.activities_by_type_for_period(conditions.merge({:grant_activities => []})) %>
     <% unless bad_activities.empty? %>
       <tr>
         <td colspan="3">
@@ -26,6 +27,7 @@
         </td>
       </tr>
       <% bad_activities.each do |bad_act| %>
+        <% next if bad_act.states.size < 1 %>
         <tr>
           <td style="padding-left: 30px;">
             <%= link_to truncate(bad_act.description, :length => 70), bad_act %>
@@ -45,38 +47,36 @@
     <% end %>    
         
     <% @intensity_levels.each do |intensity_level| %>
-      <% unless @summary_report.activities_by_type_for_ytd(:intensity_level => intensity_level).empty? %>
+      <% conditions.merge!({:intensity_level => intensity_level}) %>
+      <% unless @summary_report.activities_by_type_for_ytd(conditions).empty? %>
         <tr>
           <td colspan="3">
             <%= intensity_level.name %>
           </td>
         </tr>
         <% @grant_activities.each do |grant_activity| %>
-          <% unless @summary_report.activities_by_type_for_ytd(
-                :intensity_level => intensity_level, :grant_activity => grant_activity).empty? %>
+          <% conditions.merge!({:grant_activity => grant_activity}) %>
+          <% next if @summary_report.states_by_type_for_ytd(conditions).size < 1 %>
+
+          <% unless @summary_report.activities_by_type_for_ytd(conditions).empty? %>
             <tr>
               <td style="padding-left: 30px;">
-                <%= @summary_report.activities_by_type_for_period(
-                      :intensity_level => intensity_level, :grant_activity => grant_activity).size %> 
+                <%= @summary_report.activities_by_type_for_period(conditions).size %> 
                 <%= grant_activity.name %>
 
-                <% unless @summary_report.states_by_type_for_period(
-                      :intensity_level => intensity_level, :grant_activity => grant_activity).empty? %>
+                <% unless @summary_report.states_by_type_for_period(conditions).empty? %>
                   <div style="padding-left: 20px;">
                     <em>States:</em>
-                    <%= @summary_report.states_by_type_for_period(
-                          :intensity_level => intensity_level, :grant_activity => grant_activity).
+                    <%= @summary_report.states_by_type_for_period(conditions).
                             map(&:abbreviation).join(", ") %>
                   </div>
                 <% end %>
               </td>
               <td class="count">
-                <%= @summary_report.states_by_type_for_period(
-                      :intensity_level => intensity_level, :grant_activity => grant_activity).size %>
+                <%= @summary_report.states_by_type_for_period(conditions).size %>
               </td>
               <td class="count">
-                <%= @summary_report.states_by_type_for_ytd(
-                      :intensity_level => intensity_level, :grant_activity => grant_activity).size %>
+                <%= @summary_report.states_by_type_for_ytd(conditions).size %>
               </td>
             </tr>
           <% end %>
@@ -92,7 +92,6 @@
         <%= @summary_report.states_by_type_for_period.size %>
       </td>
       <td style="border-top: 1px solid #333" class="count">
-        <%= @summary_report.states_by_type_for_ytd.size %>
       </td>
     </tr>
     <tr>

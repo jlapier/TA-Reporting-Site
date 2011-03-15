@@ -10,6 +10,7 @@
 #  report_title_format :string(255)   
 #  created_at          :datetime      
 #  updated_at          :datetime      
+#  objective_id        :integer       
 # End Schema
 
 # Read about fixtures at http://ar.rubyonrails.org/# == Schema Information

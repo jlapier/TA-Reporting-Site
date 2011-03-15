@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+associations = {
+  :belongs_to => %w(objective)
+}
+
 describe SummaryReport do
   before(:each) do
     @valid_attributes = {
@@ -15,6 +19,9 @@ describe SummaryReport do
     SummaryReport.create!(@valid_attributes)
   end
 
+  describe "meta" do
+    spec_associations(associations, :class => SummaryReport)
+  end
 
   describe "a valid summary report" do
     before(:each) do
