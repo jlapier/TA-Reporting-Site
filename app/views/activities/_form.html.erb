@@ -9,6 +9,7 @@
            }
          });
        });
+       $('#activity_date_of_activity').datepicker();
       });
     } %>
   <% end %>
@@ -16,10 +17,7 @@
 <%= semantic_form_for @activity do |form| %>
 
   <%= form.inputs do %>
-    <li id="activity_date_of_activity_input" class="string required">
-      <%= form.label :date_of_activity %>
-      <%= form.date_select :date_of_activity, :buttons => false %>
-    </li>
+    <%= form.input :date_of_activity, :as => :string %>
     <%= form.input :objective %>
     <%= form.input :ta_delivery_method %>
     <%= form.input :intensity_level %>
