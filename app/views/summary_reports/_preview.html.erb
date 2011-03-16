@@ -56,7 +56,7 @@
         </tr>
         <% @grant_activities.each do |grant_activity| %>
           <% conditions.merge!({:grant_activity => grant_activity}) %>
-          <% next if @summary_report.states_by_type_for_ytd(conditions).size < 1 %>
+          <% next if @summary_report.states_by_type_for_period(conditions).size < 1 %>
 
           <% unless @summary_report.activities_by_type_for_ytd(conditions).empty? %>
             <tr>
