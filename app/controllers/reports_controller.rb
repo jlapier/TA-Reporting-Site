@@ -58,7 +58,7 @@ class ReportsController < ApplicationController
         @intensity_levels = IntensityLevel.all
         @grant_activities = GrantActivity.all
       rescue ActiveRecord::RecordNotFound
-        if params[:summary_report_id]
+        if params[:summary_report_id].present?
           flash.now[:notice] = "The requested summary report could not be found."
         else
           flash.now[:notice] = "No summary report was selected - previewing standard report only with default start - end periods: #{@report.start_period.strftime("%b, %Y")} - #{@report.end_period.strftime("%b, %Y")}"
