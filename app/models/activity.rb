@@ -41,10 +41,29 @@ class Activity < ActiveRecord::Base
   before_validation :remove_regions
   
   scope :all_between, lambda{ |start_date, end_date|
-    {
-      :conditions => { :date_of_activity => start_date..end_date },
-      :include => [:grant_activities, :states, :ta_categories]
-    }
+    includes(:grant_activities, :states, :ta_categories).
+    where({:date_of_activity => start_date..end_date})
+  }
+  
+  scope :like, lambda{ |opts|
+    options = opts.dup
+    ga = options.delete(:grant_activity)
+    ta_c = options.delete(:ta_category)
+    ok_options = {}
+    options.each do |attr_name, attr_val|
+      ok_options[attr_name] = attr_val if column_names.include? attr_name.to_s
+    end
+    rel = where(ok_options)
+    
+    if ga.present?
+      rel = rel.joins(:grant_activities).
+              where('activities_grant_activities.grant_activity_id' => ga.id)
+    end
+    if ta_c.present?
+      rel = rel.joins(:ta_categories).
+              where('activities_ta_categories.ta_category_id' => ta_c.id)
+    end
+    rel
   }
   
   private

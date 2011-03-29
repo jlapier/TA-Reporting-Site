@@ -3,6 +3,8 @@ class ActivitySearch
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   def persisted?; false; end 
+  
+  attr_reader :summary_report
 
   attr_accessor :start_date, :end_date, :objective_id, :intensity_level_id,
                 :ta_delivery_method_id,:grant_activity_id, :state_id,
@@ -13,11 +15,38 @@ class ActivitySearch
       self.send("#{attr}=", val) if self.respond_to?("#{attr}=")
     end
     normalize_dates
+    @summary_report = SummaryReport.new(@start_date, @end_date)
+  end
+  
+  def ytd_period
+    a = summary_report.ytd_date.strftime("%b %Y")
+    b = @end_date.strftime("%b %Y")
+    "#{a} - #{b}"
+  end
+  
+  def period
+    a = @start_date.strftime("%b %Y")
+    b = @end_date.strftime("%b %Y")
+    "#{a} - #{b}"
+  end
+  
+  def name
+    start = @start_date.strftime("%B %Y")
+    finish = @end_date.strftime("%B %Y")
+    count = activities.count
+    prefix = if count == 0
+      "No Activity"
+    elsif count == 1
+      "1 Activity"
+    else
+      "#{count} Activities"
+    end
+    "#{prefix} from #{start} to #{finish}"
   end
   
   def normalize_dates
     if @start_date.blank?
-      @start_date = Date.new(2010, 1, 1)
+      @start_date = Date.current.beginning_of_month
     elsif @start_date.kind_of?(String)
       @start_date = Date.parse(@start_date)
     end
@@ -26,6 +55,10 @@ class ActivitySearch
     elsif @end_date.kind_of?(String)
       @end_date = Date.parse(@end_date)
     end
+  end
+  
+  def activities_includes
+    @activities = Activity.includes(:states, :ta_categories)
   end
   
   def activities_where
@@ -47,7 +80,7 @@ class ActivitySearch
       str << "'activities'.description LIKE ?"
       arr << "%#{@keywords}%"
     end
-    @activities = Activity.where([str.join(" AND ")] + arr)
+    @activities = @activities.where([str.join(" AND ")] + arr)
   end
   
   def activities_join
@@ -73,14 +106,24 @@ class ActivitySearch
     @activities = @activities.order('date_of_activity DESC')
   end
   
-  def activities_scope
-    @activities = @activities.all_between(@start_date, @end_date)
+  def activities_scope(ytd=false)
+    sd = ytd ? summary_report.ytd_date : @start_date
+    @activities = @activities.all_between(sd, @end_date)
   end
   
   def activities
+    activities_includes
     activities_where
     activities_join
     activities_order
     activities_scope
+  end
+  
+  def ytd_activities
+    activities_includes
+    activities_where
+    activities_join
+    activities_order
+    activities_scope(true)
   end
 end

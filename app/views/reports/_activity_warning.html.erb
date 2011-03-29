@@ -1,0 +1,26 @@
+<% bad_activities = @search.activities.all.select{|a| a.grant_activities.empty?} %>
+<% unless bad_activities.empty? %>
+  <tr>
+    <td colspan="3">
+      Warning: The following activities are not associated with a Grant Activity
+    </td>
+  </tr>
+  <% bad_activities.each do |bad_act| %>
+    <% next if bad_act.states.size < 1 %>
+    <tr>
+      <td style="padding-left: 30px;">
+        <%= link_to truncate(bad_act.description, :length => 70), bad_act %>
+        <% unless bad_act.states.empty? %>
+          <div style="padding-left: 20px;">
+            <em>States:</em>
+            <%= bad_act.states.map(&:abbreviation).to_sentence %>
+          </div>
+        <% end %>
+      </td>
+      <td class="count">
+        <%= bad_act.states.size %>
+      </td>
+      <td></td>
+    </tr>
+  <% end %>
+<% end %>

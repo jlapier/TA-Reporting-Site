@@ -1,6 +1,18 @@
 require 'spec_helper'
 
-describe Activity do
+describe Activity do  
+  before(:all) do
+    [Activity, Criterium, State, CollaboratingAgency].each{|klass| klass.destroy_all}
+    Rspec.configure{|config| config.use_transactional_fixtures = false}
+  end
+  after(:all) do
+    Rspec.configure{|config| config.use_transactional_fixtures = true}
+    [Activity, Criterium, State, CollaboratingAgency].each{|klass| klass.destroy_all}
+  end            
+
+  fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, 
+            :activities_collaborating_agencies
+  
   before(:each) do
     @valid_attributes = {
       :date_of_activity => Date.today,
@@ -98,8 +110,6 @@ describe Activity do
   end
 
   describe "comparing and matching" do
-    fixtures :activities, :criteria, :states, :collaborating_agencies, :activities_states, :activities_ta_categories, 
-              :activities_collaborating_agencies
     it "can determine if an activity matches by criteria" do
       obj1 = Objective.find_by_number 1
       assert obj1
@@ -128,6 +138,54 @@ describe Activity do
       assert act1.is_like?(:grant_activity => ga2)
       assert !act1.is_like?(:grant_activity => ga3)
       assert act1.is_like?(:grant_activities => [ga1, ga2])
+    end
+  end
+  
+  describe "Activity.like some_attr_or_relation_name => some_value" do
+    before(:all) do
+      @obj1 = Objective.find_by_number 1
+      @obj2 = Objective.find_by_number 2
+      @ga1 = GrantActivity.find_by_name "Budget Management"
+      @ga2 = GrantActivity.find_by_name "Core Meetings"
+      @ga3 = GrantActivity.find_by_name "Advisory Committee"
+      @ta = TaCategory.find_by_name "Graduation rates"
+      @obj1.should_not be_nil
+      @obj2.should_not be_nil
+      @ga1.should_not be_nil
+      @ga2.should_not be_nil
+      @ga3.should_not be_nil
+      @ta.should_not be_nil
+      @act1 = Activity.create!({
+        :date_of_activity => Date.new(2010, 8, 1),
+        :objective => @obj1,
+        :ta_delivery_method_id => 5,
+        :description => 'specific desc',
+        :intensity_level_id => 6,
+        :grant_activities => [@ga1, @ga2],
+        :ta_categories => [@ta]
+      })
+      @obj1_activity = Activity.find_by_objective_id(@obj1.id)
+      @ga1_activity = Activity.all.select{|act| act.grant_activities.include?(@ga1)}.first
+      @ta_activity = Activity.all.select{|act| act.ta_categories.include?(@ta)}.first
+      @obj1_activity.should_not be_nil
+      @ga1_activity.should_not be_nil
+      @ta_activity.should_not be_nil
+    end
+    it "finds activities based on attributes" do
+      Activity.like(:objective_id => @obj1.id).all.should include @act1
+    end
+    it "finds activities associated w/ some grant_activity" do
+      Activity.like(:grant_activity => @ga1).all.should include @act1
+    end
+    it "finds activities associated w/ some ta_category" do
+      Activity.like(:ta_category => @ta).all.should include @act1
+    end
+    it "finds activities associated w/ some ta_category and some grant_activity and based on attributes" do
+      Activity.like({
+        :ta_category => @ta,
+        :grant_activity => @ga1,
+        :objective_id => @obj1
+      }).all.should include @act1
     end
   end
   

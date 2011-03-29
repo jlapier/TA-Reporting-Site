@@ -1,12 +1,13 @@
-<div style="float: right; padding-bottom: 15px;">
-  <span class="fake_button">
-    <%= 
-      link_to_unless(params[:activity_search], "Download CSV", download_activities_path(:format => :csv)) do |name| 
-        link_to name, download_activities_path({:activity_search => params[:activity_search], :format => :csv}) 
-      end 
-    %>
-  </span>
-</div>
+<% content_for :javascript do %>
+  <%= javascript_tag do %>
+    <%= %Q{
+      jQuery(function($) {
+        $('#activity_search_start_date').datepicker();
+        $('#activity_search_end_date').datepicker();
+      });
+    } %>
+  <% end %>
+<% end %>
 <%= form_for @search, :url => activities_path, :html => {:method => :get} do |form| %>
   <table>
       <tr>
@@ -15,8 +16,8 @@
         <th><%= form.label :objective_id, 'Objective' %></th>
       </tr>
       <tr>
-        <td><%= form.date_select :start_date  %></td>
-        <td><%= form.date_select :end_date %></td>
+        <td><%= form.text_field :start_date, :size => 15  %></td>
+        <td><%= form.text_field :end_date, :size => 15 %></td>
         <td><%= form.select :objective_id, @objectives.map{|o| [truncate(o.display_name, :length => 30), o.id]}, 
                   :include_blank => true %></td>
       </tr>

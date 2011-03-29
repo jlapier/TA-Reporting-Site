@@ -182,6 +182,7 @@ describe ActivitiesController do
       }.merge!(params)
     end
     before(:each) do
+      activity_search.stub(:name){ 'Search Name' }
       controller.stub(:render)
     end
     context "with :activity_search params" do
@@ -198,15 +199,17 @@ describe ActivitiesController do
         with("Date,Objective,TA Delivery Method,Grant Activities,Intensity,"+
           "TA Categories,Description of Activity,Agencies,States\n,,,,,,,,\n",
           :type => "text/csv", :disposition => "attachment",
-          :filename => "Activity Search Results.csv")
+          :filename => "Search Name.csv")
         get :download, search_params
       end
     end
     context "without :activity_search params" do
       before(:each) do
         request.env["HTTP_REFERER"] = activities_path
-        ActivitySearch.should_receive(:new).with({}){ mock(ActivitySearch) }
-        Activity.should_receive(:order).with("date_of_activity DESC"){ [activity] }
+        ActivitySearch.should_receive(:new).with({}){ mock(ActivitySearch, {
+          :name => 'Search Name',
+          :activities => [activity]
+        }) }
       end
       it "loads all activities" do
         get :download, params
@@ -217,7 +220,7 @@ describe ActivitiesController do
         with("Date,Objective,TA Delivery Method,Grant Activities,Intensity,"+
           "TA Categories,Description of Activity,Agencies,States\n,,,,,,,,\n",
           :type => "text/csv", :disposition => "attachment",
-          :filename => "All Activities.csv")
+          :filename => "Search Name.csv")
         get :download, params
       end
     end

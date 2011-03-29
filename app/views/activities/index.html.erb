@@ -1,6 +1,38 @@
-<h1>Activities</h1>
-
-<div>
+<h1><%= @search.name %></h1>
+<div class="right">
+  <form id="preview_report" action="<%= reports_path %>" method="get" accept-charset="utf-8">
+    <% if params[:activity_search] %>
+      <% params[:activity_search].each do |key, value| %>
+        <input type="hidden" name="activity_search[<%= key %>]" value="<%= value %>">
+      <% end %>
+    <% end %>
+    <label for="report_id">Preview Report</label>
+    <select name="id" id="report_id">
+      <%= options_from_collection_for_select(Report.all, :id, :name) %>
+    </select><br>
+    <input style="float: right;" type="submit" name="view" value="Full"> <input style="float: right;" type="submit" name="view" value="Summary">
+  </form>
+</div>
+<div class="left">
+  <p style="padding-top: 5px; margin-right: 5px;" class="medium_text">
+  <span class="fake_button" style="font-size: 12px;">
+    <%=
+      link_to_unless(params[:activity_search], "View Evaluation", evaluate_activities_path) do |name|
+        link_to name, evaluate_activities_path(:activity_search => params[:activity_search])
+      end
+    %>
+  </span>
+  <span style="margin-left: 5px; font-size: 12px;" class="fake_button">
+    <%= 
+      link_to_unless(params[:activity_search], "Download CSV", download_activities_path(:format => :csv)) do |name| 
+        link_to name, download_activities_path({:activity_search => params[:activity_search], :format => :csv}) 
+      end 
+    %>
+  </span>
+  </p>
+</div>
+<div style="margin-top: 75px;">
+  <hr>
   <%= render :partial => 'activities/search' %>
 </div>
 

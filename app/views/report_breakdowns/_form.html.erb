@@ -4,7 +4,8 @@
       <%= form.input :objective %>
       <%= form.input :breakdown_type, 
         :collection => Criterium::TYPE_OPTIONS.reject{|t| t[1] == 'Objective' || t[1] == "TACategory"} %>
-      <%= form.input :include_states, :as => :boolean %>
+      <%= form.input :include_states %>
+      <%= form.input :include_in_summary %>
     <% end %>
     <%= form.submit "Add" %>
   <% end %>

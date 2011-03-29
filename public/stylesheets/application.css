@@ -242,3 +242,10 @@ img.map_image {
 }
 
 #activities_table th { white-space: nowrap; }
+
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}

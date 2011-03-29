@@ -59,6 +59,7 @@ describe ActivitySearch do
       :end_date => Date.new(2010, 1, 31)
     })
     @shared_search = ActivitySearch.new({
+      :start_date => Date.new(2010, 1, 1),
       :objective_id => 1,
       :intensity_level_id => 2,
       :ta_delivery_method_id => 3
@@ -68,6 +69,7 @@ describe ActivitySearch do
       :end_date => Date.new(2010, 3, 30)
     })
     @partial_description = ActivitySearch.new({
+      :start_date => Date.new(2010, 1, 1),
       :keywords => "shared"
     })
     @blank_start = ActivitySearch.new({
@@ -78,35 +80,32 @@ describe ActivitySearch do
       :end_date => "",
       :keywords => "shared"
     })
-    @funky_start = ActivitySearch.new({
-      :start_date => "January 1, 2010",
-      :keywords => "one"
-    })
-    @funky_end = ActivitySearch.new({
-      :end_date => "February 3, 2010",
-      :keywords => "one"
-    })
   end
   after(:all) do
     Activity.destroy_all
   end
   
   it "builds conditions to find activities" do
-    @jan_search_one.activities.should == [@jan_shared]
-    @jan_search_two.activities.should == [@jan, @jan_shared]
-    @shared_search.activities.should == [@apr_shared, @jan_shared]
-    @jan_mar_search.activities.should == [@mar, @feb_two, @feb_one, @jan, @jan_shared]
-    @partial_description.activities.should == [@apr_shared, @jan_shared]
+    @jan_search_one.activities.should eq [@jan_shared]
+    @jan_search_two.activities.should eq [@jan, @jan_shared]
+    @shared_search.activities.should eq [@apr_shared, @jan_shared]
+    @jan_mar_search.activities.should eq [@mar, @feb_two, @feb_one, @jan, @jan_shared]
+    @partial_description.activities.should eq [@apr_shared, @jan_shared]
   end
   it "has a default start date" do
-    @blank_start.activities.should == [@apr_shared, @jan_shared]
+    @blank_start.start_date.should eq Date.current.beginning_of_month
   end
   it "has a default end date" do
-    @blank_end.activities.should == [@apr_shared, @jan_shared]
+    @blank_end.end_date.should eq Date.current
   end
   it "turns string dates into Date objects" do
-    @funky_start.activities.should == [@feb_one]
-    @funky_end.activities.should == [@feb_one]
+    SummaryReport.stub(:new)
+    Date.should_receive(:parse).once.with("January 1, 2010"){ Date.new(2010, 1, 1) }
+    Date.should_receive(:parse).once.with("February 3, 2010"){ Date.new(2010, 2, 3) }
+    ActivitySearch.new({
+      :start_date => "January 1, 2010",
+      :end_date => "February 3, 2010"
+    })
   end
   context "Attribute Accessors" do
     before(:each) do

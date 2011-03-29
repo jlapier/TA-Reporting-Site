@@ -1,0 +1,27 @@
+<tr>
+  <td colspan="3">
+    <div style="display: inline-block; width: 49%;">
+      <p style="font-weight: bold; text-align: center;">Current: <%= @search.start_date.strftime("%b %Y") %></p>
+      <img class="map_image" src="<%= @summary_map_path %>" alt="summary_map" />
+    </div>
+    <div style="display: inline-block; width: 49%;">
+      <p style="font-weight: bold; text-align: center;">YTD: <%= @search.summary_report.ytd_date.strftime("%b %Y") %></p>
+      <img class="map_image" src="<%= @ytd_summary_map_path %>" alt="ytd_map" />
+    </div>
+    <div style="clear:both; text-align:center;">
+      <table cellspacing="5px" class="map_legend" style="width: 80%; margin-left: auto; margin-right: auto; border: none; font-size: 85%" width="80%" border="0">
+        <tr>
+          <td><em>Map Legend:</em></td>
+          <% ActivityMap::LEVEL_COLORS.each do |num, color| %>
+            <% il = IntensityLevel.find_by_number(num) %>
+            <% if il %>
+              <td style="background: <%= color %>; text-align:center;">
+                <%= il.name %>
+              </td>
+            <% end %>
+          <% end %>
+        </tr>
+      </table>
+    </div>
+  </td>
+</tr>

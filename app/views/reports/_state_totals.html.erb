@@ -1,0 +1,22 @@
+<tr>
+  <td style="border-top: 1px solid #333;" class="small_title">
+    <strong>Total Number of States receiving some type of TA during <%= @search.period %></strong><br/>
+    <em>States:</em> <%= @search.summary_report.period_states.map(&:abbreviation).to_sentence %></em>
+  </td>
+  <td style="border-top: 1px solid #333;" class="count">
+    <%= @search.summary_report.period_state_count %>
+  </td>
+  <td style="border-top: 1px solid #333" class="count">
+  </td>
+</tr>
+<tr>
+  <td style="border-top: 1px solid #333;" class="small_title">
+    <strong>Total Number of States receiving some type of TA during <%= @search.ytd_period %></strong><br/>
+    <em>States:</em> <%= @search.summary_report.ytd_states.map(&:abbreviation).to_sentence %></em>
+  </td>
+  <td style="border-top: 1px solid #333">
+  </td>
+  <td style="border-top: 1px solid #333" class="count">
+    <%= @search.summary_report.ytd_state_count %>
+  </td>
+</tr>

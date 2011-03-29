@@ -1,0 +1,23 @@
+<% @summary_report.state_stats_by_intensity_level_and_grant_activity.each do |intensity_level, grant_activities| %>
+  <tr>
+    <td colspan="3"><%= intensity_level %></td>
+  </tr>
+  <% grant_activities.each do |grant_activity, stats| %>
+    <tr>
+      <td style="padding-left: 30px;">
+        <%= stats[:period_activity_count] %>x
+        <%= grant_activity %>
+        <div style="padding-left: 20px;">
+          <em>States:</em>
+          <%= stats[:period_state_sentence] %>
+        </div>
+      </td>
+      <td class="count">
+        <%= stats[:period_state_count] %>
+      </td>
+      <td class="count">
+        <%= stats[:ytd_state_count] %>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

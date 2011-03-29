@@ -2,11 +2,12 @@
 #
 # Table name: report_breakdowns
 #
-#  id             :integer       not null, primary key
-#  report_id      :integer       
-#  objective_id   :integer       
-#  breakdown_type :string(255)   
-#  include_states :boolean       
+#  id                 :integer       not null, primary key
+#  report_id          :integer       
+#  objective_id       :integer       
+#  breakdown_type     :string(255)   
+#  include_states     :boolean       
+#  include_in_summary :boolean       
 # End Schema
 
 class ReportBreakdown < ActiveRecord::Base

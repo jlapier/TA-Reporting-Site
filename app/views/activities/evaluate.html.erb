@@ -1,0 +1,97 @@
+<div style="padding-bottom: 15px;text-align:center;">
+  <div style="text-align: left; width: 49%; display: inline-block;">
+    <img alt="logo" src="<%= @logo_path || image_path('logo.jpg') %>" width="175px" />
+  </div>
+  <div style="text-align: right; width: 49%; display: inline-block; vertical-align: top;">
+    <h1><%= @search.end_date.strftime("%B %Y") %><br>Monthly Report</h1>
+  </div>
+</div>
+
+<h2>TA Delivery Methods</h2>
+<table class="always_break cell_borders">
+  <tbody>
+    
+    <%
+      @ta_delivery_methods.each do |ta_delivery_method|
+        relevant_activities = @search.activities.where(:ta_delivery_method_id => ta_delivery_method.id)
+    %>
+    <tr>
+      <td>
+        <%= ta_delivery_method.name %>
+        <% states = abbreviated_states_from(relevant_activities.all) %>
+        <% if states[:count] > 0 %>
+          <br/>
+          <em>States: <%= states[:sentence] %></em>
+        <% end %>
+      </td>
+      <td>
+        <%= relevant_activities.size %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total Activities with TA Delivery</strong></td>
+      <td><%= @search.activities.count - @search.activities.where(:ta_delivery_method_id => nil).count %></td>
+    </tr>
+  </tbody>
+</table>
+
+<br/><br/>
+
+<h2>Intensity Levels</h2>
+<table class="always_break cell_borders">
+  <tbody>
+    <%
+      @intensity_levels.each do |intensity_level|
+        relevant_activities = @search.activities.where(:intensity_level_id => intensity_level.id)
+    %>
+    <tr>
+      <td>
+        <%= intensity_level.name %>
+        <% states = abbreviated_states_from(relevant_activities.all) %>
+        <% if states[:count] > 0 %>
+          <br/>
+          <em> States: <%= states[:sentence] %></em>
+        <% end %>
+      </td>
+      <td>
+        <%= relevant_activities.count %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total Activities with Intensity Level</strong></td>
+      <td><%= @search.activities.where("intensity_level_id IS NOT NULL").count %></td>
+    </tr>
+  </tbody>
+</table>
+
+<br/><br/>
+
+<h2>TA Content</h2>
+<table class="always_break cell_borders">
+  <tbody>
+    <%
+      @ta_categories.each do |ta_category|
+        relevant_activities = @search.activities.joins(:ta_categories).where(["activities_ta_categories.ta_category_id = ?", ta_category.id])
+    %>
+    <tr>
+      <td>
+        <%= ta_category.name %>
+        <% states = abbreviated_states_from(relevant_activities.all) %>
+        <% if states[:count] > 0 %>
+          <br/>
+          <em>States: <%= states[:sentence] %></em>
+        <% end %>
+      </td>
+      <td>
+        <%= relevant_activities.count %>
+      </td>
+    </tr>
+    <% end %>
+    <tr>
+      <td><strong>Total Activities with TA Content</strong></td>
+      <td><%= @search.activities.all.select{|a| a.ta_categories.any?}.size %></td>
+    </tr>
+  </tbody>
+</table>

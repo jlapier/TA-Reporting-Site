@@ -1,108 +1,94 @@
-# == Schema Information
-#
-# Table name: summary_reports
-#
-#  id                  :integer       not null, primary key
-#  name                :string(255)   
-#  start_ytd           :date          
-#  start_period        :date          
-#  end_period          :date          
-#  report_title_format :string(255)   
-#  created_at          :datetime      
-#  updated_at          :datetime      
-#  objective_id        :integer       
-# End Schema
-
-class SummaryReport < ActiveRecord::Base
-
-  STATE_SHAPES_FOR_MAP = YAML::load(File.open(File.join(Rails.root, 'lib', 'state_shapes.yml')))
-  STATE_LABELS_FOR_MAP = YAML::load(File.open(File.join(Rails.root, 'lib', 'state_labels.yml')))
-  LEVEL_COLORS = { 1 => "#F8BD0E", 2 => "#BB8519", 3 => "#7B4B23", 4 => "#FFFFCC" }
+# SummaryReport is used to load ytd and current activities from a given
+# start_date and end_date. YTD is implied as Jan. 1st, end_date.year.
+# Loading activities here vs. ActivitySearch requires slightly different
+# behavior since we only care about start and end date filters
+# when generating report summaries.
+class SummaryReport
+  attr_reader :ytd_date, :start_date, :end_date
   
-  belongs_to :objective
-
-  validates_presence_of :name, :start_ytd
+  def initialize(start_date, end_date)
+    @ytd_date = end_date.beginning_of_year
+    @start_date = start_date
+    @end_date = end_date
+  end
   
-  attr_accessor :report_errors, :start_ytd_month, :start_month, :end_month, :start_ytd_year, :start_year, :end_year
-
-  def dates=(hash)
-    hash.each do |k,v|
-      self.send("#{k.to_s}=".to_sym, v) if k.to_s =~ /(start_ytd_month|start_ytd_year|start_month|start_year|end_month|end_year)/
-    end
-    self.start_ytd    = Date.new(start_ytd_year.to_i,  start_ytd_month.to_i)        if start_ytd_year and start_ytd_month
-    self.start_period = Date.new(start_year.to_i,      start_month.to_i)            if start_year and start_month
-    self.end_period   = Date.new(end_year.to_i,        end_month.to_i).end_of_month if end_year and end_month
-  end
-
-  def report_title
-    if ytd_activities
-      end_period.strftime( report_title_format.blank? ? "%B %Y<br />Monthly Report" : report_title_format).html_safe
-    end
-  end
-
   def ytd_activities
-    if start_ytd and start_period and end_period
-      @ytd_activities ||= Activity.all_between start_ytd, end_period
-    else
-      add_error "Unable to create report - not all dates are specified."
-      nil
-    end
-  end
-
-  def period_activities
-    return @period_activities if @period_activities
-    if ytd_activities
-      @period_activities = ytd_activities.select { |activity| (start_period..end_period).include? activity.date_of_activity }
-    else
-      nil
-    end
-  end
-
-  def activities_by_type_for_ytd(options = {})
-    if ytd_activities
-      ytd_activities.select { |activity| activity.is_like? options }
-    else
-      nil
-    end
+    @ytd_activities ||= Activity.all_between(@ytd_date, @end_date)
   end
   
-  def activities_by_type_for_period(options = {})
-    if period_activities
-      period_activities.select { |activity| activity.is_like? options }
-    else
-      nil
-    end
+  def period_activities
+    @period_activities ||= Activity.all_between(@start_date, @end_date)
   end
+  
+  def ytd_state_count
+    ytd_states.count
+  end
+  
+  def ytd_states
+    states_for(ytd_activities.select('id').map(&:id))
+  end
+  
+  def period_state_count
+    period_states.count
+  end
+  
+  def period_states
+    states_for(period_activities.select('id').map(&:id))
+  end
+  
+  def states_for(activity_ids)
+    activity_ids = [activity_ids] unless activity_ids.kind_of? Array
+    State.abbreviated_from(activity_ids)
+  end
+  
+  def state_stats_by_intensity_level_and_grant_activity
+    conditions = {}
+    stats = {}
+    intensity_levels = IntensityLevel.all
+    grant_activities = GrantActivity.all
+    
+    intensity_levels.each do |intensity_level|
+      
+      conditions.merge!({:intensity_level_id => intensity_level.id})
+      stats[intensity_level.name] = {}
+      
+      next if ytd_activities.like(conditions).count == 0
+      
+      grant_activities.each do |grant_activity|
+        
+        conditions.merge!({:grant_activity => grant_activity})
+        
+        next if ytd_activities.like(conditions).count == 0
+        
+        activity_ids = period_activities.like(conditions).
+                                  select('activities.id').all.map(&:id)
 
-  def states_by_type_for_ytd(options = {})
-    acts = activities_by_type_for_ytd(options)
-    if acts
-      acts.map(&:states).flatten.compact.uniq.sort_by(&:abbreviation)
-    end
-  end
+        states = states_for(activity_ids)
+        ytd_state_count = states_for(ytd_activities.like(conditions).
+                                  select('activities.id').all.map(&:id)).count
 
-  def states_by_type_for_period(options = {})
-    acts = activities_by_type_for_period(options)
-    if acts
-      acts.map(&:states).flatten.compact.uniq.sort_by(&:abbreviation)
+        #next if ytd_state_count == 0
+        states_sentence = if ytd_state_count == 0
+            "Warning: None of these activities will be reported as having been for some state."
+          else
+            states.map(&:abbreviation).to_sentence
+          end
+        
+        stats[intensity_level.name][grant_activity.name] = {
+          :period_activity_count => period_activities.like(conditions).count,
+          :period_state_sentence => states_sentence,
+          :period_state_count => states.count,
+          :ytd_state_count => ytd_state_count
+        }
+      end
     end
-  end
- 
-  def summary_date_to_s
-    if start_period.beginning_of_month == end_period.beginning_of_month
-      start_period.strftime("%b %Y")
-    else
-      "#{start_period.strftime("%b %Y")}-#{end_period.strftime("%b %Y")}"
+    
+    # remove intensity_level keys pointing to empty values ie w/ no activities
+    dirty_stats = stats.dup
+    dirty_stats.each do |k,v|
+      stats.delete(k) if v.empty?
     end
+    
+    stats
   end
-
-  def ytd_date_to_s
-    "#{start_ytd.strftime("%b %Y")}-#{end_period.strftime("%b %Y")}"
-  end
-
-  private
-    def add_error(err_message)
-      @report_errors ||= []
-      @report_errors << err_message
-    end
 end

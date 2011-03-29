@@ -50,13 +50,3 @@ five:
   intensity_level_id: <%= Fixtures.identify :targeted %>
   objective_id: <%= Fixtures.identify :provide_ta %>
   description: "Confirmed NPSO participation in the New Mexico Transition Specialist Cadre meeting to be held Feb. 25-26, 2010 in Las Cruces, NM; OSERS grant resources will be used for NPSO travel expenses. The event is co-sponsored by NMPED Special Education Bureau, National Secondary Transition Technical Assistance Center, National Post-School Outcomes Center, Rec 6, NERED 4, N.M. Highlands University, & Division of Vocational Rehabilitation."
-
-  - - 430
-    - "2010-01-01"
-    - 34
-    - 
-    - Confirmed NPSO participation in the New Mexico Transition Specialist Cadre meeting to be held Feb. 25-26, 2010 in Las Cruces, NM; OSERS grant resources will be used for NPSO travel expenses. The event is co-sponsored by NMPED Special Education Bureau, National Secondary Transition Technical Assistance Center, National Post-School Outcomes Center, Rec 6, NERED 4, N.M. Highlands University, & Division of Vocational Rehabilitation.
-    - 31
-    - 2010-08-16 16:26:34
-    - 2010-10-24 18:58:45
-    - 69

@@ -13,27 +13,4 @@
   <%= render :partial => 'report', :collection => @reports, :locals => {:objectives => @objectives} %>
 </table>
 
-<table class="nice_table cell_borders">
-  <tr>
-    <th>Name</th>
-    <th>Start YTD</th>
-    <th>Start Period</th>
-    <th>End Period</th>
-    <th></th>
-  </tr>
-  <% @summary_reports.each do |summary_report| %>
-    <tr>
-      <td><%= summary_report.name %></td>
-      <td><%= summary_report.start_ytd.strftime("%b, %Y") %></td>
-      <td><%= summary_report.start_period ? summary_report.start_period.strftime("%b, %Y") : '<em>not set</em>' %></td>
-      <td><%= summary_report.end_period ? summary_report.end_period.strftime("%b, %Y") : '<em>not set</em>' %></td>
-      <td>
-        <%= link_to "Preview", summary_report_path(summary_report.id), :class => "fake_button" %>
-        <%= link_to "Evaluation View", evaluation_summary_report_path(summary_report.id), :class => "fake_button" %>
-      </td>
-   </tr>
-  <% end %>
-</table>
-
-
 <%= render :partial => 'sidebar' %>

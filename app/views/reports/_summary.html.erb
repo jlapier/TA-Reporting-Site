@@ -1,0 +1,30 @@
+<% 
+#conditions = @summary_report.objective_id.blank? ? {} : {:objective_id => @summary_report.objective_id}
+conditions = {}
+%>
+<div style="padding-bottom: 15px;text-align:center;">
+  <div style="text-align: left; width: 49%; display: inline-block;">
+    <img alt="logo" src="<%= @logo_path || image_path('logo.jpg') %>" width="175px" />
+  </div>
+  <div style="text-align: right; width: 49%; display: inline-block; vertical-align: top;">
+    <h1><%= @search.end_date.strftime("%B %Y") %><br><%= @report.name %> Report</h1>
+  </div>
+</div>
+<table class="always_break">
+  <thead>
+    <tr>
+      <th rowspan="2">Technical Assistance Summary</th>
+      <th colspan="2" class="count" style="width:500px;">Number of States Participating in Activities</th>
+    </tr>
+    <tr>
+      <th class="count"><%= @search.start_date.strftime("%b %Y") %> - <%= @search.end_date.strftime("%b %Y") %></th>
+      <th class="count">Year to Date<br/>(<%= @search.summary_report.ytd_date.strftime("%b %Y") %>)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => 'activity_warning' %>
+    <%= render :partial => 'state_counts' %>
+    <%= render :partial => 'state_totals' %>
+    <%= render :partial => 'state_maps' %>
+  </tbody>
+</table>

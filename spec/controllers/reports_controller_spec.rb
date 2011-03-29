@@ -19,21 +19,68 @@ describe ReportsController do
       SummaryReport.stub(:all){ [summary_report] }
       Objective.stub(:options).with(:order => 'number'){ [objective] }
     end
-    it "loads all reports as @reports" do
-      get :index
-      assigns(:reports).should eq [report]
+    context "with default params" do
+      it "loads all reports as @reports" do
+        get :index
+        assigns(:reports).should eq [report]
+      end
+      it "loads all objectives as @objectives" do
+        get :index
+        assigns(:objectives).should eq [objective]
+      end
+      it "renders the index template" do
+        get :index
+        response.should render_template("index")
+      end
     end
-    it "loads all summary reports as @summary_reports" do
-      get :index
-      assigns(:summary_reports).should eq [summary_report]
-    end
-    it "loads all objectives as @objectives" do
-      get :index
-      assigns(:objectives).should eq [objective]
-    end
-    it "renders the index template" do
-      get :index
-      response.should render_template("index")
+    context "with an :id => int, :view => Full" do
+      let(:activity_search){ mock('ActivitySearch', {
+        :activities => mock('Relation')
+      }) }
+      let(:summary_report){ mock('SummaryReport', {
+        :start_period => Date.current.beginning_of_month,
+        :end_period => Date.current.end_of_month
+      }) }
+      let(:params){ {:id => 42, :view => 'Full'} }
+      before(:each) do
+        report.stub(:dates=)
+        Report.stub_chain(:includes, :find){ report }
+        ActivitySearch.stub(:new){ activity_search }
+        activity_search.stub(:summary_report){ summary_report }
+      end
+      it "loads the @search" do
+        get :index, params
+        assigns(:search).should eq activity_search
+      end
+      it "loads the @report" do
+        get :index, params
+        assigns(:report).should eq report
+      end
+      it "loads the @summary_report" do
+        get :index, params
+        assigns(:summary_report).should eq summary_report
+      end
+      it "loads the @summary_map_path" do
+        get :index, params
+        assigns(:summary_map_path).should =~ /^#{summary_map_report_path(report, {:format => :png})}/
+      end
+      it "loads the @ytd_summary_map_path" do
+        get :index, params
+        assigns(:ytd_summary_map_path).should =~ /^#{ytd_map_report_path(report, {:format => :png})}/
+      end
+      it "renders the show template" do
+        get :index, params
+        response.should render_template('reports/show')
+      end
+      context ":view => Summary" do
+        before(:each) do
+          params.merge!(:view => 'Summary')
+        end
+        it "renders the summary template" do
+          get :index, params
+          response.should render_template('reports/summary')
+        end
+      end
     end
   end
   
@@ -52,93 +99,8 @@ describe ReportsController do
     end
   end
   
-  describe ":show, :id => integer, :summary_report_id => optional:integer" do
-    let(:params) do
-      {:id => 1, :summary_report_id => 1}
-    end
-    let(:report) do
-      mock_model(Report, {
-        :dates= => nil,
-        :start_period => Date.new(2010, 1),
-        :end_period => Date.new(2010, 6)
-      })
-    end
-    let(:summary_report) do
-      mock_model(SummaryReport, {
-        :start_period => Date.new(2010, 5, 1),
-        :end_period => Date.new(2010, 5, 30)
-      })
-    end
-    context "report is found" do
-      before(:each) do
-        Report.stub(:find).once.and_return(report)
-      end
-      it "loads a report as @report from params[:id]" do
-        get :show, params
-        assigns(:report).should eq report
-      end
-      it "renders the show template" do
-        get :show, params
-        response.should render_template("show")
-      end
-    end
-    context "report is not found" do
-      before(:each) do
-        Report.stub(:find).once.and_raise(ActiveRecord::RecordNotFound)
-      end
-      it "sets a flash[:notice]" do
-        get :show, params
-        flash[:notice].should_not be_nil
-      end
-      it "redirects to the reports page" do
-        get :show, params
-        response.should redirect_to reports_path
-      end
-    end
-    context "summary report is found" do
-      before(:each) do
-        Report.should_receive(:find).once.and_return(report)
-        SummaryReport.should_receive(:find).once.and_return(summary_report)
-        IntensityLevel.should_receive(:all).and_return([intensity_level])
-        GrantActivity.should_receive(:all).and_return([grant_activity])
-      end
-      it "loads a summary report from params[:summary_report_id]" do
-        get :show, params
-        assigns(:summary_report).should eq summary_report
-      end
-      it "updates report periods from summary report periods" do
-        report.should_receive(:dates=).with({
-          :start_year => 2010,
-          :start_month => 5,
-          :end_year => 2010,
-          :end_month => 5
-        })
-        get :show, params
-      end
-      it "loads all IntensityLevels" do
-        get :show, params
-        assigns(:intensity_levels).should eq [intensity_level]
-      end
-      it "loads all GrantActivities" do
-        get :show, params
-        assigns(:grant_activities).should eq [grant_activity]
-      end
-    end
-    context "summary report is not found or is not requested" do
-      before(:each) do
-        Report.should_receive(:find).once{ report }
-        SummaryReport.should_receive(:find).once.and_raise(ActiveRecord::RecordNotFound)
-        stub_flash_sweeper
-      end
-      it "is not found so sets flash.now[:notice]" do
-        get :show, params
-        flash[:notice].should_not be_nil
-      end
-      it "is not requested so sets a flash.now[:notice]" do
-        get :show, params
-        flash[:notice].should_not be_nil
-      end
-    end
+  describe ":show, :id => integer, :activity_search => {}" do
+    it "needs new specs"
   end
   
   describe ":edit, :id => integer" do
@@ -261,18 +223,25 @@ describe ReportsController do
     end
   end
   
-  describe ":download, :start_month => MM, start_year => YYYY, :end_month => MM, :end_year => YYYY" do
+  describe ":download" do
     let(:params) do
       {
         :id => report.id,
-        :start_month => "1",
-        :start_year => "2010",
-        :end_month => '6',
-        :end_year => '2010',
         :format => :csv
       }
     end
     let(:csv){ "one,two,three\nfour,five,six\n" }
+    let(:activity_search) do
+      mock('ActivitySearch', {
+        :activities => mock('Relation')
+      })
+    end
+    let(:summary_report) do
+      mock('SummaryReport', {
+        :start_period => Date.current.beginning_of_month,
+        :end_period => Date.current.end_of_month
+      })
+    end
     
     before(:each) do
       controller.stub(:render)
@@ -281,16 +250,15 @@ describe ReportsController do
       report.stub(:name){ 'Q1 - 2010' }
       report.stub(:csv){ nil }
       report.stub(:activities){ [] }
-      report.stub(:start_period){ Date.new(2010, 1) }
-      report.stub(:end_period){ Date.new(2010, 6) }
+      #report.stub(:start_period){ Date.new(2010, 1) }
+      #report.stub(:end_period){ Date.new(2010, 6) }
       report.stub(:export_filename){ "Q1 - 2010 TA Activity Report" }
       report.stub(:to_csv){ nil }
       report.stub(:csv){ csv }
-      summary_report.stub(:start_period){ Date.new(2010, 1) }
-      summary_report.stub(:end_period){ Date.new(2010, 6) }
       
-      SummaryReport.stub(:find){ summary_report }
-      Report.should_receive(:find).once{ report }
+      Report.stub_chain(:includes, :find){ report }
+      ActivitySearch.stub(:new){ activity_search }
+      activity_search.stub(:summary_report){ summary_report }
     end
     it "loads a report as @report from params[:id]" do
       get :download, params

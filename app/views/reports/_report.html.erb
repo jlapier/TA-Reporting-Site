@@ -20,12 +20,3 @@
   </td>
   <% end %>
 </tr>  
-<tr id="<%= "report_#{report.name.parameterize}_dates" %>" class="row_<%= color_class %>">
-  <td style="text-align: right;" colspan="5">
-    Using Summary Report Period:
-    <%= form_tag(report_path(report), :method => :get, :style => "display: inline;") do %>
-      <%= select_tag 'summary_report_id', "<option value=\"\">Select one</option>".html_safe + options_from_collection_for_select(@summary_reports, :id, :name) %>
-      <%= submit_tag "Preview", :class => "fake_button" %>
-    <% end %>
-  </td>
-</tr>

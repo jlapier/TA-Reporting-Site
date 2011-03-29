@@ -110,7 +110,7 @@ class Report < ActiveRecord::Base
     if options[:objective]
       r = true unless grouped_activities[options.delete(:objective).number].nil?
     else
-      r = activities.any?{|activity| activity.is_like?(options)}
+      r = activities.like(conditions).count > 0
     end
     return r
   end
