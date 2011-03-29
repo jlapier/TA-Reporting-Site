@@ -1,24 +1,51 @@
-<% bad_activities = @search.activities.all.select{|a| a.grant_activities.empty?} %>
-<% unless bad_activities.empty? %>
+<% grantless_activities = @search.activities.all.select{|a| a.grant_activities.empty?} %>
+<% unless grantless_activities.empty? %>
   <tr>
     <td colspan="3">
       Warning: The following activities are not associated with a Grant Activity
     </td>
   </tr>
-  <% bad_activities.each do |bad_act| %>
-    <% next if bad_act.states.size < 1 %>
+  <% grantless_activities.each do |grantless_act| %>
+    <% next if grantless_act.states.size < 1 %>
     <tr>
       <td style="padding-left: 30px;">
-        <%= link_to truncate(bad_act.description, :length => 70), bad_act %>
-        <% unless bad_act.states.empty? %>
+        <%= link_to truncate(grantless_act.description, :length => 70), grantless_act %>
+        <% unless grantless_act.states.empty? %>
           <div style="padding-left: 20px;">
             <em>States:</em>
-            <%= bad_act.states.map(&:abbreviation).to_sentence %>
+            <%= grantless_act.states.map(&:abbreviation).sort.to_sentence %>
           </div>
         <% end %>
       </td>
       <td class="count">
-        <%= bad_act.states.size %>
+        <%= grantless_act.states.size %>
+      </td>
+      <td></td>
+    </tr>
+  <% end %>
+<% end %>
+
+<% intensityless_activities = @search.activities.where('activities.intensity_level_id' => nil) %>
+<% unless intensityless_activities.empty? %>
+  <tr>
+    <td colspan="3">
+      Warning: The following activities have no Intensity Level
+    </td>
+  </tr>
+  <% intensityless_activities.each do |intensityless_act| %>
+    <% next if intensityless_act.states.size < 1 %>
+    <tr>
+      <td style="padding-left: 30px;">
+        <%= link_to truncate(intensityless_act.description, :length => 70), intensityless_act %>
+        <% unless intensityless_act.states.empty? %>
+          <div style="padding-left: 20px;">
+            <em>States:</em>
+            <%= intensityless_act.states.map(&:abbreviation).sort.to_sentence %>
+          </div>
+        <% end %>
+      </td>
+      <td class="count">
+        <%= intensityless_act.states.size %>
       </td>
       <td></td>
     </tr>
