@@ -48,9 +48,9 @@ class SummaryReport
     grant_activities = GrantActivity.all
     
     intensity_levels.each do |intensity_level|
-      
+      conditions.delete(:grant_activity)
       conditions.merge!({:intensity_level_id => intensity_level.id})
-      stats[intensity_level.name] = {}
+      stats[intensity_level.name] = {:activity_count => period_activities.like(conditions).count}
       
       next if ytd_activities.like(conditions).count == 0
       
@@ -59,16 +59,14 @@ class SummaryReport
         conditions.merge!({:grant_activity => grant_activity})
         
         next if ytd_activities.like(conditions).count == 0
-        
-        activity_ids = period_activities.like(conditions).
-                                  select('activities.id').all.map(&:id)
 
-        states = states_for(activity_ids)
-        ytd_state_count = states_for(ytd_activities.like(conditions).
+        states = states_for(period_activities.like(conditions).
+                                  select('activities.id').all.map(&:id))
+        ytd_group_state_count = states_for(ytd_activities.like(conditions).
                                   select('activities.id').all.map(&:id)).count
 
-        #next if ytd_state_count == 0
-        states_sentence = if ytd_state_count == 0
+        next if ytd_group_state_count == 0
+        states_sentence = if ytd_group_state_count == 0
             "Warning: None of these activities will be reported as having been for some state."
           else
             states.map(&:abbreviation).to_sentence
@@ -78,7 +76,7 @@ class SummaryReport
           :period_activity_count => period_activities.like(conditions).count,
           :period_state_sentence => states_sentence,
           :period_state_count => states.count,
-          :ytd_state_count => ytd_state_count
+          :ytd_state_count => ytd_group_state_count
         }
       end
     end

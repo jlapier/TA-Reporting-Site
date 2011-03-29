@@ -3,14 +3,17 @@
     <td colspan="3"><%= intensity_level %></td>
   </tr>
   <% grant_activities.each do |grant_activity, stats| %>
+    <% next if grant_activity == :activity_count %>
     <tr>
       <td style="padding-left: 30px;">
         <%= stats[:period_activity_count] %>x
         <%= grant_activity %>
+        <% if stats[:period_state_sentence].present? %>
         <div style="padding-left: 20px;">
           <em>States:</em>
           <%= stats[:period_state_sentence] %>
         </div>
+        <% end %>
       </td>
       <td class="count">
         <%= stats[:period_state_count] %>
