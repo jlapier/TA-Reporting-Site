@@ -16,10 +16,10 @@ class ReportsController < ApplicationController
       @ytd_summary_map_path = ytd_map_report_path(@report, {:format => :png}.merge!(search_params))
       
       @report.dates = {
-        :start_year => @summary_report.start_period.year,
-        :start_month => @summary_report.start_period.month,
-        :end_year => @summary_report.end_period.year,
-        :end_month => @summary_report.end_period.month
+        :start_year => @summary_report.start_date.year,
+        :start_month => @summary_report.start_date.month,
+        :end_year => @summary_report.end_date.year,
+        :end_month => @summary_report.end_date.month
       } if @report
     end
     def load_states
