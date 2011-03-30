@@ -66,11 +66,8 @@ class SummaryReport
                                   select('activities.id').all.map(&:id)).count
 
         next if ytd_group_state_count == 0
-        states_sentence = if ytd_group_state_count == 0
-            "Warning: None of these activities will be reported as having been for some state."
-          else
-            states.map(&:abbreviation).to_sentence
-          end
+        
+        states_sentence = states.map(&:abbreviation).to_sentence
         
         stats[intensity_level.name][grant_activity.name] = {
           :period_activity_count => period_activities.like(conditions).count,
@@ -82,11 +79,13 @@ class SummaryReport
     end
     
     # remove intensity_level keys pointing to empty values ie w/ no activities
+    trim_empties(stats)
+  end
+  
+  def trim_empties(stats)
     dirty_stats = stats.dup
     dirty_stats.each do |k,v|
       stats.delete(k) if v.empty?
     end
-    
-    stats
   end
 end
