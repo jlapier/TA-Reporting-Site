@@ -1,9 +1,16 @@
-# SummaryReport is used to load ytd and current activities from a given
-# start_date and end_date. YTD is implied as Jan. 1st, end_date.year.
-# Loading activities here vs. ActivitySearch requires slightly different
-# behavior since we only care about start and end date filters
-# when generating report summaries.
 class SummaryReport
+private
+  def map_activity_ids(activities)    
+    if activities.kind_of? ActiveRecord::Relation
+      activity_ids = activities.select('activities.id').map(&:id)
+    elsif activities.kind_of? Array and activities.first.kind_of? ActiveRecord::Base
+      activity_ids = activities.map(&:id)
+    elsif activities.kind_of? ActiveRecord::Base
+      activity_ids = [activities.id]
+    end
+  end
+protected
+public
   attr_reader :ytd_date, :start_date, :end_date
   
   def initialize(start_date, end_date)
@@ -25,7 +32,7 @@ class SummaryReport
   end
   
   def ytd_states
-    states_for(ytd_activities.select('id').map(&:id))
+    states_for(ytd_activities)
   end
   
   def period_state_count
@@ -33,12 +40,21 @@ class SummaryReport
   end
   
   def period_states
-    states_for(period_activities.select('id').map(&:id))
+    states_for(period_activities)
   end
   
-  def states_for(activity_ids)
-    activity_ids = [activity_ids] unless activity_ids.kind_of? Array
-    State.abbreviated_from(activity_ids)
+  def states_for(activities, options={})
+    options[:abbreviated] ||= true
+    
+    activity_ids = map_activity_ids(activities)
+    
+    activity_ids = [activity_ids] unless activity_ids.kind_of? Array  
+    
+    if options[:abbreviated]
+      State.abbreviated_from(activity_ids)
+    else
+      State.from_activities(activity_ids)
+    end
   end
   
   def state_stats_by_intensity_level_and_grant_activity
@@ -60,10 +76,8 @@ class SummaryReport
         
         next if ytd_activities.like(conditions).count == 0
 
-        states = states_for(period_activities.like(conditions).
-                                  select('activities.id').all.map(&:id))
-        ytd_group_state_count = states_for(ytd_activities.like(conditions).
-                                  select('activities.id').all.map(&:id)).count
+        states = states_for(period_activities.like(conditions))
+        ytd_group_state_count = states_for(ytd_activities.like(conditions)).count
 
         next if ytd_group_state_count == 0
         

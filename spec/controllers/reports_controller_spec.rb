@@ -38,8 +38,8 @@ describe ReportsController do
         :activities => mock('Relation')
       }) }
       let(:summary_report){ mock('SummaryReport', {
-        :start_period => Date.current.beginning_of_month,
-        :end_period => Date.current.end_of_month
+        :start_date => Date.current.beginning_of_month,
+        :end_date => Date.current.end_of_month
       }) }
       let(:params){ {:id => 42, :view => 'Full'} }
       before(:each) do
@@ -238,8 +238,8 @@ describe ReportsController do
     end
     let(:summary_report) do
       mock('SummaryReport', {
-        :start_period => Date.current.beginning_of_month,
-        :end_period => Date.current.end_of_month
+        :start_date => Date.current.beginning_of_month,
+        :end_date => Date.current.end_of_month
       })
     end
     
