@@ -2,15 +2,15 @@
 <div style="float: right; padding-bottom: 15px;">
   <span class="fake_button">
     <%= 
-      link_to_unless(@summary_report, "Download CSV", download_report_path(@report, :format => :csv)) do |name| 
-        link_to name, download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :csv}) 
+      link_to_unless(params[:activity_search], "Download CSV", download_report_path(@report, :format => :csv)) do |name| 
+        link_to name, download_report_path(@report, {:activity_search => params[:activity_search], :format => :csv})
       end 
     %>
   </span>
   <span class="fake_button">
     <%= 
-      link_to_unless @summary_report, "Download PDF", download_report_path(@report, :format => :pdf) do |name|
-        link_to name, download_report_path(@report, {:summary_report_id => @summary_report.id, :format => :pdf})
+      link_to_unless(params[:activity_search], "Download PDF", download_report_path(@report, :format => :pdf)) do |name|
+        link_to name, download_report_path(@report, {:activity_search => params[:activity_search], :format => :pdf})
       end
     %>
   </span>
