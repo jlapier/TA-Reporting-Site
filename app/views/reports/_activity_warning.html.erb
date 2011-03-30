@@ -2,7 +2,7 @@
 <% unless grantless_activities.empty? %>
   <tr>
     <td colspan="3">
-      Warning: The following activities are not associated with a Grant Activity
+      <p>Warning: The following activities are not associated with a Grant Activity</p>
     </td>
   </tr>
   <% grantless_activities.each do |grantless_act| %>
@@ -29,7 +29,8 @@
 <% unless intensityless_activities.empty? %>
   <tr>
     <td colspan="3">
-      Warning: The following activities have no Intensity Level
+      <p>Warning: The following activities have no Intensity Level.</p>
+      <p>This means they may not be represented on the maps below.</p>
     </td>
   </tr>
   <% intensityless_activities.each do |intensityless_act| %>
