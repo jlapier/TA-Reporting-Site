@@ -49,6 +49,15 @@ var Collapsible = $.klass({
   })
 });
 
+var Configurable = $.klass({
+  onmouseover: function(element) {
+    $(this).find('.configurable_links').show();
+  },
+  onmouseout: function(element) {
+    $(this).find('.configurable_links').hide();
+  }
+})
+
 var CopyDates = $.klass({
   onsubmit: function(event) {
     $('#preview_report_start_date').attr('value', $('#activity_search_start_date').attr('value'));
@@ -59,4 +68,5 @@ var CopyDates = $.klass({
 jQuery(function($) {
   $('li.admin_menu').attach(Collapsible);
   $('#preview_report').attach(CopyDates);
+  $('.configurable').attach(Configurable);
 });
