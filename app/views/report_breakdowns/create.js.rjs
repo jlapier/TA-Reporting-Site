@@ -1,7 +1,7 @@
 page << if @saved
   %Q{
     $('#report_breakdowns').append('#{escape_javascript(render(:partial => 'report_breakdown', :object => @new_report_breakdown))}');
-    $('#new_report_breakdown').reset();
+    $('#new_report_breakdown').clearForm();
   }
 else
   %Q{

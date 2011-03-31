@@ -13,7 +13,8 @@
       <% unless report_breakdown.breakdown_type.blank? %>
         <%= "Broken down by: #{report_breakdown.breakdown_type}" %><br />
       <%- end -%>
-      <%= report_breakdown.include_states ? 'includes' : 'omits' %> states
+      <%= report_breakdown.include_states ? 'includes' : 'omits' %> states<br />
+      <%= report_breakdown.include_in_summary ? '' : 'not' %> displayed in summary section
     <% else %>
       <em>Not included</em>
     <% end %>

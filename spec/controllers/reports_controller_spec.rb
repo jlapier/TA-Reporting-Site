@@ -59,7 +59,7 @@ describe ReportsController do
         }
       end
       before(:each) do
-        report.stub(:dates=)
+        report.stub(:search=)
         Report.stub_chain(:includes, :find){ report }
         ActivitySearch.stub(:new){ activity_search }
         activity_search.stub(:summary_report){ summary_report }
@@ -261,7 +261,7 @@ describe ReportsController do
     
     before(:each) do
       controller.stub(:render)
-      report.stub(:dates=){ nil }
+      report.stub(:search=){ nil }
       report.stub(:export){ nil }
       report.stub(:name){ 'Q1 - 2010' }
       report.stub(:csv){ nil }

@@ -11,18 +11,14 @@ class ReportsController < ApplicationController
     def load_report
       load_activities
       @summary_report = @search.summary_report
-      @report = Report.includes(:report_breakdowns).find(params[:id])
+      @report ||= Report.includes(:report_breakdowns).find(params[:id])
+      
+      @report.search = @search
+      
       path_opts = {:format => :png}
       
       @summary_map_path = build_map_url_for(@report, @search, path_opts, :period)
       @ytd_summary_map_path = build_map_url_for(@report, @search, path_opts, :ytd)
-      
-      @report.dates = {
-        :start_year => @summary_report.start_date.year,
-        :start_month => @summary_report.start_date.month,
-        :end_year => @summary_report.end_date.year,
-        :end_month => @summary_report.end_date.month
-      } if @report
     end
     
     def send_pdf_report

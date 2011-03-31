@@ -40,6 +40,17 @@ class Report < ActiveRecord::Base
     end
   end
   
+  def search=(search_obj)
+    # TODO: get report to query the search obj for appropriate activities to report on
+    @search = search_obj
+    self.dates = {
+      :start_year => @search.start_date.year,
+      :start_month => @search.start_date.month,
+      :end_year => @search.end_date.year,
+      :end_month => @search.end_date.month
+    }
+  end
+  
   # Force
   def start_month
     @start_month ||= 1
@@ -93,6 +104,7 @@ class Report < ActiveRecord::Base
   
   def activities
     @activities ||= Activity.all_between(start_period, end_period)
+    #@activities ||= @search.activities
   end
   
   def grouped_activities

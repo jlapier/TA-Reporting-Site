@@ -4,8 +4,8 @@
       <%= form.input :objective, :hint => ReportBreakdown::HINTS[:objective] %>
       <%= form.input :breakdown_type, :label => 'Group by', :hint => ReportBreakdown::HINTS[:breakdown_type],
         :collection => Criterium::TYPE_OPTIONS.reject{|t| t[1] == 'Objective' || t[1] == "TACategory"} %>
-      <%= form.input :include_states, :hint => ReportBreakdown::HINTS[:include_states] %>
-      <%= form.input :include_in_summary, :hint => ReportBreakdown::HINTS[:include_in_summary] %>
+      <%= form.input :include_states, :label => ReportBreakdown::HINTS[:include_states] %>
+      <%= form.input :include_in_summary, :label => ReportBreakdown::HINTS[:include_in_summary] %>
     <% end %>
     <%= form.submit "Add" %>
   <% end %>
