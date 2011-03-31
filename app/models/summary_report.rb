@@ -16,15 +16,18 @@ public
   def initialize(start_date, end_date)
     @ytd_date = end_date.beginning_of_year
     @start_date = start_date
-    @end_date = end_date
+    @end_date = end_date    
+    @objective = Objective.find_by_number(2)
   end
   
   def ytd_activities
-    @ytd_activities ||= Activity.all_between(@ytd_date, @end_date)
+    @ytd_activities ||= Activity.all_between(@ytd_date, @end_date).
+                        where(:objective_id => @objective.id)
   end
   
   def period_activities
-    @period_activities ||= Activity.all_between(@start_date, @end_date)
+    @period_activities ||= Activity.all_between(@start_date, @end_date).
+                           where(:objective_id => @objective.id)
   end
   
   def ytd_state_count

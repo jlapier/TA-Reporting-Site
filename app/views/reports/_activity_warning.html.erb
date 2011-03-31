@@ -1,4 +1,4 @@
-<% grantless_activities = @search.activities.all.select{|a| a.grant_activities.empty?} %>
+<% grantless_activities = @summary_report.period_activities.all.select{|a| a.grant_activities.empty?} %>
 <% unless grantless_activities.empty? %>
   <tr class="report_warning">
     <td colspan="3">
@@ -25,7 +25,7 @@
   <% end %>
 <% end %>
 
-<% intensityless_activities = @search.activities.where('activities.intensity_level_id' => nil) %>
+<% intensityless_activities = @summary_report.period_activities.where('activities.intensity_level_id' => nil) %>
 <% unless intensityless_activities.empty? %>
   <tr class="report_warning">
     <td colspan="3">
