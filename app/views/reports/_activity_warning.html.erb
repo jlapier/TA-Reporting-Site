@@ -1,6 +1,6 @@
 <% grantless_activities = @search.activities.all.select{|a| a.grant_activities.empty?} %>
 <% unless grantless_activities.empty? %>
-  <tr>
+  <tr class="report_warning">
     <td colspan="3">
       <p>Warning: The following activities are not associated with a Grant Activity</p>
     </td>
@@ -27,7 +27,7 @@
 
 <% intensityless_activities = @search.activities.where('activities.intensity_level_id' => nil) %>
 <% unless intensityless_activities.empty? %>
-  <tr>
+  <tr class="report_warning">
     <td colspan="3">
       <p>Warning: The following activities have no Intensity Level.</p>
       <p>This means they may not be represented on the maps below.</p>
