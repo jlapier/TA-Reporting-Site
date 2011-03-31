@@ -11,6 +11,20 @@
 # End Schema
 
 class ReportBreakdown < ActiveRecord::Base
+  
+  HINTS = {
+    :objective => "Each Report is made up of Sections. Each Section contains"+
+                  " State &amp; Activities pertaining to a single"+
+                  " Objective.",
+    :breakdown_type => "Within each Section you can Group Activities by some"+
+                       " Grant Activity, Level of Intensity, TA "+
+                       "Category or TA Delivery Method.",
+    :include_states => "Display list of States &amp; Regions"+
+                       " with each Activity?",
+    :include_in_summary => "Display Section's Activity statistics"+
+                           " in the Summary Report?"
+  }
+  
   attr_accessor :activities
   
   belongs_to :report

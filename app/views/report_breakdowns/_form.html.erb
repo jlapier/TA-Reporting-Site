@@ -1,11 +1,11 @@
 <div id="ajax_new_report_breakdown_form">
   <%= semantic_form_for @new_report_breakdown, :url => report_report_breakdowns_path(@report) do |form| %>
     <%= form.inputs do %>
-      <%= form.input :objective %>
-      <%= form.input :breakdown_type, 
+      <%= form.input :objective, :hint => ReportBreakdown::HINTS[:objective] %>
+      <%= form.input :breakdown_type, :label => 'Group by', :hint => ReportBreakdown::HINTS[:breakdown_type],
         :collection => Criterium::TYPE_OPTIONS.reject{|t| t[1] == 'Objective' || t[1] == "TACategory"} %>
-      <%= form.input :include_states %>
-      <%= form.input :include_in_summary %>
+      <%= form.input :include_states, :hint => ReportBreakdown::HINTS[:include_states] %>
+      <%= form.input :include_in_summary, :hint => ReportBreakdown::HINTS[:include_in_summary] %>
     <% end %>
     <%= form.submit "Add" %>
   <% end %>
