@@ -227,6 +227,13 @@ div.report h2 {
 div.report p.note {
   text-align: justify;
 }
+tr.report_warning {
+  background: #FF9;
+  font-style: italic;
+}
+tr.report_warning td {
+  border: 1px dashed #900;
+}
 span.note {
   font-style: italic;
 }

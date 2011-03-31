@@ -21,7 +21,7 @@
   <tbody>
     <% bad_activities = @summary_report.activities_by_type_for_period(conditions.merge({:grant_activities => []})) %>
     <% unless bad_activities.empty? %>
-      <tr>
+      <tr class="report_warning">
         <td colspan="3">
           Warning: The following activities are not associated with a Grant Activity
         </td>
