@@ -1,47 +1,38 @@
 module MapController
 private
-  def map_for(type=:period)
-    case type
-    when :period
-      filename = 'summary_map.png'
-      cache_path = summary_map_report_path(@report, :format => :svg)
-    when :ytd
-      filename = 'ytd_map.png'
-      cache_path = ytd_map_report_path(@report, :format => :svg)
-    else
-      raise ArgumentError, "unknown map type"
+  def build_map_url_for(report, search, path_opts={}, type=:period)
+    path_opts[:format] ||= :png
+    activities = type == :ytd ? search.ytd_activities : search.activities
+    
+    IntensityLevel.order('number').each do |intensity_level|
+      key = ActivityMap::COLORS[intensity_level.number][:label]
+      conditions = {:intensity_level_id => intensity_level.id}
+      
+      path_opts[key] = @search.summary_report.
+        states_for(activities.where(conditions)).map(&:abbreviation).join('/')
+      path_opts[key] = 'none' if path_opts[key].blank?
     end
     
-    svgxml = render_to_string('reports/map')
-    
-    cache_map(svgxml, cache_path)
-    send_png(filename, svgxml)
+    map_report_path(report, path_opts)
   end
+  
   def send_png(filename, svg)
     il = Magick::ImageList.new
     il.from_blob(svg)
     sizedil = il.resize_to_fit(315,300)
     sizedil.format = "PNG"
-    send_data(sizedil.to_blob, :filename => filename) and return
-  end
-  def cache_map(map, path)
-    full_path = File.join(Rails.root, "public", path)
-    dir = File.dirname(full_path)
-    logger.debug("dirname - #{dir}")
-    FileUtils.mkdir_p(dir)
-    file = File.new(full_path, "w+")
-    file << map
-    file.close
-  end
-  def load_states_for(type=:ytd)
-    activities = type == :ytd ? @search.ytd_activities : @search.activities
+    blob = sizedil.to_blob
     
-    @intensity_levels = IntensityLevel.order('number')
-    @states = {}
-    @intensity_levels.each do |il|
-      il_activities = activities.where(:intensity_level_id => il)
-      @states[il.id] = @search.summary_report.
-                            states_for(il_activities, :abbreviated => false)
-    end
+    cache_page(blob, request.path)
+    send_data(blob, :filename => filename) and return
+  end
+  
+  def cache_and_send_map
+    filename = 'map.png'    
+    cache_path = request.path.gsub('.png', '.svg')
+    svgxml = render_to_string('reports/map')
+    
+    cache_page(svgxml, cache_path)
+    send_png(filename, svgxml)
   end
 end

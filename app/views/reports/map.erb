@@ -14,7 +14,18 @@
      style="fill:#d3d3d3">
      <% ActivityMap::STATE_SHAPES_FOR_MAP.each do |state_shape_key, state_shape_data| %>
        <% fill_color = "none" %>
-       <% @intensity_levels.each { |il| fill_color = ActivityMap::LEVEL_COLORS[il.number] if @states[il.id].map(&:abbreviation).include?(state_shape_key[0..1]) } %>
+       <% 
+       #@intensity_levels.each { |il| fill_color = ActivityMap::LEVEL_COLORS[il.number] if @states[il.id].map(&:abbreviation).include?(state_shape_key[0..1]) }
+       @intensity_levels.each do |intensity_level|
+         color_label = ActivityMap::COLORS[intensity_level.number][:label].to_s
+
+         if params[color_label] and params[color_label].include? state_shape_key[0..1]
+           fill_color = ActivityMap::COLORS[intensity_level.number][:hex]
+         elsif @states
+           fill_color = ActivityMap::LEVEL_COLORS[intensity_level.number] if @states[intensity_level.id].map(&:abbreviation).include?(state_shape_key[0..1])
+         end
+       end
+        %>
        <path d="<%= state_shape_data[:d] %>" id="<%= state_shape_key %>" 
         <% if state_shape_key =~ /Line/ %>
           style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"

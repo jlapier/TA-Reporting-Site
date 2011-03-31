@@ -24,19 +24,13 @@ TAReportingSite::Application.routes.draw do
       get :download
       get :summary_map
       get :ytd_map
-      #get :summary
+      get 'light_brown/*light_brown'+
+                          '/dark_brown/*dark_brown'+
+                          '/yellow/*yellow'+
+                          '/gold/*gold/map' => 'reports#map', :as => 'map'
     end
     resources :report_breakdowns
   end
-
-  resources :summary_reports do
-    member do
-      get :summary_map
-      get :ytd_map
-      get :evaluation
-    end
-  end
-
   resource :user_session
 end
 

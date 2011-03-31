@@ -1,20 +1,21 @@
 class ReportsController < ApplicationController
 
   include ActivitySearchController # <= :load_activities, :search_params
-  include MapController # <= :load_states_for, :map_for
+  include MapController # <= :build_map_url_for, :cache_and_send_map
 
   before_filter :require_user
   respond_to :csv, :pdf, :only => :download
-  caches_page :summary_map, :ytd_map
+  respond_to :svg, :png, :only => :map
   
   private
     def load_report
       load_activities
       @summary_report = @search.summary_report
       @report = Report.includes(:report_breakdowns).find(params[:id])
-      path_opts = {:format => :png}.merge!(search_params)
-      @summary_map_path = summary_map_report_path(@report, path_opts)
-      @ytd_summary_map_path = ytd_map_report_path(@report, path_opts)
+      path_opts = {:format => :png}
+      
+      @summary_map_path = build_map_url_for(@report, @search, path_opts, :period)
+      @ytd_summary_map_path = build_map_url_for(@report, @search, path_opts, :ytd)
       
       @report.dates = {
         :start_year => @summary_report.start_date.year,
@@ -26,9 +27,9 @@ class ReportsController < ApplicationController
     
     def send_pdf_report
       unless @report.activities.empty?
-        path_opts = {:format => :svg}.merge!(search_params)
-        @ytd_summary_map_path = File.join(Rails.root.to_s, "public", ytd_map_report_path(@report, path_opts))
-        @summary_map_path = File.join(Rails.root.to_s, "public", summary_map_report_path(@report, path_opts))
+        path_opts = {:format => :svg}
+        @ytd_summary_map_path = File.join(Rails.root.to_s, "public", build_map_url_for(@report, @search, path_opts, :ytd))
+        @summary_map_path = File.join(Rails.root.to_s, "public", build_map_url_for(@report, @search, path_opts, :period))
         @logo_path = File.join(Rails.root.to_s, "public", "images", "logo.jpg")
         converter = PDFConverter.new()
         html = render_to_string(:partial => 'shared/pdf_output')
@@ -132,23 +133,13 @@ class ReportsController < ApplicationController
       end
     end
     
-    def summary_map
-      load_activities
-      load_states_for(:period)
+    def map
+      @report = Report.find(params[:id])
+      @intensity_levels = IntensityLevel.order('number')
       
       respond_to do |format|
         format.svg { render :action => :map }
-        format.png { map_for(:period) }
-      end
-    end
-
-    def ytd_map
-      load_activities
-      load_states_for(:ytd)
-      
-      respond_to do |format|
-        format.svg { render :action => :map }
-        format.png { map_for(:ytd) }
+        format.png { cache_and_send_map }
       end
     end
 end

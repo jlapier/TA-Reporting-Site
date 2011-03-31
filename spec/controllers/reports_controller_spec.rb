@@ -8,9 +8,20 @@ describe ReportsController do
   let(:intensity_level){ mock_model(IntensityLevel) }
   let(:grant_activity){ mock_model(GrantActivity) }
   let(:activity){ mock_model(Activity) }
+  let(:map_params) do
+    {
+      :light_brown => 'none',
+      :dark_brown => 'none',
+      :yellow => 'none',
+      :gold => 'none',
+      :format => :png
+    }
+  end
+  let(:map_url){ "/reports/#{report.id}/light_brown/none/dark_brown/none/yellow/none/gold/none/map.png" }
   
   before(:each) do
     controller.stub(:require_user){ true }
+    controller.stub(:build_map_url_for){ map_url }
   end
 
   describe ":index" do
@@ -41,7 +52,12 @@ describe ReportsController do
         :start_date => Date.current.beginning_of_month,
         :end_date => Date.current.end_of_month
       }) }
-      let(:params){ {:id => 42, :view => 'Full'} }
+      let(:params) do
+        {
+          :id => 42,
+          :view => 'Full'
+        }
+      end
       before(:each) do
         report.stub(:dates=)
         Report.stub_chain(:includes, :find){ report }
@@ -62,11 +78,11 @@ describe ReportsController do
       end
       it "loads the @summary_map_path" do
         get :index, params
-        assigns(:summary_map_path).should =~ /^#{summary_map_report_path(report, {:format => :png})}/
+        assigns(:summary_map_path).should eq map_report_path(report, map_params)
       end
       it "loads the @ytd_summary_map_path" do
         get :index, params
-        assigns(:ytd_summary_map_path).should =~ /^#{ytd_map_report_path(report, {:format => :png})}/
+        assigns(:ytd_summary_map_path).should eq map_report_path(report, map_params)
       end
       it "renders the show template" do
         get :index, params
