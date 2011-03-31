@@ -49,6 +49,14 @@ var Collapsible = $.klass({
   })
 });
 
+var CopyDates = $.klass({
+  onsubmit: function(event) {
+    $('#preview_report_start_date').attr('value', $('#activity_search_start_date').attr('value'));
+    $('#preview_report_end_date').attr('value', $('#activity_search_end_date').attr('value'));
+  }
+})
+
 jQuery(function($) {
   $('li.admin_menu').attach(Collapsible);
+  $('#preview_report').attach(CopyDates);
 });
