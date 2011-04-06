@@ -9,7 +9,7 @@ private
       conditions = {:intensity_level_id => intensity_level.id}
       
       path_opts[key] = @search.summary_report.
-        states_for(activities.where(conditions)).map(&:abbreviation).join('/')
+        states_for(activities.where(conditions)).map(&:abbreviation).join('-')
       path_opts[key] = 'none' if path_opts[key].blank?
     end
     
