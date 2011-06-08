@@ -7,7 +7,9 @@
     <select name="id" id="report_id">
       <%= options_from_collection_for_select(Report.all, :id, :name) %>
     </select><br>
-    <input style="float: right;" type="submit" name="view" value="Full"> <input style="float: right;" type="submit" name="view" value="Summary">
+    <input style="float: right;" type="submit" name="view" value="Full"> 
+    <input style="float: right;" type="submit" name="view" value="Summary">
+    <input style="float: right;" type="submit" name="view" value="Counts By State">
   </form>
 </div>
 <div class="left">

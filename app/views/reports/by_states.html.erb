@@ -1,0 +1,31 @@
+<h1>Counts by state (<%= @report.name %>)</h1>
+<h2><%= @search.name %></h2>
+
+<span class="fake_button">
+  <%= link_to("< Search Results", activities_path(:activity_search => params[:activity_search])) %>
+</span>
+
+<table class="nice_table">
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Activity Count</th>
+      <th>Intensity Breakdown</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% row_color = 'light' %>
+  <% @states.each do |state| %>
+    <% acts = @activities.select { |act| act.states.include?(state) } %>
+    <tr class="row_<%= row_color %>">
+      <td><%= state.name %></td>
+      <td><%= acts.count %></td>
+      <td>
+        <%= acts.group_by(&:intensity_level).map { |il, these_acts| 
+          "#{il.name}: #{these_acts.size}" }.join('; ') %> 
+      </td>
+    </tr>
+    <% row_color = (row_color == 'light' ? 'dark' : 'light') %>
+  <% end %>
+  </tbody>
+</table>

@@ -65,6 +65,10 @@ class ReportsController < ApplicationController
         when 'Summary'
           load_report
           render :summary and return
+        when 'Counts By State'
+          load_report
+          @states = State.order('name').all
+          render :by_states and return
         else
           flash.now[:notice] = "Can't generate the requested view."
         end

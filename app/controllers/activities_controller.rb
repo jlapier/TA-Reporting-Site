@@ -15,7 +15,7 @@ class ActivitiesController < ApplicationController
       @ta_delivery_methods = TaDeliveryMethod.all
       @intensity_levels = IntensityLevel.all
       @grant_activities = GrantActivity.all
-      @states = State.all
+      @states = State.order('name').all
       @ta_categories = TaCategory.all
       @collaborating_agencies = CollaboratingAgency.all
     end
