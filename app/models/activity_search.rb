@@ -61,7 +61,7 @@ class ActivitySearch
     @activities = Activity.includes(:states, :ta_categories)
   end
   
-  def activities_where
+  def activities_where    
     str = []
     arr = []
     unless @objective_id.blank?
@@ -117,6 +117,7 @@ class ActivitySearch
     activities_join
     activities_order
     activities_scope
+    @activities.uniq
   end
   
   def ytd_activities
@@ -125,5 +126,6 @@ class ActivitySearch
     activities_join
     activities_order
     activities_scope(true)
+    @activities.uniq
   end
 end
