@@ -77,7 +77,7 @@ class ActivitySearch
       arr << @ta_delivery_method_id
     end
     unless @keywords.blank?
-      str << "'activities'.description LIKE ?"
+      str << "activities.description LIKE ?"
       arr << "%#{@keywords}%"
     end
     @activities = @activities.where([str.join(" AND ")] + arr)
