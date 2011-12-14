@@ -56,6 +56,9 @@ class ReportsController < ApplicationController
   protected
   public
     def index
+      # TODO: allow an option to include counts of unknowns
+      @intensity_levels = IntensityLevel.where "name != 'Unknown'"
+
       # TODO: move this to :show
       if params[:id].present? and params[:view].present?
         case params[:view]
@@ -131,6 +134,31 @@ class ReportsController < ApplicationController
         format.csv { send_csv_report and return }
         format.pdf { send_pdf_report and return }
       end
+    end
+
+    def counts_export
+      @intensity_levels = IntensityLevel.where "name != 'Unknown'"
+      load_report
+      @states = State.order('name').all
+
+      csv_string = FasterCSV.generate do |csv|
+        csv << ["State", "Activity Count", "Non-TA"] + @intensity_levels.map(&:name)
+        @states.each do |state|
+          acts = @activities.select { |act| act.states.include?(state) }
+          csv << [state.name, acts.size] + 
+            [acts.select { |a| a.intensity_level.blank? }.size] +
+            @intensity_levels.map { |il| 
+              acts.select { |a| a.intensity_level == il }.size }
+        end
+        csv << ["test", "me"]
+        csv << ["what", "does"]
+      end
+
+      respond_to do |format|
+        format.csv { send_data(csv_string, :type => "text/csv", 
+            :disposition => "attachment", :filename => "counts_by_state.csv") }
+      end
+      
     end
     
     def map

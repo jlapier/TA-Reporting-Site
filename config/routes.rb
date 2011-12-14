@@ -20,6 +20,9 @@ TAReportingSite::Application.routes.draw do
   resources :states
   resources :collaborating_agencies
   resources :reports do
+    collection do
+      get :counts_export
+    end
     member do
       get :download
       get :summary_map

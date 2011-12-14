@@ -40,6 +40,8 @@ class Activity < ActiveRecord::Base
 
   before_validation :remove_regions
   
+  scope :distinct_acts, :select => 'DISTINCT activities.id, activities.*'
+
   scope :all_between, lambda{ |start_date, end_date|
     includes(:grant_activities, :states, :ta_categories).
     where({:date_of_activity => start_date..end_date})

@@ -111,13 +111,14 @@ class ActivitySearch
     @activities = @activities.all_between(sd, @end_date)
   end
   
+
   def activities
     activities_includes
     activities_where
     activities_join
     activities_order
     activities_scope
-    @activities.uniq
+    @activities.distinct_acts
   end
   
   def ytd_activities
@@ -126,6 +127,6 @@ class ActivitySearch
     activities_join
     activities_order
     activities_scope(true)
-    @activities.uniq
+    @activities.distinct_acts
   end
 end
