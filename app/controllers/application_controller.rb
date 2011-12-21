@@ -14,11 +14,11 @@ class ApplicationController < ActionController::Base
     
     def send_csv_file_of(filename="#{controller_name}_#{action_name}", collection=[])
       csv = collection_to_csv(collection)
-      unless csv.nil?
-        send_data(csv, :type => "text/csv", :disposition => "attachment", :filename => "#{filename}.csv")
-      else
+      if csv.nil?
         flash[:notice] = "No data found to create a CSV export."
         redirect_to :back and return
+      else
+        send_data(csv, :type => "text/csv", :disposition => "attachment", :filename => "#{filename}.csv")
       end
     end
   

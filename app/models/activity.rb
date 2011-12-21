@@ -75,6 +75,9 @@ class Activity < ActiveRecord::Base
     end
   protected
   public
+    def states_for_csv
+      @states_for_csv ||= State.where("abbreviation IS NOT NULL").order(:abbreviation)
+    end
     def csv_headers
       [
         'Date',
@@ -86,7 +89,7 @@ class Activity < ActiveRecord::Base
         'Description of Activity',
         'Agencies',
         'States'
-      ]
+      ] + states_for_csv.map(&:abbreviation)
     end
     def csv_dump(headers)
       [
@@ -98,8 +101,8 @@ class Activity < ActiveRecord::Base
         ta_categories.collect{|ta| ta.name}.join('; '),
         description,
         collaborating_agencies.collect{|a| a.name}.join('; '),
-        states.collect{|s| "#{s.name} (#{s.abbreviation})"}.join('; ')
-      ]
+        states.map { |s| "#{s.name} (#{s.abbreviation})"}.join('; ')
+      ] + states_for_csv.map { |s| states.include?(s) ? 1 : 0 }
     end
   
     def new_ta_category=(ta_category_name)
