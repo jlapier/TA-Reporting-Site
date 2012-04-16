@@ -25,13 +25,13 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = @current_user
+    @user = User.find params[:id]
   end
 
   def update
-    @user = @current_user
+    @user = User.find params[:id]
     if @user.update_attributes(params[:user])
-      flash[:notice] = "Account updated!"
+      flash[:notice] = "Account updated (#{@user.email})!"
       redirect_to users_path
     else
       render :action => :edit

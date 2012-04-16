@@ -1,5 +1,6 @@
-<div class="configurable_links" style="display: none;">
+<div>
   <p>
+    <span class="fake_button"><%= link_to "Edit", edit_user_path(links.id) %></span> &nbsp; 
     <span class="fake_button"><%= link_to "Delete", user_path(links.id), :method => :delete, :confirm => "Delete #{links.email}?" %></span>
   </p>
 </div>
